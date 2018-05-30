@@ -60,8 +60,9 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 filters = container.getFilters();
             }
             if (type != null && value != null && TypeUtils.isAssignable(type, value.getClass())) {
-                javaType = this.getJavaType(type, null);
+                javaType = this.getJavaType(JsonObject.class, null);
             }
+
             ObjectWriter objectWriter;
             if (serializationView != null) {
                 objectWriter = this.objectMapper.writerWithView(serializationView);
@@ -84,6 +85,8 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             generator.flush();
 
         } catch (final JsonProcessingException ex) {
+            // TODO: Debug调试用
+            ex.printStackTrace();
             throw new _500JsonResponseException(this.getClass(), ex);
         }
     }
@@ -96,6 +99,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             data = responser.process(data, value);
         }
         LOGGER.info("[ UP ] Response Data: " + data.encode());
+        // 解决Spring中的兼容性问题
         return data;
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
@@ -21,10 +22,15 @@ public class ConvertConfig implements WebMvcConfigurer {
         // Jackson2 serialization
         final JacksonConverter converter = new JacksonConverter();
         Log.info(LOGGER, "[ UP ] Converter has been set : {0}", JacksonConverter.class.getName());
-        // 优先添加
+        // 优先添加，并且替换原始的MappingJackson2HttpMessageConverter，只保留一种
         final List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(converter);
-        list.addAll(converterList);
+        converterList.forEach(item -> {
+            if (null != item && MappingJackson2HttpMessageConverter.class != item.getClass()) {
+                list.add(item);
+            }
+        });
+        list.forEach(item -> Log.debug(LOGGER, "[ UP DG ] Converter: " + item.getClass()));
         // 清除后处理
         converterList.clear();
         converterList.addAll(list);
