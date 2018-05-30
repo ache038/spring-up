@@ -307,6 +307,10 @@ public class Ut {
         return Jackson.getMapper();
     }
 
+    public static ObjectMapper registryJacksonMapper(final ObjectMapper mapper) {
+        return Jackson.registerMapper(mapper);
+    }
+
     /**
      * 网络
      */
