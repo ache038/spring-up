@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import io.spring.up.exception.web._500JsonResponseException;
 import io.spring.up.tool.Ut;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -26,6 +28,7 @@ import java.lang.reflect.Type;
 
 public class JacksonConverter extends MappingJackson2HttpMessageConverter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JacksonConverter.class);
     private static final MediaType TEXT_EVENT_STREAM = new MediaType("text", "event-stream");
     private final PrettyPrinter ssePrettyPrinter;
 
@@ -92,6 +95,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             final Responser responser = Ut.singleton(DataResponser.class);
             data = responser.process(data, value);
         }
+        LOGGER.info("[ UP ] Response Data: " + data.encode());
         return data;
     }
 }

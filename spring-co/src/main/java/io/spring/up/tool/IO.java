@@ -1,6 +1,5 @@
 package io.spring.up.tool;
 
-import cn.hutool.core.io.FileUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -64,8 +63,14 @@ class IO {
     }
 
     static InputStream getStream(final String filename) {
-        final File file = getFile(filename);
-        return Fn.getJvm(null, () -> FileUtil.getInputStream(file), file);
+        InputStream in = null;
+        if (0 <= filename.indexOf("jar!")) {
+            in = Fn.getJvm(null, () -> new FileInputStream(filename));
+        } else {
+            final File file = getFile(filename);
+            in = Fn.getJvm(null, () -> Stream.in(file), file);
+        }
+        return in;
     }
 
     static File getFile(final String filename) {
