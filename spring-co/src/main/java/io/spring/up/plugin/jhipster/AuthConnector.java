@@ -16,8 +16,8 @@ import java.util.Map;
  * 原始的Response改动成data -> value
  */
 public class AuthConnector {
-    public static SignatureVerifier get(final RestTemplate client,
-                                        final String keyEndPoint)
+    public static SignatureVerifier getVerifier(final RestTemplate client,
+                                                final String keyEndPoint)
             throws IllegalStateException {
         // 由于修改了UAA的数据接口规范，这里在认证时需要变更，从原始的value改变路径为：data -> value
         final HttpEntity<Void> request = new HttpEntity<Void>(new HttpHeaders());
