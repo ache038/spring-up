@@ -1,6 +1,6 @@
 package io.spring.up.config;
 
-import io.spring.up.tool.fn.Fn;
+import io.spring.up.epic.fn.Fn;
 import io.vertx.core.json.JsonObject;
 
 public interface Node<T> {

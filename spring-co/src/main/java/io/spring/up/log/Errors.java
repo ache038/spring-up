@@ -2,8 +2,8 @@ package io.spring.up.log;
 
 import io.spring.up.config.Node;
 import io.spring.up.exception.internal.ErrorMissingException;
-import io.spring.up.tool.Ut;
-import io.spring.up.tool.fn.Fn;
+import io.spring.up.epic.Ut;
+import io.spring.up.epic.fn.Fn;
 import io.vertx.core.json.JsonObject;
 
 import java.text.MessageFormat;

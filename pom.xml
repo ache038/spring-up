@@ -61,17 +61,19 @@
         <junit.version>4.12</junit.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <!-- tool -->
-        <hutool.version>4.0.12</hutool.version>
-        <reflect.asm.version>1.11.3</reflect.asm.version>
+        <!-- epic -->
+        <hutool.version>4.1.1</hutool.version>
+        <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.1.14</rxjava2.version>
+        <rxjava2.version>2.1.16</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
-        <vertx.version>3.5.2.CR3</vertx.version>
-        <jackson.version>2.9.5</jackson.version>
+        <vertx.version>3.5.2</vertx.version>
+        <jackson.version>2.9.6</jackson.version>
         <jooq.version>3.10.6</jooq.version>
         <!-- spring -->
-        <spring.version>5.0.6.RELEASE</spring.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
+        <spring.security.oauth>2.3.3.RELEASE</spring.security.oauth>
+        <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
 
         <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.0.M8</spring.cloud.version>
@@ -123,7 +125,7 @@
             <dependency>
                 <groupId>cn.spring-up</groupId>
                 <artifactId>spring-co</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- Dependency -->
             <dependency>
