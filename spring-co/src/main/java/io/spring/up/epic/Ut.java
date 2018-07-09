@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * 专用工具类
@@ -63,7 +64,8 @@ public class Ut {
     }
 
     // 响应专用方法
-    public static <T> Single<ResponseEntity<T>> then(final T entity, final String uri) {
+    public static <T> Single<ResponseEntity<T>> then(final T entity, final Function<T, String> function) {
+        final String uri = function.apply(entity);
         return Responsor.steam201(entity, uri);
     }
 
