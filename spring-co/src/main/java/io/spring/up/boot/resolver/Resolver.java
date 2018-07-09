@@ -36,6 +36,8 @@ class Resolver {
         if (jsonBody == null) {
             try {
                 jsonBody = IOUtils.toString(servletRequest.getInputStream(), Encodings.CHARSET);
+                final JsonObject input = new JsonObject(jsonBody);
+
                 servletRequest.setAttribute(JSON_REQUEST_BODY, jsonBody);
             } catch (final IOException e) {
                 throw new _500WebRequestIoException(methodParameter.getMethod().getDeclaringClass(), e);
@@ -53,10 +55,12 @@ class Resolver {
         return Fn.getJvm(null, () -> {
             try {
                 if (body.trim().startsWith(Strings.LEFT_BRACE)) {
-                    return new JsonObject(body);
+                    final JsonObject resolved = new JsonObject(body);
+                    return Ut.inKey(resolved);
                 }
                 if (body.trim().startsWith(Strings.LEFT_SQ_BRACKET)) {
-                    return new JsonArray(body);
+                    final JsonArray resolved = new JsonArray();
+                    return Ut.inKey(resolved);
                 }
                 return null;
             } catch (final JsonDecodeException ex) {

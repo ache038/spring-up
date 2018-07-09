@@ -2,8 +2,10 @@ package io.spring.up.epic;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.reactivex.Single;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.InputStream;
@@ -15,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * 专用工具类
@@ -58,6 +61,37 @@ public class Ut {
 
     public static InputStream ioStream(final String filename) {
         return IO.getStream(filename);
+    }
+
+    // 响应专用方法
+    public static <T> Single<ResponseEntity<T>> then(final T entity, final Function<T, String> function) {
+        final String uri = function.apply(entity);
+        return Responsor.steam201(entity, uri);
+    }
+
+    public static <T> Single<ResponseEntity<T>> then(final T entity) {
+        return Responsor.steam200(entity);
+    }
+
+    public static <T> Single<ResponseEntity<List<T>>> then(final List<T> entities) {
+        return Responsor.steam200(entities);
+    }
+
+    // ID处理方法
+    public static JsonObject inKey(final JsonObject input) {
+        return Json.convert(input, "key", "id");
+    }
+
+    public static JsonArray inKey(final JsonArray array) {
+        return Json.convert(array, "key", "id");
+    }
+
+    public static JsonObject outKey(final JsonObject input) {
+        return Json.convert(input, "id", "key");
+    }
+
+    public static JsonArray outKey(final JsonArray array) {
+        return Json.convert(array, "id", "key");
     }
 
     // 反射方法
