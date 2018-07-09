@@ -12,9 +12,11 @@ public class DataResponser implements Responser {
         final Iterable json = Ut.serializeJson(value);
         return Fn.getNull(new JsonObject().put("data", "null"), () -> {
             if (json instanceof JsonObject) {
-                return original.put("data", json);
+                final JsonObject response = (JsonObject) json;
+                return original.put("data", Ut.outKey(response));
             } else {
-                return original.put("list", json).put("count", ((JsonArray) json).size());
+                final JsonArray response = Ut.outKey((JsonArray) json);
+                return original.put("list", response).put("count", response.size());
             }
         }, original);
     }

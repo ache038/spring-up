@@ -60,6 +60,22 @@ public class Ut {
         return IO.getStream(filename);
     }
 
+    public static JsonObject inKey(final JsonObject input) {
+        return Json.convert(input, "key", "id");
+    }
+
+    public static JsonArray inKey(final JsonArray array) {
+        return Json.convert(array, "key", "id");
+    }
+
+    public static JsonObject outKey(final JsonObject input) {
+        return Json.convert(input, "id", "key");
+    }
+
+    public static JsonArray outKey(final JsonArray array) {
+        return Json.convert(array, "id", "key");
+    }
+
     // 反射方法
     public static <T> T instance(final String name, final Object... args) {
         return Instance.instance(Instance.clazz(name), args);
