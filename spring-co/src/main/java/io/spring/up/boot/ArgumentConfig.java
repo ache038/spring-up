@@ -1,6 +1,7 @@
 package io.spring.up.boot;
 
-import io.spring.up.boot.resolver.ArgumentResolver;
+import io.spring.up.boot.resolver.JsonBodyResolver;
+import io.spring.up.boot.resolver.JsonEntityResolver;
 import io.spring.up.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,9 @@ public class ArgumentConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(
             final List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new ArgumentResolver());
-        Log.info(LOGGER, "[ UP ] Resolver has been set : {0}", ArgumentResolver.class.getName());
+        argumentResolvers.add(new JsonBodyResolver());
+        Log.info(LOGGER, "[ UP ] Resolver has been set : {0}", JsonBodyResolver.class.getName());
+        argumentResolvers.add(new JsonEntityResolver());
+        Log.info(LOGGER, "[ UP ] Resolver has been set : {0}", JsonEntityResolver.class.getName());
     }
 }
