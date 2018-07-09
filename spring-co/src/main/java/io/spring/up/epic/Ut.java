@@ -2,8 +2,10 @@ package io.spring.up.epic;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.reactivex.Single;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.InputStream;
@@ -60,6 +62,20 @@ public class Ut {
         return IO.getStream(filename);
     }
 
+    // 响应专用方法
+    public static <T> Single<ResponseEntity<T>> then(final T entity, final String uri) {
+        return Responsor.steam201(entity, uri);
+    }
+
+    public static <T> Single<ResponseEntity<T>> then(final T entity) {
+        return Responsor.steam200(entity);
+    }
+
+    public static <T> Single<ResponseEntity<List<T>>> then(final List<T> entities) {
+        return Responsor.steam200(entities);
+    }
+
+    // ID处理方法
     public static JsonObject inKey(final JsonObject input) {
         return Json.convert(input, "key", "id");
     }
