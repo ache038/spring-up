@@ -1,5 +1,8 @@
 package io.spring.up.epic.fn;
 
+import io.spring.up.epic.Ut;
+import io.spring.up.exception.WebException;
+
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
@@ -51,5 +54,18 @@ public final class Fn {
             final K key,
             final Supplier<V> poolFn) {
         return Pool.exec(pool, key, poolFn);
+    }
+
+    public static void out(final Supplier<Boolean> condFun,
+                           final Class<?> clazz, final Object... args) {
+        final Boolean checked = condFun.get();
+        out(checked, clazz, args);
+    }
+
+    public static void out(final Boolean condFun,
+                           final Class<?> clazz, final Object... args) {
+        if (condFun) {
+            throw (WebException) Ut.instance(clazz, args);
+        }
     }
 }
