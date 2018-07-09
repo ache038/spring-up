@@ -1,7 +1,7 @@
 package io.spring.up.epic;
 
-import io.spring.up.exception.internal.EmptyStreamException;
 import io.spring.up.epic.fn.Fn;
+import io.spring.up.exception.internal.EmptyStreamException;
 import io.vertx.core.buffer.Buffer;
 
 import java.io.*;

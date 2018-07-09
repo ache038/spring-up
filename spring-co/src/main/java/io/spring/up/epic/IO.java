@@ -65,14 +65,26 @@ class IO {
     static InputStream getStream(final String filename) {
         InputStream in = null;
         if (0 <= filename.indexOf("jar!")) {
-            in = Fn.getJvm(null, () -> new FileInputStream(filename));
+            in = getStreamFromUrl(filename);
         } else {
             final File file = getFile(filename);
             in = Fn.getJvm(null, () -> Stream.in(file), file);
         }
         if (null == in) {
-            // 从当前内置路径读取
-            in = Stream.in(getURL(filename).getFile(), IO.class);
+            in = getStreamFromUrl(filename);
+        }
+        return in;
+    }
+
+    private static InputStream getStreamFromUrl(final String filename) {
+        // 从当前内置路径读取，直接包含jar内部路径
+        final URL file = getURL(filename);
+        Log.debug(LOGGER, "[ UP DG ] Fix Resolved: {0}", file);
+        InputStream in;
+        try {
+            in = file.openStream();
+        } catch (IOException ex) {
+            in = null;
         }
         return in;
     }
@@ -85,7 +97,7 @@ class IO {
         } else {
             // 检索路径
             final URL url = getURL(filename);
-            return (null == url) ? null : new File(url.getFile());
+            return (null == url) ? null : new File(url.getPath());
         }
     }
 
