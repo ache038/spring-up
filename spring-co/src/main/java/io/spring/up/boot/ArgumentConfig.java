@@ -23,5 +23,7 @@ public class ArgumentConfig implements WebMvcConfigurer {
         Log.info(LOGGER, "[ UP ] Resolver has been set : {0}", JsonBodyResolver.class.getName());
         argumentResolvers.add(new JsonEntityResolver());
         Log.info(LOGGER, "[ UP ] Resolver has been set : {0}", JsonEntityResolver.class.getName());
+        argumentResolvers.forEach(item -> Log.debug(LOGGER, "[ UP DG ] Resolver: " + item.getClass()));
+
     }
 }

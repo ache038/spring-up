@@ -7,10 +7,10 @@ import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import io.spring.up.cv.Constants;
 import io.spring.up.cv.Encodings;
 import io.spring.up.cv.Strings;
+import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.internal.EmptyStreamException;
 import io.spring.up.exception.internal.YamlFormatException;
 import io.spring.up.log.Log;
-import io.spring.up.epic.fn.Fn;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
@@ -69,6 +69,10 @@ class IO {
         } else {
             final File file = getFile(filename);
             in = Fn.getJvm(null, () -> Stream.in(file), file);
+        }
+        if (null == in) {
+            // 从当前内置路径读取
+            in = Stream.in(getURL(filename).getFile(), IO.class);
         }
         return in;
     }

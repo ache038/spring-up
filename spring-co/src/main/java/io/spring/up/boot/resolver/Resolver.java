@@ -10,9 +10,12 @@ import io.spring.up.exception.internal.JsonDecodeException;
 import io.spring.up.exception.web._400ParameterMissingException;
 import io.spring.up.exception.web._500ParameterTypeException;
 import io.spring.up.exception.web._500WebRequestIoException;
+import io.spring.up.log.Log;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -22,6 +25,7 @@ import java.lang.annotation.Annotation;
 
 class Resolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Resolver.class);
     private static final String JSON_REQUEST_BODY = "JSON_REQUEST_BODY";
 
     static String getRequestBody(final MethodParameter methodParameter,
@@ -42,7 +46,7 @@ class Resolver {
 
     static String resolvePath(final String folder, final String value) {
         final String path = folder + Strings.SLASH + value;
-        return path.replace("//", "/");
+        return path.replaceAll("//", "/");
     }
 
     static Object resolveJson(final Class<?> clazz, final String body) {
@@ -83,6 +87,7 @@ class Resolver {
                 final String value = Ut.invoke(rule, "value");
                 // 路径处理
                 final String path = resolvePath(folder, value);
+                Log.info(LOGGER, "[ UP ] Read rule file from {0}", path);
                 if (Ut.isJArray(reference)) {
                     // 数组验证
                     Ruler.verify(path, (JsonArray) reference);

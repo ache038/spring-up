@@ -3,6 +3,9 @@ package io.spring.up.boot.resolver;
 import io.spring.up.annotations.JsonEntity;
 import io.spring.up.epic.Ut;
 import io.spring.up.exception.web._500ParameterTypeException;
+import io.spring.up.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -10,11 +13,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class JsonEntityResolver implements HandlerMethodArgumentResolver {
-    private static final String JSON_REQUEST_BODY = "JSON_REQUEST_BODY";
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonEntityResolver.class);
 
     @Override
     public boolean supportsParameter(final MethodParameter methodParameter) {
-        boolean isMatch = methodParameter.hasParameterAnnotation(JsonEntity.class);
+        Boolean isMatch = methodParameter.hasParameterAnnotation(JsonEntity.class);
         if (isMatch) {
             // 不是基础类型
             isMatch = !Ut.isPrimary(methodParameter.getParameterType())
@@ -24,6 +27,8 @@ public class JsonEntityResolver implements HandlerMethodArgumentResolver {
                 throw new _500ParameterTypeException(this.getClass(), methodParameter.getParameterType());
             }
         }
+        Log.info(LOGGER, "[ UP ] Resolver match result {0} = {1}", this.getClass().getName(),
+                isMatch.toString());
         return isMatch;
     }
 
