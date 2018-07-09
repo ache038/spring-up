@@ -1,10 +1,15 @@
 package io.spring.up.config;
 
-import io.spring.up.tool.Ut;
-import io.spring.up.tool.fn.Fn;
+import io.spring.up.epic.Ut;
+import io.spring.up.epic.fn.Fn;
+import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigNode implements Node<JsonObject> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigNode.class);
 
     private transient final String key;
 
@@ -25,6 +30,7 @@ public class ConfigNode implements Node<JsonObject> {
         if (null != original && !original.isEmpty()) {
             merged.mergeIn(original, true);
         }
+        Log.debug(LOGGER, "[ UP DG ] Config loading: {0} = {1}", this.key, merged);
         return merged;
     }
 

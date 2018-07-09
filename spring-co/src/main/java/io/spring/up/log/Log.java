@@ -1,8 +1,8 @@
 package io.spring.up.log;
 
+import io.spring.up.epic.fn.Evaluater;
+import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.AbstractException;
-import io.spring.up.tool.fn.Evaluater;
-import io.spring.up.tool.fn.Fn;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;
@@ -15,7 +15,7 @@ public class Log {
         error(logger, Tpl.E_JVM, Fn.getNull("None", () -> ex.getMessage(), ex));
     }
 
-    public static void debug(final Logger logger, final String message, final String... args) {
+    public static void debug(final Logger logger, final String message, final Object... args) {
         output(logger::isDebugEnabled, logger::debug, message, args);
     }
 
@@ -23,11 +23,11 @@ public class Log {
         error(logger, ex.getMessage());
     }
 
-    public static void error(final Logger logger, final String message, final String... args) {
+    public static void error(final Logger logger, final String message, final Object... args) {
         output(logger::isErrorEnabled, logger::error, message, args);
     }
 
-    public static void warn(final Logger logger, final String message, final String... args) {
+    public static void warn(final Logger logger, final String message, final Object... args) {
         output(logger::isWarnEnabled, logger::warn, message, args);
     }
 
@@ -35,7 +35,7 @@ public class Log {
         warn(logger, ex.getMessage());
     }
 
-    public static void info(final Logger logger, final String message, final String... args) {
+    public static void info(final Logger logger, final String message, final Object... args) {
         output(logger::isInfoEnabled, logger::info, message, args);
     }
 

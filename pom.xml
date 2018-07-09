@@ -61,17 +61,21 @@
         <junit.version>4.12</junit.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <!-- tool -->
-        <hutool.version>4.0.12</hutool.version>
-        <reflect.asm.version>1.11.3</reflect.asm.version>
+        <!-- epic -->
+        <hutool.version>4.1.1</hutool.version>
+        <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.1.14</rxjava2.version>
+        <rxjava2.version>2.1.16</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
-        <vertx.version>3.5.2.CR3</vertx.version>
-        <jackson.version>2.9.5</jackson.version>
+        <vertx.version>3.5.2</vertx.version>
+        <jackson.version>2.9.6</jackson.version>
         <jooq.version>3.10.6</jooq.version>
+        <jetbrains.version>16.0.2</jetbrains.version>
         <!-- spring -->
-        <spring.version>5.0.6.RELEASE</spring.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
+        <spring.security.oauth>2.3.3.RELEASE</spring.security.oauth>
+        <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
+        <spring.zalando>0.23.0</spring.zalando>
 
         <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.0.M8</spring.cloud.version>
@@ -84,7 +88,7 @@
         <maven.plugin.assembly>3.1.0</maven.plugin.assembly>
         <maven.plugin.compiler>3.7.0</maven.plugin.compiler>
         <maven.plugin.surefire>2.21.0</maven.plugin.surefire>
-        <maven.plugin.clean>3.0.0</maven.plugin.clean>
+        <maven.plugin.clean>3.1.0</maven.plugin.clean>
         <maven.plugin.version>2.5</maven.plugin.version>
         <maven.plugin.install>2.5.2</maven.plugin.install>
         <maven.plugin.deploy>2.8.2</maven.plugin.deploy>
@@ -92,7 +96,7 @@
         <maven.plugin.resource>3.0.2</maven.plugin.resource>
         <maven.plugin.site>3.7</maven.plugin.site>
         <maven.plugin.enforcer>3.0.0-M1</maven.plugin.enforcer>
-        <maven.plugin.lombok>1.16.20.0</maven.plugin.lombok>
+        <maven.plugin.lombok>1.18.0.0</maven.plugin.lombok>
         <maven.plugin.processor>3.3.3</maven.plugin.processor>
         <maven.plugin.source>3.0.1</maven.plugin.source>
         <maven.plugin.javadoc>2.10.4</maven.plugin.javadoc>
@@ -123,7 +127,7 @@
             <dependency>
                 <groupId>cn.spring-up</groupId>
                 <artifactId>spring-co</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- Dependency -->
             <dependency>
@@ -140,6 +144,21 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${common.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -167,6 +186,26 @@
                 <version>${rxjava2.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
@@ -205,9 +244,20 @@
                 <version>${slf4j.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.zalando/problem-spring-web -->
+            <dependency>
+                <groupId>org.zalando</groupId>
+                <artifactId>problem-spring-web</artifactId>
+                <version>${spring.zalando}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -231,6 +281,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

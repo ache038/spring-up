@@ -1,6 +1,6 @@
 package io.spring.up.plugin.jhipster;
 
-import io.spring.up.tool.Ut;
+import io.spring.up.epic.Ut;
 import io.vertx.core.json.JsonObject;
 import org.springframework.http.*;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
@@ -16,6 +16,7 @@ import java.util.Map;
  * 原始的Response改动成data -> value
  */
 public class AuthConnector {
+
     public static SignatureVerifier getVerifier(final RestTemplate client,
                                                 final String keyEndPoint)
             throws IllegalStateException {
