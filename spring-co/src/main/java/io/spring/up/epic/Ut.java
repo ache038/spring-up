@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * 专用工具类
@@ -61,20 +62,6 @@ public class Ut {
 
     public static InputStream ioStream(final String filename) {
         return IO.getStream(filename);
-    }
-
-    // 响应专用方法
-    public static <T> Single<ResponseEntity<T>> then(final T entity, final Function<T, String> function) {
-        final String uri = function.apply(entity);
-        return Responsor.steam201(entity, uri);
-    }
-
-    public static <T> Single<ResponseEntity<T>> then(final T entity) {
-        return Responsor.steam200(entity);
-    }
-
-    public static <T> Single<ResponseEntity<List<T>>> then(final List<T> entities) {
-        return Responsor.steam200(entities);
     }
 
     // ID处理方法
@@ -374,5 +361,26 @@ public class Ut {
 
     public static String netIP() {
         return Net.getIP();
+    }
+
+    // 响应专用方法
+    public static <T> Single<ResponseEntity<T>> ok(final Single<T> item) {
+        return Async.ok(item);
+    }
+
+    public static <T> Single<ResponseEntity<T>> ok(final Supplier<T> supplierFun) {
+        return Async.ok(supplierFun);
+    }
+
+    public static <T> Function<T, Single<ResponseEntity<T>>> ok(final Function<T, T> applyFun) {
+        return Async.ok(applyFun);
+    }
+
+    public static <T> Function<T, Single<T>> start(final Function<T, T> applyFun) {
+        return Async.start(applyFun);
+    }
+
+    public <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
+        return Async.created(item);
     }
 }
