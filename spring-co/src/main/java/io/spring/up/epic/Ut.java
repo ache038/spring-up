@@ -380,7 +380,7 @@ public class Ut {
         return Async.start(applyFun);
     }
 
-    public <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
+    public static <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
         return Async.created(item);
     }
 }
