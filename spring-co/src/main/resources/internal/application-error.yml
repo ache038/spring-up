@@ -8,5 +8,6 @@ error:
   E20007: "[400] Common bad request met, detail = {0}"
   E20008: "[404] Could not find such element, message = {0}, source = {1}"
   E20009: "[500] The input parameter ''{0}'' is not valid URI, there are some syntax error."
+  E20010: "[500] System detect error when build response here. message = {0}, source = {1}"
   # Plugin
   E30001: "[500] ( Sms ) Plugin key \"{0}\" is missing, it''s required."
