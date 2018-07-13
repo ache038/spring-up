@@ -3,6 +3,10 @@ package io.spring.up.epic;
 import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.web._401SegmentAuthorityException;
 import io.spring.up.exception.web._401UnsupportedAuthorityException;
+import io.spring.up.log.Log;
+import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -14,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 class Secure {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Secure.class);
 
     private static final String ANONYMOUS = "ROLE_ANONYMOUS";
 
@@ -48,26 +54,23 @@ class Secure {
         return reference;
     }
 
-    static String[] getAuthorities() {
+    static JsonObject getAuthorities() {
         final String authority = getUniqueAuthority();
-        String[] segments = new String[3];
-        if (null != authority) {
-            segments = getUniqueAuthority().split(":");
-            Fn.out(3 != segments.length, _401SegmentAuthorityException.class,
-                    Secure.class, segments.length);
+        final JsonObject data = new JsonObject();
+        try {
+            data.mergeIn(new JsonObject(authority));
+        } catch (final Throwable ex) {
+            Log.jvm(LOGGER, ex);
+            throw new _401SegmentAuthorityException(Secure.class, authority);
         }
-        return segments;
-    }
-
-    static String buildAuthority(final String userId, final String roleId, final String roleName) {
-        return userId + ":" + roleName + ":" + roleId;
+        return data;
     }
 
     static boolean isAuthenticated() {
         final SecurityContext context = SecurityContextHolder.getContext();
         return Optional.ofNullable(context.getAuthentication())
                 .map(authentication -> authentication.getAuthorities().stream()
-                        .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(ANONYMOUS)))
+                        .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(ANONYMOUS)))
                 .orElse(false);
     }
 
@@ -75,7 +78,7 @@ class Secure {
         final SecurityContext context = SecurityContextHolder.getContext();
         return Optional.ofNullable(context.getAuthentication())
                 .map(authentication -> authentication.getAuthorities().stream()
-                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority)))
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(authority)))
                 .orElse(false);
     }
 }

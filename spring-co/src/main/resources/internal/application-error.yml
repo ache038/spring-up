@@ -12,7 +12,7 @@ error:
   E20011: "[401] User {0} was not found in the database"
   E20012: "[401] User {0} was inactivated, please unlock this account first"
   E20013: "[401] Current operation support unique authority only, but user {0} found {1} authorities, duplicated"
-  E20014: "[401] You have used \"spring-up\" authority expression method, but the extracted length must be 3. Current = {0}"
+  E20014: "[401] You have used \"spring-up\" authority expression method, Current error raw = {0}"
 
   # Plugin
   E30001: "[500] ( Sms ) Plugin key \"{0}\" is missing, it''s required."

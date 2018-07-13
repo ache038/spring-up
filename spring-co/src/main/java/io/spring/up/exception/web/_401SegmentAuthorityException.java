@@ -5,8 +5,8 @@ import io.spring.up.exception.WebException;
 public class _401SegmentAuthorityException extends WebException {
 
     public _401SegmentAuthorityException(final Class<?> clazz,
-                                         final Integer length) {
-        super(clazz, length);
+                                         final String raw) {
+        super(clazz, raw);
     }
 
     @Override
