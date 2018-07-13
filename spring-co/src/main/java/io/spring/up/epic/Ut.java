@@ -10,13 +10,11 @@ import org.springframework.http.ResponseEntity;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -406,12 +404,14 @@ public class Ut {
         return Secure.getAuthorities().getString(ROLE_NAME);
     }
 
-    public static JsonObject toJsonAuthority(final String literal) {
-        return new JsonObject(literal);
+    public static String toJsonAuthority(final String literal) {
+        final String content = new JsonObject(literal).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
-    public static JsonObject toJsonAuthority(final String userId, final String roleName, final String roleId) {
-        return new JsonObject().put(USER_ID, userId).put(ROLE_ID, roleId).put(ROLE_NAME, roleName);
+    public static String toJsonAuthority(final String userId, final String roleName, final String roleId) {
+        final String content = new JsonObject().put(USER_ID, userId).put(ROLE_ID, roleId).put(ROLE_NAME, roleName).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
     public static boolean inAuthoried() {
