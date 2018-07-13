@@ -9,5 +9,9 @@ error:
   E20008: "[404] Could not find such element, message = {0}, source = {1}"
   E20009: "[500] The input parameter ''{0}'' is not valid URI, there are some syntax error."
   E20010: "[500] System detect error when build response here. message = {0}, source = {1}"
+  E20011: "[401] User {0} was not found in the database"
+  E20012: "[401] User {0} was inactivated, please unlock this account first"
+  E20013: "[401] Current operation support unique authority only, but user {0} found {1} authorities, duplicated"
+
   # Plugin
   E30001: "[500] ( Sms ) Plugin key \"{0}\" is missing, it''s required."
