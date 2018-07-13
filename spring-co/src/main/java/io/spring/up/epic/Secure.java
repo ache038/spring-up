@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,8 @@ class Secure {
         if (0 < authorities.size()) {
             final GrantedAuthority authority = authorities.get(0);
             if (null != authority) {
-                reference = authority.getAuthority();
+                final String content = authority.getAuthority();
+                reference = Fn.getJvm(() -> new String(Base64.getDecoder().decode(content), "UTF-8"), content);
             }
         }
         return reference;
@@ -83,7 +85,8 @@ class Secure {
     }
 
     private static boolean isIn(final String authority, final String checked) {
-        final JsonObject item = new JsonObject(authority);
+        final String content = Fn.getJvm(() -> new String(Base64.getDecoder().decode(authority), "UTF-8"), authority);
+        final JsonObject item = new JsonObject(content);
         return item.containsKey(checked);
     }
 }
