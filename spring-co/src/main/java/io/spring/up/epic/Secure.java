@@ -70,7 +70,7 @@ class Secure {
         final SecurityContext context = SecurityContextHolder.getContext();
         return Optional.ofNullable(context.getAuthentication())
                 .map(authentication -> authentication.getAuthorities().stream()
-                        .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(ANONYMOUS)))
+                        .noneMatch(grantedAuthority -> isIn(grantedAuthority.getAuthority(), ANONYMOUS)))
                 .orElse(false);
     }
 
@@ -78,7 +78,12 @@ class Secure {
         final SecurityContext context = SecurityContextHolder.getContext();
         return Optional.ofNullable(context.getAuthentication())
                 .map(authentication -> authentication.getAuthorities().stream()
-                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().contains(authority)))
+                        .anyMatch(grantedAuthority -> isIn(grantedAuthority.getAuthority(), authority)))
                 .orElse(false);
+    }
+
+    private static boolean isIn(final String authority, final String checked) {
+        final JsonObject item = new JsonObject(authority);
+        return item.containsKey(checked);
     }
 }
