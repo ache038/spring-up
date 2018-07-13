@@ -1,19 +1,17 @@
 package io.spring.up.epic;
 
 import io.spring.up.epic.fn.Fn;
+import io.spring.up.exception.web._401SegmentAuthorityException;
 import io.spring.up.exception.web._401UnsupportedAuthorityException;
-import io.spring.up.secure.ComplexAuthority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 class Secure {
 
@@ -33,38 +31,36 @@ class Secure {
                 });
     }
 
-    private static User getCurrentUser() {
+    static String getUniqueAuthority() {
         final SecurityContext context = SecurityContextHolder.getContext();
-        return Fn.getNull(() -> {
-            final Authentication authentication = context.getAuthentication();
-            return Fn.getNull(() ->
-                            (authentication.getPrincipal() instanceof UserDetails)
-                                    ? (User) authentication.getPrincipal()
-                                    : null
-                    , authentication);
-        }, context);
+        final Authentication authentication = context.getAuthentication();
+        final List<GrantedAuthority> authorities = new ArrayList<>();
+        authentication.getAuthorities().forEach(item -> authorities.add((GrantedAuthority) item));
+        String reference = null;
+        Fn.out(1 < authorities.size(), _401UnsupportedAuthorityException.class,
+                Secure.class, Secure.getCurrentUserLogin().get(), authorities.size());
+        if (0 < authorities.size()) {
+            final GrantedAuthority authority = authorities.get(0);
+            if (null != authority) {
+                reference = authority.getAuthority();
+            }
+        }
+        return reference;
     }
 
-    static <T> T getUniqueAuthority(final String key) {
-        final User user = getCurrentUser();
-        return Fn.getNull(() -> {
-            final Collection<GrantedAuthority> authorites = user.getAuthorities();
-            T reference = null;
-            if (null != authorites && !authorites.isEmpty()) {
-                final List<GrantedAuthority> filtered = authorites.stream()
-                        .filter(item -> item instanceof ComplexAuthority)
-                        .collect(Collectors.toList());
-                Fn.out(1 < filtered.size(), _401UnsupportedAuthorityException.class,
-                        Secure.class, user.getUsername(), filtered.size());
-                final GrantedAuthority filteredItem = filtered.get(0);
-                if (null != filteredItem) {
-                    final ComplexAuthority authority = (ComplexAuthority) filteredItem;
-                    final Object ret = authority.getValue(key);
-                    reference = null == ret ? null : (T) ret;
-                }
-            }
-            return reference;
-        }, user, key);
+    static String[] getAuthorities() {
+        final String authority = getUniqueAuthority();
+        String[] segments = new String[3];
+        if (null != authority) {
+            segments = getUniqueAuthority().split(":");
+            Fn.out(3 != segments.length, _401SegmentAuthorityException.class,
+                    Secure.class, segments.length);
+        }
+        return segments;
+    }
+
+    static String buildAuthority(final String userId, final String roleId, final String roleName) {
+        return userId + ":" + roleName + ":" + roleId;
     }
 
     static boolean isAuthenticated() {

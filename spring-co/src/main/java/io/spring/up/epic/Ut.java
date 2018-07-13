@@ -386,25 +386,25 @@ public class Ut {
     }
 
     // 安全专用方法
-    public static final String ROLE_KEY = "role";
-    public static final String USER_KEY = "user";
 
     public static Optional<String> fetchLogin() {
         return Secure.getCurrentUserLogin();
     }
 
-    public static Object fetchAuthority(final String key) {
-        return Secure.getUniqueAuthority(key);
+    public static String fetchUserId() {
+        return Secure.getAuthorities()[0];
     }
 
-    public static String fetchRole() {
-        final Object role = Secure.getUniqueAuthority(ROLE_KEY);
-        return null == role ? null : role.toString();
+    public static String fetchRoleId() {
+        return Secure.getAuthorities()[2];
     }
 
-    public static String fetchUser() {
-        final Object user = Secure.getUniqueAuthority(USER_KEY);
-        return null == user ? null : user.toString();
+    public static String fetchRoleName() {
+        return Secure.getAuthorities()[1];
+    }
+
+    public static String toAuthority(final String userId, final String roleId, final String roleName) {
+        return Secure.buildAuthority(userId, roleId, roleName);
     }
 
     public static boolean inAuthoried() {
