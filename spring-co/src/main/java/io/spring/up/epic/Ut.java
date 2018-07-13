@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -382,5 +383,35 @@ public class Ut {
 
     public static <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
         return Async.created(item);
+    }
+
+    // 安全专用方法
+    public static final String ROLE_KEY = "role";
+    public static final String USER_KEY = "user";
+
+    public static Optional<String> fetchLogin() {
+        return Secure.getCurrentUserLogin();
+    }
+
+    public static Object fetchAuthority(final String key) {
+        return Secure.getUniqueAuthority(key);
+    }
+
+    public static String fetchRole() {
+        final Object role = Secure.getUniqueAuthority(ROLE_KEY);
+        return null == role ? null : role.toString();
+    }
+
+    public static String fetchUser() {
+        final Object user = Secure.getUniqueAuthority(USER_KEY);
+        return null == user ? null : user.toString();
+    }
+
+    public static boolean inAuthoried() {
+        return Secure.isAuthenticated();
+    }
+
+    public static boolean inRole(final String authority) {
+        return Secure.isInRole(authority);
     }
 }
