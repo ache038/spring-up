@@ -84,6 +84,7 @@
         <common.io.version>2.6</common.io.version>
         <!-- Rpc -->
         <protobuf.version>3.6.0</protobuf.version>
+        <opencensus.version>0.15.0</opencensus.version>
         <grpc.version>1.13.2</grpc.version>
         <!-- Plugin -->
         <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>
@@ -135,6 +136,11 @@
                 <version>${project.version}</version>
             </dependency>
             <!-- gRpc -->
+            <dependency>
+                <groupId>io.opencensus</groupId>
+                <artifactId>opencensus-impl</artifactId>
+                <version>${opencensus.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
             <dependency>
                 <groupId>io.grpc</groupId>
@@ -188,6 +194,16 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-core</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-services</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
                 <version>${grpc.version}</version>
             </dependency>
             <!-- Dependency -->
