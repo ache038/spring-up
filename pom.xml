@@ -77,7 +77,7 @@
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
 
-        <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.0.M8</spring.cloud.version>
         <spring.cloud.eureka.version>2.0.0.M2</spring.cloud.eureka.version>
         <!-- Dependency -->
