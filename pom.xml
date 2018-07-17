@@ -62,7 +62,7 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!-- epic -->
-        <hutool.version>4.1.1</hutool.version>
+        <hutool.version>4.1.2</hutool.version>
         <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
         <rxjava2.version>2.1.16</rxjava2.version>
@@ -82,8 +82,13 @@
         <spring.cloud.eureka.version>2.0.0.M2</spring.cloud.eureka.version>
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
-
+        <!-- Rpc -->
+        <protobuf.version>3.6.0</protobuf.version>
+        <grpc.version>1.13.2</grpc.version>
         <!-- Plugin -->
+        <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>
+        <maven.plugin.os>1.5.0.Final</maven.plugin.os>
+
         <maven.plugin.version>2.5</maven.plugin.version>
         <maven.plugin.assembly>3.1.0</maven.plugin.assembly>
         <maven.plugin.compiler>3.7.0</maven.plugin.compiler>
@@ -128,6 +133,62 @@
                 <groupId>cn.spring-up</groupId>
                 <artifactId>spring-co</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <!-- gRpc -->
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-context</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-handler-proxy</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-codec-http2</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
+                        <artifactId>protobuf-java</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.grpc/grpc-core -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-core</artifactId>
+                <version>${grpc.version}</version>
             </dependency>
             <!-- Dependency -->
             <dependency>
