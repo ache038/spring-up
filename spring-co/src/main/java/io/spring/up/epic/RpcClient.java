@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.concurrent.Future;
 
-class RpcClient {
+public class RpcClient {
 
     private final transient Channel channel;
 

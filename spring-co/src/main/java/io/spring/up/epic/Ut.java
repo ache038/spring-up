@@ -388,7 +388,7 @@ public class Ut {
     }
 
     // Rpc专用方法
-    static class Rpc {
+    public static class Rpc {
         public static IpcRequest request(final JsonObject data) {
             return io.spring.up.epic.Rpc.in(data);
         }
