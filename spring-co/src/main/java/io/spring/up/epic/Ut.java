@@ -148,6 +148,10 @@ public class Ut {
         return Types.isDecimal(clazz);
     }
 
+    public static boolean isEmpty(final String literal) {
+        return Types.isEmpty(literal);
+    }
+
     // 类型判断
     public static boolean isInteger(final String original) {
         return Numeric.isInteger(original);

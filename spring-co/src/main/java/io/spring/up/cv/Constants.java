@@ -6,5 +6,7 @@ public interface Constants {
 
     int DEFAULT_STREAM_SIZE = 4096;
 
-    String DATA = "DATA";
+    String DATA = "data";
+
+    String ADDRESS = "address";
 }
