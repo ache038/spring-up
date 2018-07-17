@@ -2,7 +2,11 @@ package io.spring.up.epic;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.grpc.Channel;
 import io.reactivex.Single;
+import io.spring.up.ipc.model.IpcRequest;
+import io.spring.up.ipc.model.IpcResponse;
+import io.spring.up.model.Envelop;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.springframework.http.ResponseEntity;
@@ -381,6 +385,45 @@ public class Ut {
 
     public static <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
         return Async.created(item);
+    }
+
+    // Rpc专用方法
+    static class Rpc {
+        public static IpcRequest request(final JsonObject data) {
+            return io.spring.up.epic.Rpc.in(data);
+        }
+
+        public static IpcRequest request(final Envelop envelop) {
+            return io.spring.up.epic.Rpc.in(envelop);
+        }
+
+        public static IpcResponse response(final JsonObject data) {
+            return io.spring.up.epic.Rpc.out(data);
+        }
+
+        public static IpcResponse response(final Envelop envelop) {
+            return io.spring.up.epic.Rpc.out(envelop);
+        }
+
+        public static Envelop envelop(final IpcRequest request) {
+            return io.spring.up.epic.Rpc.inEnvelop(request);
+        }
+
+        public static Envelop envelop(final IpcResponse response) {
+            return io.spring.up.epic.Rpc.outEnvelop(response);
+        }
+
+        public static JsonObject json(final IpcRequest request) {
+            return io.spring.up.epic.Rpc.inJson(request);
+        }
+
+        public static JsonObject json(final IpcResponse response) {
+            return io.spring.up.epic.Rpc.outJson(response);
+        }
+
+        public static RpcClient getClient(final Channel channel) {
+            return RpcClient.newInstance(channel);
+        }
     }
 
     // 安全专用方法
