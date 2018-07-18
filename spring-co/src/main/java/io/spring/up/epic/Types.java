@@ -26,6 +26,10 @@ class Types {
         return null != clazz && JsonObject.class == clazz;
     }
 
+    static boolean isEmpty(final String literal) {
+        return null == literal || 0 == literal.trim().length();
+    }
+
     static boolean isVoid(final Class<?> clazz) {
         return null != clazz && (Void.class == clazz || void.class == clazz);
     }
