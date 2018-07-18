@@ -41,11 +41,10 @@ public class IpcSelector {
         return Invoker.INVOKERS.getOrDefault(parameterType, null);
     }
 
-    static boolean filterMethod(final Method method) {
+    public static boolean filterMethod(final Method method) {
         return !Observable.fromIterable(Invoker.INVOKERS.values())
-                .map(item -> item.ensure(method))
-                .filter(item -> !item)
-                .reduce(new HashSet<Boolean>(), (set, checked) -> {
+                .filter(item -> item.ensure(method))
+                .reduce(new HashSet<Invoker>(), (set, checked) -> {
                     set.add(checked);
                     return set;
                 }).blockingGet().isEmpty();

@@ -27,6 +27,15 @@ import java.util.function.Supplier;
  * 专用工具类
  */
 public class Ut {
+
+    public static Object rxDebug(final Object object) {
+        System.err.print("[ UP DG ] Error: ");
+        System.err.println(object);
+        if (null != object) {
+            System.err.println("[ UP DG ] Class: " + object.getClass());
+        }
+        return object;
+    }
     // -------------------- IO专用方法 ---------------------------
 
     /**
@@ -112,6 +121,10 @@ public class Ut {
     // 集合遍历专用方法
     public static void itJObject(final JsonObject object, final BiConsumer<String, Object> consumer) {
         It.itJObject(object, consumer);
+    }
+
+    public static <T> HashSet<T> rdcHashSet(final HashSet<T> hashset, final T element) {
+        return It.rdcHashSet(hashset, element);
     }
 
     public static <T> void itJArray(final JsonArray array, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
