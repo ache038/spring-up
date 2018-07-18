@@ -2,6 +2,7 @@ package io.spring.up.boot;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import io.spring.up.epic.Ut;
 import io.spring.up.ipc.core.IpcScanner;
 import io.spring.up.log.Log;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
                 .map(context::getBean)
                 .filter(Objects::nonNull)
                 .filter(reference -> this.isValid(reference.getClass()))
+                .map(Ut::rxDebug)
                 .map(reference -> Schedulers.io().scheduleDirect(new IpcScanner(reference)))
                 .subscribe();
         IpcScanner.getScanned().forEach((key, value) ->
@@ -56,10 +58,12 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
     private boolean isValid(final Class<?> clazz) {
         final Set<String> sets = Observable.fromArray(IGNORES)
                 .filter(item -> clazz.getName().startsWith(item))
+                // 过滤动态代理类和特殊类
+                .filter(item -> 0 <= clazz.getName().indexOf('$'))
                 .reduce(new HashSet<String>(), (set, element) -> {
                     set.add(element);
                     return set;
                 }).blockingGet();
-        return sets.isEmpty();
+        return sets.isEmpty() && !clazz.isAnonymousClass() && !clazz.isInterface() && !clazz.isAnnotation();
     }
 }

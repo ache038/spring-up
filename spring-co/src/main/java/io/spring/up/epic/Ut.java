@@ -27,6 +27,15 @@ import java.util.function.Supplier;
  * 专用工具类
  */
 public class Ut {
+
+    public static Object rxDebug(final Object object) {
+        System.err.print("[ UP DG ] Error: ");
+        System.err.println(object);
+        if (null != object) {
+            System.err.println("[ UP DG ] Class: " + object.getClass());
+        }
+        return object;
+    }
     // -------------------- IO专用方法 ---------------------------
 
     /**
