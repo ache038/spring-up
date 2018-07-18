@@ -387,26 +387,52 @@ public class Ut {
         return Net.getIP();
     }
 
-    // 响应专用方法
-    public static <T> Single<ResponseEntity<T>> ok(final Single<T> item) {
+    // 响应专用方法（生成ResponseEntity都是最后一个方法）
+    // （200）T -> Single<ResponseEntity<T>>
+    public static <T> Single<ResponseEntity<T>> end(final T entity) {
+        return Async.ok(() -> entity);
+    }
+
+    // （200）Single<T> -> Single<ResponseEntity<T>>
+    public static <T> Single<ResponseEntity<T>> end(final Single<T> item) {
         return Async.ok(item);
     }
 
-    public static <T> Single<ResponseEntity<T>> ok(final Supplier<T> supplierFun) {
+    // （200）Supplier<T> -> T -> Single<ResponseEntity<T>>
+    public static <T> Single<ResponseEntity<T>> end(final Supplier<T> supplierFun) {
         return Async.ok(supplierFun);
     }
 
-    public static <T> Function<T, Single<ResponseEntity<T>>> ok(final Function<T, T> applyFun) {
+    // （200）Function<T,T> -> T -> Single<ResponseEntity<T>> -> 最后需要apply
+    public static <T> Function<T, Single<ResponseEntity<T>>> end(final Function<T, T> applyFun) {
         return Async.ok(applyFun);
     }
 
-    public static <T> Function<T, Single<T>> start(final Function<T, T> applyFun) {
-        return Async.start(applyFun);
+    // （201）T -> Single<ResponseEntity<T>> -> 最后需要apply
+    public static <T> Function<String, Single<ResponseEntity<T>>> created(final T item) {
+        return Async.created(Single.just(item));
     }
 
+    // （201）Single<T> -> Single<ResponseEntity<T>> -> 最后需要apply
     public static <T> Function<String, Single<ResponseEntity<T>>> created(final Single<T> item) {
         return Async.created(item);
     }
+
+    // （200）T -> Single<T>
+    public static <T> Single<T> ok(final T start) {
+        return Single.just(start);
+    }
+
+    // （200）Supplier<T> -> T -> Single<T>
+    public static <T> Single<T> ok(final Supplier<T> supplier) {
+        return Single.just(supplier.get());
+    }
+
+    // （200）Function<T,T> -> T -> Single<T>
+    public static <T> Function<T, Single<T>> ok(final Function<T, T> applyFun) {
+        return Async.start(applyFun);
+    }
+
 
     // Rpc专用方法
     public static class Rpc {
