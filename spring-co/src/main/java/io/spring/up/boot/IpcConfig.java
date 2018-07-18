@@ -2,7 +2,6 @@ package io.spring.up.boot;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import io.spring.up.epic.Ut;
 import io.spring.up.ipc.core.IpcScanner;
 import io.spring.up.log.Log;
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -36,7 +36,8 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
             "javax",
             "feign",
             "org.thymeleaf",
-            "com.google"
+            "com.google",
+            "com.zaxxer"
     };
 
     @Override
@@ -47,7 +48,6 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
                 .map(context::getBean)
                 .filter(Objects::nonNull)
                 .filter(reference -> this.isValid(reference.getClass()))
-                .map(Ut::rxDebug)
                 .map(reference -> Schedulers.io().scheduleDirect(new IpcScanner(reference)))
                 .subscribe();
         IpcScanner.getScanned().forEach((key, value) ->
@@ -55,15 +55,19 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
                         value.getReturnType().getName(), value.getName(), value.getParameterTypes()[0].getName()));
     }
 
-    private boolean isValid(final Class<?> clazz) {
-        final Set<String> sets = Observable.fromArray(IGNORES)
-                .filter(item -> clazz.getName().startsWith(item))
-                // 过滤动态代理类和特殊类
-                .filter(item -> 0 <= clazz.getName().indexOf('$'))
-                .reduce(new HashSet<String>(), (set, element) -> {
-                    set.add(element);
-                    return set;
-                }).blockingGet();
-        return sets.isEmpty() && !clazz.isAnonymousClass() && !clazz.isInterface() && !clazz.isAnnotation();
+    private synchronized boolean isValid(final Class<?> clazz) {
+        final Set<String> sets = new HashSet<>();
+        for (final String prefix : IGNORES) {
+            if (clazz.getName().startsWith(prefix)
+                    || 0 < clazz.getName().indexOf('$')) {
+                sets.add(clazz.getName());
+                break;
+            }
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                sets.add(clazz.getName());
+                break;
+            }
+        }
+        return sets.isEmpty();
     }
 }
