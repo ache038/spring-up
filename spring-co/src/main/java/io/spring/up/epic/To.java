@@ -4,6 +4,8 @@ import io.spring.up.epic.fn.Fn;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Map;
+
 class To {
 
     static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
@@ -24,5 +26,11 @@ class To {
             }
             return value.toString();
         }, value);
+    }
+
+    static JsonObject toJObject(final Map<String, Object> map) {
+        final JsonObject params = new JsonObject();
+        Fn.safeNull(() -> map.forEach(params::put), map);
+        return params;
     }
 }

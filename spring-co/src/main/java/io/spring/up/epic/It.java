@@ -40,6 +40,22 @@ class It {
         });
     }
 
+    static <T> void itJObject(final JsonObject object,
+                              final Class<T> clazz,
+                              final BiConsumer<String, T> consumer) {
+        object.forEach(item -> {
+            if (null != item) {
+                final String key = item.getKey();
+                final Object value = item.getValue();
+                if (null != key && null != value && clazz == value.getClass()) {
+                    // 参数：键和值
+                    final T param = (T) value;
+                    consumer.accept(key, param);
+                }
+            }
+        });
+    }
+
     static <T> HashSet<T> rdcHashSet(final HashSet<T> collection, final T element) {
         collection.add(element);
         return collection;

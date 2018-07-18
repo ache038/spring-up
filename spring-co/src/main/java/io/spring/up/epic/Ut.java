@@ -123,6 +123,10 @@ public class Ut {
         It.itJObject(object, consumer);
     }
 
+    public static <T> void itJObject(final JsonObject object, final Class<T> clazz, final BiConsumer<String, T> consumer) {
+        It.itJObject(object, clazz, consumer);
+    }
+
     public static <T> HashSet<T> rdcHashSet(final HashSet<T> hashset, final T element) {
         return It.rdcHashSet(hashset, element);
     }
@@ -281,6 +285,10 @@ public class Ut {
 
     public static String toString(final Object value) {
         return To.toString(value);
+    }
+
+    public static JsonObject toJObject(final Map<String, Object> map) {
+        return To.toJObject(map);
     }
 
     /**
@@ -474,9 +482,9 @@ public class Ut {
     }
 
     // 安全专用方法
-    public static String ROLE_ID = "roleId";
-    public static String ROLE_NAME = "roleName";
-    public static String USER_ID = "userId";
+    private static final String ROLE_ID = "roleId";
+    private static final String ROLE_NAME = "roleName";
+    private static final String USER_ID = "userId";
 
     public static Optional<String> fetchLogin() {
         return Secure.getCurrentUserLogin();
@@ -510,5 +518,14 @@ public class Ut {
 
     public static boolean inRole(final String authority) {
         return Secure.isInRole(authority);
+    }
+
+    // 格式化专用方法
+    public static String fromExpression(final String expr, final JsonObject data) {
+        return Expr.expression(expr, data);
+    }
+
+    public static String fromExpression(final String expr, final Map<String, Object> map) {
+        return Expr.expression(expr, To.toJObject(map));
     }
 }
