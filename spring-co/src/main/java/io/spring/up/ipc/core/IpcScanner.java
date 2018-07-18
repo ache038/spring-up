@@ -38,23 +38,31 @@ public class IpcScanner extends Thread {
         return SCANNED;
     }
 
+    public static Method getScanned(final String address) {
+        return SCANNED.getOrDefault(address, null);
+    }
+
     public static ConcurrentMap<String, Object> getProxies() {
         return PROXIES;
     }
 
+    public static Object getProxies(final String address) {
+        return PROXIES.getOrDefault(address, null);
+    }
+
     @Override
     public void run() {
+        Log.info(LOGGER, "[ UP ] Ipc Scanner started: {0} for {1}", this.getName(), this.target);
         Fn.safeNull(() -> Observable.fromArray(this.target.getDeclaredMethods())
                         .filter(method -> method.isAnnotationPresent(Ipc.class))
-                        .map(this::log)
                         .filter(this::ensure)
                         .map(method -> Single.just(method)
                                 .map(item -> item.getAnnotation(Ipc.class))
                                 .map(item -> Ut.invoke(item, "value"))
                                 .filter(Objects::nonNull)
                                 .map(item -> (String) item)
-                                .map(this::put)
                                 .filter(item -> !Ut.isEmpty(item))
+                                .map(this::put)
                                 .subscribe(item -> SCANNED.put(item, method))
                         )
                         .subscribe(),
@@ -64,11 +72,6 @@ public class IpcScanner extends Thread {
     private String put(final String item) {
         PROXIES.put(item, this.reference);
         return item;
-    }
-
-    private Method log(final Method method) {
-        Log.info(LOGGER, "[ UP ] Ipc Scanner started: {0} for {1}", this.getName(), this.target);
-        return method;
     }
 
     private boolean ensure(final Method method) {
