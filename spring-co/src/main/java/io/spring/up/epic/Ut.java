@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.Channel;
 import io.reactivex.Single;
+import io.spring.up.cv.Constants;
 import io.spring.up.ipc.model.IpcRequest;
 import io.spring.up.ipc.model.IpcResponse;
 import io.spring.up.model.Envelop;
@@ -121,6 +122,10 @@ public class Ut {
     // 集合遍历专用方法
     public static void itJObject(final JsonObject object, final BiConsumer<String, Object> consumer) {
         It.itJObject(object, consumer);
+    }
+
+    public static <T> void itJObject(final JsonObject object, final Class<T> clazz, final BiConsumer<String, T> consumer) {
+        It.itJObject(object, clazz, consumer);
     }
 
     public static <T> HashSet<T> rdcHashSet(final HashSet<T> hashset, final T element) {
@@ -281,6 +286,10 @@ public class Ut {
 
     public static String toString(final Object value) {
         return To.toString(value);
+    }
+
+    public static JsonObject toJObject(final Map<String, Object> map) {
+        return To.toJObject(map);
     }
 
     /**
@@ -473,25 +482,20 @@ public class Ut {
         }
     }
 
-    // 安全专用方法
-    public static String ROLE_ID = "roleId";
-    public static String ROLE_NAME = "roleName";
-    public static String USER_ID = "userId";
-
     public static Optional<String> fetchLogin() {
         return Secure.getCurrentUserLogin();
     }
 
     public static String fetchUserId() {
-        return Secure.getAuthorities().getString(USER_ID);
+        return Secure.getAuthorities().getString(Constants.USER_ID);
     }
 
     public static String fetchRoleId() {
-        return Secure.getAuthorities().getString(ROLE_ID);
+        return Secure.getAuthorities().getString(Constants.ROLE_ID);
     }
 
     public static String fetchRoleName() {
-        return Secure.getAuthorities().getString(ROLE_NAME);
+        return Secure.getAuthorities().getString(Constants.ROLE_NAME);
     }
 
     public static String toJsonAuthority(final String literal) {
@@ -500,7 +504,7 @@ public class Ut {
     }
 
     public static String toJsonAuthority(final String userId, final String roleName, final String roleId) {
-        final String content = new JsonObject().put(USER_ID, userId).put(ROLE_ID, roleId).put(ROLE_NAME, roleName).encode();
+        final String content = new JsonObject().put(Constants.USER_ID, userId).put(Constants.ROLE_ID, roleId).put(Constants.ROLE_NAME, roleName).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
@@ -510,5 +514,18 @@ public class Ut {
 
     public static boolean inRole(final String authority) {
         return Secure.isInRole(authority);
+    }
+
+    // 格式化专用方法
+    public static String fromExpression(final String expr, final JsonObject data) {
+        return Expr.expression(expr, data);
+    }
+
+    public static String fromExpression(final String expr, final Map<String, Object> map) {
+        return Expr.expression(expr, To.toJObject(map));
+    }
+
+    public static String toUri(final String url) {
+        return Expr.uri(url);
     }
 }
