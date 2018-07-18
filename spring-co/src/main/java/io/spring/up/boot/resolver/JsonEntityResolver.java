@@ -43,6 +43,6 @@ public class JsonEntityResolver implements HandlerMethodArgumentResolver {
         // 规则基础验证处理
         Resolver.verifyInput(this.getClass(), methodParameter, reference);
         // 反序列化处理
-        return Ut.deserialize(body, methodParameter.getParameterType());
+        return Ut.deserialize(Ut.toString(reference), methodParameter.getParameterType());
     }
 }

@@ -266,6 +266,10 @@ public class Ut {
         return To.toInteger(value);
     }
 
+    public static String toString(final Object value) {
+        return To.toString(value);
+    }
+
     /**
      * 加密
      *
