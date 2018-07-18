@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.Channel;
 import io.reactivex.Single;
+import io.spring.up.cv.Constants;
 import io.spring.up.ipc.model.IpcRequest;
 import io.spring.up.ipc.model.IpcResponse;
 import io.spring.up.model.Envelop;
@@ -481,25 +482,20 @@ public class Ut {
         }
     }
 
-    // 安全专用方法
-    private static final String ROLE_ID = "roleId";
-    private static final String ROLE_NAME = "roleName";
-    private static final String USER_ID = "userId";
-
     public static Optional<String> fetchLogin() {
         return Secure.getCurrentUserLogin();
     }
 
     public static String fetchUserId() {
-        return Secure.getAuthorities().getString(USER_ID);
+        return Secure.getAuthorities().getString(Constants.USER_ID);
     }
 
     public static String fetchRoleId() {
-        return Secure.getAuthorities().getString(ROLE_ID);
+        return Secure.getAuthorities().getString(Constants.ROLE_ID);
     }
 
     public static String fetchRoleName() {
-        return Secure.getAuthorities().getString(ROLE_NAME);
+        return Secure.getAuthorities().getString(Constants.ROLE_NAME);
     }
 
     public static String toJsonAuthority(final String literal) {
@@ -508,7 +504,7 @@ public class Ut {
     }
 
     public static String toJsonAuthority(final String userId, final String roleName, final String roleId) {
-        final String content = new JsonObject().put(USER_ID, userId).put(ROLE_ID, roleId).put(ROLE_NAME, roleName).encode();
+        final String content = new JsonObject().put(Constants.USER_ID, userId).put(Constants.ROLE_ID, roleId).put(Constants.ROLE_NAME, roleName).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 

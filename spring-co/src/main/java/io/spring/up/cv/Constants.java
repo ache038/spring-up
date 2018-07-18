@@ -9,4 +9,10 @@ public interface Constants {
     String DATA = "data";
 
     String ADDRESS = "address";
+
+    String ROLE_ID = "roleId";
+
+    String ROLE_NAME = "roleName";
+    
+    String USER_ID = "userId";
 }
