@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CountDownLatch;
 
 public class IpcScanner extends Thread {
 
@@ -24,11 +25,13 @@ public class IpcScanner extends Thread {
 
     private transient final Class<?> target;
     private transient final Object reference;
+    private transient final CountDownLatch counter;
 
-    public IpcScanner(final Object reference) {
+    public IpcScanner(final Object reference, final CountDownLatch counter) {
         this.reference = reference;
         this.target = reference.getClass();
         this.setName("ipc-scanner-" + this.getId());
+        this.counter = counter;
     }
 
     public static ConcurrentMap<String, Method> getScanned() {
@@ -49,10 +52,8 @@ public class IpcScanner extends Thread {
 
     @Override
     public void run() {
-        Log.info(LOGGER, "[ UP ] Ipc Scanner started: {0} for {1}", this.getName(), this.target);
+        Log.info(LOGGER, "[ IPC ] Ipc Scanner started: {0} for {1}", this.getName(), this.target);
         Fn.safeNull(() -> Observable.fromArray(this.target.getDeclaredMethods())
-                        .filter(method -> method.isAnnotationPresent(Ipc.class))
-                        .filter(IpcSelector::filterMethod)
                         .map(method -> Single.just(method)
                                 .map(item -> item.getAnnotation(Ipc.class))
                                 .map(item -> Ut.invoke(item, "value"))
@@ -60,14 +61,20 @@ public class IpcScanner extends Thread {
                                 .map(item -> (String) item)
                                 .filter(item -> !Ut.isEmpty(item))
                                 .map(this::put)
-                                .subscribe(item -> SCANNED.put(item, method))
+                                .map(item -> this.put(item, method))
+                                .blockingGet()
                         )
-                        .subscribe(),
+                        .subscribe(item -> this.counter.countDown()),
                 this.target);
     }
 
     private String put(final String item) {
         PROXIES.put(item, this.reference);
+        return item;
+    }
+
+    private String put(final String item, final Method method) {
+        SCANNED.put(item, method);
         return item;
     }
 }

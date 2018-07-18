@@ -4,6 +4,7 @@ import io.spring.up.epic.fn.Fn;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.HashSet;
 import java.util.function.BiConsumer;
 
 @SuppressWarnings("all")
@@ -37,5 +38,10 @@ class It {
                 }
             }
         });
+    }
+
+    static <T> HashSet<T> rdcHashSet(final HashSet<T> collection, final T element) {
+        collection.add(element);
+        return collection;
     }
 }

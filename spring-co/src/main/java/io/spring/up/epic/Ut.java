@@ -123,6 +123,10 @@ public class Ut {
         It.itJObject(object, consumer);
     }
 
+    public static <T> HashSet<T> rdcHashSet(final HashSet<T> hashset, final T element) {
+        return It.rdcHashSet(hashset, element);
+    }
+
     public static <T> void itJArray(final JsonArray array, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
         It.itJArray(array, clazz, consumer);
     }
