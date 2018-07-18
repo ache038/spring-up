@@ -25,4 +25,15 @@ class Expr {
             throw ex;
         }
     }
+
+    static String uri(final String url) {
+        if (null == url) {
+            return null;
+        }
+        if (url.contains("?")) {
+            return url.split("\\?")[0];
+        } else {
+            return url;
+        }
+    }
 }

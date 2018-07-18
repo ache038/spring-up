@@ -524,4 +524,8 @@ public class Ut {
     public static String fromExpression(final String expr, final Map<String, Object> map) {
         return Expr.expression(expr, To.toJObject(map));
     }
+
+    public static String toUri(final String url) {
+        return Expr.uri(url);
+    }
 }
