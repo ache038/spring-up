@@ -13,19 +13,19 @@ public class ArrayRule implements Rule {
                                final JsonObject config) {
         return Rule.verify(this.getClass(), () -> {
             if (null == value) {
-                return false;
+                return true;
             }
             final String literal = value.toString();
             if (Ut.isJArray(literal)) {
                 final JsonArray array = new JsonArray(literal);
                 if (config.containsKey("minlength")) {
                     final Integer minlength = config.getInteger("minlength");
-                    return minlength <= array.size();
+                    return minlength > array.size();
                 } else {
-                    return true;
+                    return false;
                 }
             } else {
-                return false;
+                return true;
             }
         }, field, value, "array", config);
     }
