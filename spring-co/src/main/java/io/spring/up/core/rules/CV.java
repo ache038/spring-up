@@ -15,6 +15,7 @@ interface Pool {
             this.put("required", new RequiredRule());
             this.put("length", new LengthRule());
             this.put("forbidden", new ForbiddenRule());
+            this.put("array", new ArrayRule());
         }
     };
 }

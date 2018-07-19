@@ -41,7 +41,7 @@ public class JsonEntityResolver implements HandlerMethodArgumentResolver {
         // 解析参数到固定格式，可支持为空相关计算
         final Object reference = Resolver.resolveJson(this.getClass(), body);
         // 规则基础验证处理
-        Resolver.verifyInput(this.getClass(), methodParameter, reference);
+        Resolver.verifyInput(this.getClass(), JsonEntity.class, methodParameter, reference);
         // 反序列化处理
         return Ut.deserialize(Ut.toString(reference), methodParameter.getParameterType());
     }

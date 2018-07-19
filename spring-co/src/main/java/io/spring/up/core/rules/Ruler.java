@@ -50,7 +50,7 @@ public class Ruler {
 
     private static void verify(final String name, final Object value, final JsonObject rule) {
         final String type = Fn.getNull(() -> rule.getString("type"), rule);
-        final JsonObject config = Fn.getNull(() -> rule.getJsonObject("config"), rule);
+        final JsonObject config = Fn.getNull(new JsonObject(), () -> rule.getJsonObject("config"), rule);
         Fn.safeNull(() -> {
             final Rule ruler = Rule.get(type);
             Fn.safeNull(() -> {

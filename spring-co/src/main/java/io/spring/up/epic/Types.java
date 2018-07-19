@@ -1,14 +1,45 @@
 package io.spring.up.epic;
 
 import io.spring.up.cv.Strings;
+import io.spring.up.log.Log;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 class Types {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Types.class);
+
+    static boolean isJArray(final String literal) {
+        return isJson(JsonArray::new, literal);
+    }
+
+    static boolean isJObject(final String literal) {
+        return isJson(JsonObject::new, literal);
+    }
+
+    private static boolean isJson(final Consumer<String> consumer, final String literal) {
+        if (null == literal) {
+            return false;
+        }
+        try {
+            consumer.accept(literal);
+            return true;
+        } catch (final DecodeException ex) {
+            Log.jvm(LOGGER, ex);
+            return false;
+        } catch (final Throwable ex) {
+            Log.jvm(LOGGER, ex);
+            return false;
+        }
+    }
 
     static boolean isJArray(final Object value) {
         return null != value && isJArray(value.getClass());
