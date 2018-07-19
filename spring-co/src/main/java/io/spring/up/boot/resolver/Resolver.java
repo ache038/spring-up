@@ -1,6 +1,5 @@
 package io.spring.up.boot.resolver;
 
-import io.spring.up.annotations.JsonEntity;
 import io.spring.up.core.rules.Ruler;
 import io.spring.up.cv.Encodings;
 import io.spring.up.cv.Strings;
@@ -76,9 +75,10 @@ class Resolver {
     }
 
     static void verifyInput(final Class<?> clazz,
+                            final Class<? extends Annotation> annotationType,
                             final MethodParameter methodParameter,
                             final Object reference) {
-        final Annotation rule = methodParameter.getParameterAnnotation(JsonEntity.class);
+        final Annotation rule = methodParameter.getParameterAnnotation(annotationType);
         final boolean required = Ut.invoke(rule, "required");
         if (null == reference && required) {
             // 必填选项

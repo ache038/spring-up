@@ -187,12 +187,20 @@ public class Ut {
         return Types.isJArray(value);
     }
 
+    public static boolean isJArray(final String literal) {
+        return Types.isJArray(literal);
+    }
+
     public static boolean isJArray(final Class<?> clazz) {
         return Types.isJArray(clazz);
     }
 
     public static boolean isJObject(final Class<?> clazz) {
         return Types.isJObject(clazz);
+    }
+
+    public static boolean isJObject(final String literal) {
+        return Types.isJObject(literal);
     }
 
     public static boolean isJObject(final Object value) {
