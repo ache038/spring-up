@@ -11,8 +11,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
-import io.spring.up.exception.web._500JsonResponseException;
+import io.reactivex.Single;
 import io.spring.up.epic.Ut;
+import io.spring.up.exception.web._500JsonResponseException;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,17 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 serializationView = container.getSerializationView();
                 filters = container.getFilters();
             }
-            if (type != null && value != null && TypeUtils.isAssignable(type, value.getClass())) {
+            Object dataValue = null;
+            if (value != null) {
+                final Class<?> dataClass = value.getClass();
+                if (Single.class == dataClass) {
+                    LOGGER.info("[ UP ] Async Data Flow triggered! ");
+                    dataValue = ((Single<?>) value).blockingGet();
+                } else {
+                    dataValue = value;
+                }
+            }
+            if (type != null && dataValue != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
                 javaType = this.getJavaType(JsonObject.class, null);
             }
 
@@ -80,10 +91,9 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 objectWriter = objectWriter.with(this.ssePrettyPrinter);
             }
             // 转换成Json data节点
-            objectWriter.writeValue(generator, this.extractData(value));
+            objectWriter.writeValue(generator, this.extractData(dataValue));
             this.writeSuffix(generator, object);
             generator.flush();
-
         } catch (final JsonProcessingException ex) {
             // TODO: Debug调试用
             ex.printStackTrace();

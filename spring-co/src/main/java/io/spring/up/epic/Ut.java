@@ -115,6 +115,10 @@ public class Ut {
         return Instance.invokeObject(instance, methodName, args);
     }
 
+    public static <T> T field(final Object instance, final String fieldName) {
+        return Instance.invokeField(instance, fieldName);
+    }
+
     public static Class<?> clazz(final String name) {
         return Instance.clazz(name);
     }
@@ -139,6 +143,11 @@ public class Ut {
     // 快速方法（遍历元素为JsonObject的数组）
     public static void itJArray(final JsonArray array, final BiConsumer<JsonObject, Integer> consumer) {
         It.itJArray(array, JsonObject.class, consumer);
+    }
+
+    public static <V> void itList(final List<V> list,
+                                  final BiConsumer<V, Integer> fnEach) {
+        It.itList(list, fnEach);
     }
 
     // 类型判断
@@ -488,6 +497,10 @@ public class Ut {
         public static RpcClient getClient(final Channel channel) {
             return RpcClient.newInstance(channel);
         }
+    }
+
+    public static <T> Query<T> dsl(final JsonObject input) {
+        return Query.create(input);
     }
 
     public static Optional<String> fetchLogin() {

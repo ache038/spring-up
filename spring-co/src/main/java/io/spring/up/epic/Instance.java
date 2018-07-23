@@ -1,10 +1,14 @@
 package io.spring.up.epic;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
+import com.esotericsoftware.reflectasm.FieldAccess;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import io.spring.up.epic.fn.Fn;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -73,8 +77,28 @@ class Instance {
     ) {
         return Fn.getJvm(null, () -> {
             final MethodAccess access = MethodAccess.get(instance.getClass());
-            // 直接调用
-            final Object result = access.invoke(instance, name, args);
+            if (1 == access.getMethodNames().length) {
+                // 无重载直接调用
+                final Object result = access.invoke(instance, name, args);
+                return null == result ? null : (T) result;
+            } else {
+                // 有重载
+                final List<Class<?>> classes = new ArrayList<>();
+                Arrays.stream(args).map(item -> item.getClass()).forEach(classes::add);
+                final int idx = access.getIndex(name, classes.toArray(new Class<?>[]{}));
+                final Object result = access.invoke(instance, name, args);
+                return null == result ? null : (T) result;
+            }
+        }, instance, name);
+    }
+
+    static <T> T invokeField(
+            final Object instance,
+            final String name
+    ) {
+        return Fn.getJvm(null, () -> {
+            final FieldAccess access = FieldAccess.get(instance.getClass());
+            final Object result = access.get(instance, name);
             return null == result ? null : (T) result;
         }, instance, name);
     }

@@ -76,6 +76,7 @@
         <spring.security.oauth>2.3.3.RELEASE</spring.security.oauth>
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
+        <query.dsl.version>4.2.1</query.dsl.version>
 
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.0.M8</spring.cloud.version>
@@ -186,6 +187,12 @@
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
                 <version>${protobuf.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${query.dsl.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
