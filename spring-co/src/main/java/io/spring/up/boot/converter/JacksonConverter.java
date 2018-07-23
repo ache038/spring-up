@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import io.reactivex.Single;
 import io.spring.up.epic.Ut;
+import io.spring.up.exception.web._500InternalServerException;
 import io.spring.up.exception.web._500JsonResponseException;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
@@ -98,6 +99,12 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             // TODO: Debug调试用
             ex.printStackTrace();
             throw new _500JsonResponseException(this.getClass(), ex);
+        } catch (final Throwable ex) {
+            // TODO: Debug调试用
+            ex.printStackTrace();
+            throw new _500InternalServerException(this.getClass(), ex.getMessage());
+        } finally {
+            generator.close();
         }
     }
 

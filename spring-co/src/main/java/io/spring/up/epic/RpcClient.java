@@ -25,11 +25,11 @@ public class RpcClient {
     }
 
     private UnityServiceGrpc.UnityServiceBlockingStub getBlockStub() {
-        return UnityServiceGrpc.newBlockingStub(this.channel);
+        return UnityServiceGrpc.newBlockingStub(this.channel).withWaitForReady();
     }
 
     private UnityServiceGrpc.UnityServiceFutureStub getFutureStub() {
-        return UnityServiceGrpc.newFutureStub(this.channel);
+        return UnityServiceGrpc.newFutureStub(this.channel).withWaitForReady();
     }
 
     private JsonObject wrapperData(final String address, final JsonObject data) {
