@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 @SuppressWarnings("all")
@@ -24,6 +25,17 @@ class It {
                 }
             }
         }, array, clazz);
+    }
+
+    static <V> void itList(final List<V> list,
+                           final BiConsumer<V, Integer> fnEach) {
+        final int size = list.size();
+        for (int idx = 0; idx < size; idx++) {
+            final V item = list.get(idx);
+            if (null != item) {
+                fnEach.accept(item, idx);
+            }
+        }
     }
 
     static void itJObject(final JsonObject object,

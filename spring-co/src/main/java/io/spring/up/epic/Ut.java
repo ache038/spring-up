@@ -141,6 +141,11 @@ public class Ut {
         It.itJArray(array, JsonObject.class, consumer);
     }
 
+    public static <V> void itList(final List<V> list,
+                                  final BiConsumer<V, Integer> fnEach) {
+        It.itList(list, fnEach);
+    }
+
     // 类型判断
     public static boolean isPositive(final String original) {
         return Numeric.isPositive(original);
