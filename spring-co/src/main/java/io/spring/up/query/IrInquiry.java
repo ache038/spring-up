@@ -17,7 +17,10 @@ public class IrInquiry implements Inquiry {
     private transient Criteria criteria;
 
     IrInquiry(final JsonObject input) {
+
         this.ensure(input);
+        
+        this.init(input);
     }
 
     private void init(final JsonObject input) {

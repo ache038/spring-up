@@ -115,6 +115,10 @@ public class Ut {
         return Instance.invokeObject(instance, methodName, args);
     }
 
+    public static <T> T field(final Object instance, final String fieldName) {
+        return Instance.invokeField(instance, fieldName);
+    }
+
     public static Class<?> clazz(final String name) {
         return Instance.clazz(name);
     }
@@ -493,6 +497,10 @@ public class Ut {
         public static RpcClient getClient(final Channel channel) {
             return RpcClient.newInstance(channel);
         }
+    }
+
+    public static <T> Query<T> dsl(final JsonObject input) {
+        return Query.create(input);
     }
 
     public static Optional<String> fetchLogin() {
