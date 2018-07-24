@@ -11,6 +11,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessTokenJackson2Deserializer;
+import org.springframework.security.oauth2.common.OAuth2AccessTokenJackson2Serializer;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -46,12 +49,14 @@ class Jackson {
         // custom types
         module.addSerializer(JsonObject.class, new JsonObjectSerializer());
         module.addSerializer(JsonArray.class, new JsonArraySerializer());
+        module.addSerializer(OAuth2AccessToken.class, new OAuth2AccessTokenJackson2Serializer());
         // he have 2 extensions: RFC-7493
         module.addSerializer(Instant.class, new InstantSerializer());
         module.addSerializer(byte[].class, new ByteArraySerializer());
         // Zero Extension
         module.addDeserializer(JsonObject.class, new JsonObjectDeserializer());
         module.addDeserializer(JsonArray.class, new JsonArrayDeserializer());
+        module.addDeserializer(OAuth2AccessToken.class, new OAuth2AccessTokenJackson2Deserializer());
 
         mapper.registerModule(module);
         mapper.findAndRegisterModules();
@@ -75,7 +80,9 @@ class Jackson {
     }
 
     static <T> String serialize(final T t) {
-        return Fn.getJvm(null, () -> Fn.getJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
+        return Fn.getJvm(null, () -> Fn.getJvm(() -> Jackson.MAPPER
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(t), t), t);
     }
 
 

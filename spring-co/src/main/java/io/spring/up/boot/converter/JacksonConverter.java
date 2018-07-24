@@ -104,8 +104,6 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             // TODO: Debug调试用
             ex.printStackTrace();
             throw new _500InternalServerException(this.getClass(), ex.getMessage());
-        } finally {
-            generator.close();
         }
     }
 
