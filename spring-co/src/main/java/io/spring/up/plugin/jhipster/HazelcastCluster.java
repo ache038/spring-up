@@ -23,6 +23,14 @@ public class HazelcastCluster {
 
     private Registration registration;
 
+    private HazelcastCluster() {
+
+    }
+
+    public static HazelcastCluster create() {
+        return new HazelcastCluster();
+    }
+
     public HazelcastCluster on(final Environment env) {
         this.env = env;
         return this;
