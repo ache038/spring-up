@@ -15,6 +15,7 @@ import io.reactivex.Single;
 import io.spring.up.epic.Ut;
 import io.spring.up.exception.web._500InternalServerException;
 import io.spring.up.exception.web._500JsonResponseException;
+import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             if (value != null) {
                 final Class<?> dataClass = value.getClass();
                 if (Single.class == dataClass) {
-                    LOGGER.info("[ UP ] Async Data Flow triggered! ");
+                    Log.up(LOGGER, "Async Data Flow triggered!");
                     dataValue = ((Single<?>) value).blockingGet();
                 } else {
                     dataValue = value;
@@ -115,7 +116,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             final Responser responser = Ut.singleton(DataResponser.class);
             data = responser.process(data, value);
         }
-        LOGGER.info("[ UP ] Response Data: " + data.encode());
+        Log.up(LOGGER, "Response Data: {0}", data.encode());
         // 解决Spring中的兼容性问题
         return data;
     }

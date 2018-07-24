@@ -21,7 +21,7 @@ public class ConvertConfig implements WebMvcConfigurer {
     public void configureMessageConverters(final List<HttpMessageConverter<?>> converterList) {
         // Jackson2 serialization
         final JacksonConverter converter = new JacksonConverter();
-        Log.info(LOGGER, "[ UP ] Converter has been set : {0}", JacksonConverter.class.getName());
+        Log.up(LOGGER, "Converter has been set : {0}", JacksonConverter.class.getName());
         // 优先添加，并且替换原始的MappingJackson2HttpMessageConverter，只保留一种
         final List<HttpMessageConverter<?>> list = new ArrayList<>();
         list.add(converter);

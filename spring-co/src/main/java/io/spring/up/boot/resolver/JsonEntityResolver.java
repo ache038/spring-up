@@ -27,7 +27,7 @@ public class JsonEntityResolver implements HandlerMethodArgumentResolver {
                 throw new _500ParameterTypeException(this.getClass(), methodParameter.getParameterType());
             }
         }
-        Log.info(LOGGER, "[ UP ] Resolver match result {0} = {1}", this.getClass().getName(),
+        Log.up(LOGGER, "Resolver match result {0} = {1}", this.getClass().getName(),
                 isMatch.toString());
         return isMatch;
     }

@@ -1,5 +1,6 @@
 package io.spring.up.epic.fn;
 
+import io.spring.up.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ class Pool {
                          final K key,
                          final Supplier<V> poolFn) {
         if (null == pool || null == key) {
-            LOGGER.warn("[ UP ] Pool.exec detect null args: pool = " + pool + ", key = " + key);
+            Log.upw(LOGGER, "Pool.exec detect null args: pool = {0}, key = {1}", pool, key);
             return null;
         }
         V reference = pool.get(key);

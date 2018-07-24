@@ -91,7 +91,7 @@ class Resolver {
                 final String value = Ut.invoke(rule, "value");
                 // 路径处理
                 final String path = resolvePath(folder, value);
-                Log.info(LOGGER, "[ UP ] Read rule file from {0}", path);
+                Log.up(LOGGER, "Read rule file from {0}", path);
                 if (Ut.isJArray(reference)) {
                     // 数组验证
                     Ruler.verify(path, (JsonArray) reference);

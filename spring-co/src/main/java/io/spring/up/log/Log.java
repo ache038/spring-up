@@ -39,6 +39,33 @@ public class Log {
         output(logger::isInfoEnabled, logger::info, message, args);
     }
 
+    public static void up(final Logger logger,
+                          final String message, final Object... args) {
+        info(logger, "[ UP ] " + message);
+    }
+
+
+    public static void updg(final Logger logger,
+                            final String message, final Object... args) {
+        info(logger, "[ UP DG ] " + message);
+    }
+
+    public static void uperr(final Logger logger,
+                             final String message, final Object... args) {
+        error(logger, "[ UP ] " + message);
+    }
+
+    public static void upw(final Logger logger,
+                           final String message, final Object... args) {
+        warn(logger, "[ UP ] " + message);
+    }
+
+    public static void up(final Logger logger,
+                          final String prefix, final String message,
+                          final Object... args) {
+        info(logger, "[ UP ] (" + prefix + ") " + message);
+    }
+
     private static void output(final Evaluater evaluater, final Consumer<String> fnLog,
                                final String message, final Object... params) {
         if (evaluater.test()) {
