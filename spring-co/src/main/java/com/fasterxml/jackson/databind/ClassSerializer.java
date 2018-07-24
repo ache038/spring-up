@@ -18,7 +18,5 @@ public class ClassSerializer extends JsonSerializer<Class<?>> { // NOPMD
                           final SerializerProvider provider)
             throws IOException {
         jgen.writeString(clazz.getName());
-        jgen.flush();
-        jgen.close();
     }
 }

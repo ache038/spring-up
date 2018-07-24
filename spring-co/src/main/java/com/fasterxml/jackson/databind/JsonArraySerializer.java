@@ -10,8 +10,7 @@ public class JsonArraySerializer extends JsonSerializer<JsonArray> {
     public void serialize(final JsonArray value,
                           final JsonGenerator jgen,
                           final SerializerProvider provider) throws IOException {
-        jgen.writeObject(value.getList());
-        jgen.flush();
-        jgen.close();
+        final JsonArray processed = null == value ? new JsonArray() : value;
+        jgen.writeObject(processed.getList());
     }
 }

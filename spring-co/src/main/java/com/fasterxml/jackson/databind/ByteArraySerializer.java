@@ -12,7 +12,5 @@ public class ByteArraySerializer extends JsonSerializer<byte[]> {
     public void serialize(final byte[] value, final JsonGenerator jgen,
                           final SerializerProvider provider) throws IOException {
         jgen.writeString(this.BASE64.encodeToString(value));
-        jgen.flush();
-        jgen.close();
     }
 }

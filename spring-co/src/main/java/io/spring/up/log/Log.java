@@ -60,9 +60,9 @@ public class Log {
         warn(logger, "[ UP ] " + message, args);
     }
 
-    public static void up(final Logger logger,
-                          final String prefix, final String message,
-                          final Object... args) {
+    public static void upfix(final Logger logger,
+                             final String prefix, final String message,
+                             final Object... args) {
         info(logger, "[ UP ] (" + prefix + ") " + message, args);
     }
 
