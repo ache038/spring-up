@@ -62,10 +62,9 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!-- epic -->
-        <hutool.version>4.1.2</hutool.version>
         <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.1.16</rxjava2.version>
+        <rxjava2.version>2.1.17</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
         <vertx.version>3.5.3</vertx.version>
         <jackson.version>2.9.6</jackson.version>
@@ -84,6 +83,7 @@
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
         <common.jexl.version>3.1</common.jexl.version>
+        <hazelcast.version>3.10.3</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.0</protobuf.version>
         <opencensus.version>0.15.0</opencensus.version>
@@ -133,6 +133,12 @@
     </repositories>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>${hazelcast.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cn.spring-up</groupId>
                 <artifactId>spring-co</artifactId>
@@ -222,11 +228,6 @@
                 <version>${grpc.version}</version>
             </dependency>
             <!-- Dependency -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-core</artifactId>

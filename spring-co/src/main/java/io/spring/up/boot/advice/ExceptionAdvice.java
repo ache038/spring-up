@@ -4,6 +4,7 @@ import io.spring.up.epic.Ut;
 import io.spring.up.exception.WebException;
 import io.spring.up.exception.web._404NoElementException;
 import io.spring.up.exception.web._409ConcurrencyException;
+import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class ExceptionAdvice implements ProblemHandling {
     public JsonObject handle(final WebException ex,
                              final HttpServletResponse response) {
         response.setStatus(ex.getStatus().value());
-        LOGGER.error("[ UP ] Error occurs: " + ex.getMessage());
+        Log.uperr(LOGGER, "Error occurs: {0}", ex.getMessage());
         return ex.toJson();
     }
 
