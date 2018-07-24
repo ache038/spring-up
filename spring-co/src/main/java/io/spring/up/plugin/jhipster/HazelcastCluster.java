@@ -60,7 +60,7 @@ public class HazelcastCluster {
         }
         final Config config = new Config();
         config.setInstanceName(name);
-        config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+        config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(true);
         if (null == this.registration) {
             Log.updg(LOGGER, "No discovery service is set up, Hazelcast cannot create a cluster.");
         } else {
