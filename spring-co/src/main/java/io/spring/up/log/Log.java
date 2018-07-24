@@ -47,7 +47,7 @@ public class Log {
 
     public static void updg(final Logger logger,
                             final String message, final Object... args) {
-        info(logger, "[ UP DG ] " + message, args);
+        debug(logger, "[ UP DG ] " + message, args);
     }
 
     public static void uperr(final Logger logger,
