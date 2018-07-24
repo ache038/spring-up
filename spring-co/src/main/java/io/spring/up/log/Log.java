@@ -41,29 +41,29 @@ public class Log {
 
     public static void up(final Logger logger,
                           final String message, final Object... args) {
-        info(logger, "[ UP ] " + message);
+        info(logger, "[ UP ] " + message, args);
     }
 
 
     public static void updg(final Logger logger,
                             final String message, final Object... args) {
-        info(logger, "[ UP DG ] " + message);
+        info(logger, "[ UP DG ] " + message, args);
     }
 
     public static void uperr(final Logger logger,
                              final String message, final Object... args) {
-        error(logger, "[ UP ] " + message);
+        error(logger, "[ UP ] " + message, args);
     }
 
     public static void upw(final Logger logger,
                            final String message, final Object... args) {
-        warn(logger, "[ UP ] " + message);
+        warn(logger, "[ UP ] " + message, args);
     }
 
     public static void up(final Logger logger,
                           final String prefix, final String message,
                           final Object... args) {
-        info(logger, "[ UP ] (" + prefix + ") " + message);
+        info(logger, "[ UP ] (" + prefix + ") " + message, args);
     }
 
     private static void output(final Evaluater evaluater, final Consumer<String> fnLog,

@@ -149,6 +149,11 @@
                 <artifactId>spring-cloud-commons</artifactId>
                 <version>${spring.cloud.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
             <dependency>
                 <groupId>org.apache.commons</groupId>

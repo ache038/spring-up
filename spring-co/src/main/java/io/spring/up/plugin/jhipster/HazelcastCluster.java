@@ -8,6 +8,7 @@ import com.hazelcast.core.HazelcastInstance;
 import io.spring.up.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.serviceregistry.Registration;
@@ -23,12 +24,23 @@ public class HazelcastCluster {
 
     private Registration registration;
 
-    private HazelcastCluster() {
+    private ServerProperties serverProperties;
 
+    private HazelcastCluster() {
     }
 
     public static HazelcastCluster create() {
         return new HazelcastCluster();
+    }
+
+    public HazelcastCluster on(final ServerProperties serverProperties) {
+        this.serverProperties = serverProperties;
+        return this;
+    }
+
+    public HazelcastCluster on(final Registration registration) {
+        this.registration = registration;
+        return this;
     }
 
     public HazelcastCluster on(final Environment env) {
@@ -38,11 +50,6 @@ public class HazelcastCluster {
 
     public HazelcastCluster on(final DiscoveryClient client) {
         this.discoveryClient = client;
-        return this;
-    }
-
-    public HazelcastCluster on(final Registration registration) {
-        this.registration = registration;
         return this;
     }
 
@@ -73,15 +80,22 @@ public class HazelcastCluster {
                 Log.updg(LOGGER, "Application is running with the \"dev\" profile, Hazelcast " +
                         "cluster will only work with localhost instances");
 
-                // System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
-
-            }
-            config.getNetworkConfig().setPort(5701);
-            config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
-            for (final ServiceInstance instance : this.discoveryClient.getInstances(serviceId)) {
-                final String clusterMember = instance.getHost() + ":5701";
-                Log.updg(LOGGER, "Adding Hazelcast (dev) cluster member " + clusterMember);
-                config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
+                System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
+                config.getNetworkConfig().setPort(this.serverProperties.getPort() + 5701);
+                config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
+                for (final ServiceInstance instance : this.discoveryClient.getInstances(serviceId)) {
+                    final String clusterMember = "127.0.0.1:" + (instance.getPort() + 5701);
+                    Log.updg(LOGGER, "Adding Hazelcast (dev) cluster member " + clusterMember);
+                    config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
+                }
+            } else { // Production configuration, one host per instance all using port 5701
+                config.getNetworkConfig().setPort(5701);
+                config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
+                for (final ServiceInstance instance : this.discoveryClient.getInstances(serviceId)) {
+                    final String clusterMember = instance.getHost() + ":5701";
+                    Log.updg(LOGGER, "Adding Hazelcast (prod) cluster member " + clusterMember);
+                    config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
+                }
             }
         }
         config.getMapConfigs().put("default", defaultConfig);
