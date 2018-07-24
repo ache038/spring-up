@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.spring.up.epic.Ut;
 import io.spring.up.exception.web._500InternalServerException;
@@ -62,16 +64,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 serializationView = container.getSerializationView();
                 filters = container.getFilters();
             }
-            Object dataValue = null;
-            if (value != null) {
-                final Class<?> dataClass = value.getClass();
-                if (Single.class == dataClass) {
-                    Log.up(LOGGER, "Async Data Flow triggered!");
-                    dataValue = ((Single<?>) value).blockingGet();
-                } else {
-                    dataValue = value;
-                }
-            }
+            final Object dataValue = this.syncData(value);
             if (type != null && dataValue != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
                 javaType = this.getJavaType(JsonObject.class, null);
             }
@@ -105,6 +98,27 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             ex.printStackTrace();
             throw new _500InternalServerException(this.getClass(), ex.getMessage());
         }
+    }
+
+    private Object syncData(final Object value) {
+        Object dataValue = null;
+        if (value != null) {
+            final Class<?> dataClass = value.getClass();
+            Log.up(LOGGER, "Detected async flow class = {0}!", dataClass);
+            if (Single.class == dataClass) {
+                Log.up(LOGGER, "Single = {0}!", value);
+                dataValue = ((Single<?>) value).blockingGet();
+            } else if (Observable.class == dataClass) {
+                Log.up(LOGGER, "Observable = {0}!", value);
+                dataValue = ((Observable<?>) value).blockingSingle();
+            } else if (Flowable.class == dataClass) {
+                Log.up(LOGGER, "Flowable = {0}!", value);
+                dataValue = ((Flowable<?>) value).blockingSingle();
+            } else {
+                dataValue = value;
+            }
+        }
+        return dataValue;
     }
 
     private JsonObject extractData(final Object value) {

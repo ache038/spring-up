@@ -22,10 +22,10 @@ public class DataResponser implements Responser {
         return Fn.getNull(new JsonObject().put("data", "null"), () -> {
             if (json instanceof JsonObject) {
                 final JsonObject response = (JsonObject) json;
-                return original.put("data", Ut.outKey(response));
+                return original.copy().put("data", Ut.outKey(response));
             } else {
                 final JsonArray response = Ut.outKey((JsonArray) json);
-                return original.put("list", response).put("count", response.size());
+                return original.copy().put("list", response).put("count", response.size());
             }
         }, original);
     }
