@@ -78,7 +78,7 @@
         <query.dsl.version>4.2.1</query.dsl.version>
 
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
-        <spring.cloud.version>2.0.0.M8</spring.cloud.version>
+        <spring.cloud.version>2.0.0.RELEASE</spring.cloud.version>
         <spring.cloud.eureka.version>2.0.0.M2</spring.cloud.eureka.version>
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
@@ -143,6 +143,11 @@
                 <groupId>cn.spring-up</groupId>
                 <artifactId>spring-co</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-commons</artifactId>
+                <version>${spring.cloud.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
             <dependency>
