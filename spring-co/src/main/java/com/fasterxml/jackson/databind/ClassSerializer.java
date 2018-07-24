@@ -1,7 +1,6 @@
 package com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
@@ -15,11 +14,11 @@ public class ClassSerializer extends JsonSerializer<Class<?>> { // NOPMD
      *
      */
     @Override
-    public void serialize(final Class<?> clazz, final JsonGenerator generator,
+    public void serialize(final Class<?> clazz, final JsonGenerator jgen,
                           final SerializerProvider provider)
-            throws IOException, JsonProcessingException {
-        generator.writeString(clazz.getName());
+            throws IOException {
+        jgen.writeString(clazz.getName());
+        jgen.flush();
+        jgen.close();
     }
-
-
 }

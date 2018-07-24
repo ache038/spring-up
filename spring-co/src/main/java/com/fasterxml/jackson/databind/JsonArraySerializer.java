@@ -11,5 +11,7 @@ public class JsonArraySerializer extends JsonSerializer<JsonArray> {
                           final JsonGenerator jgen,
                           final SerializerProvider provider) throws IOException {
         jgen.writeObject(value.getList());
+        jgen.flush();
+        jgen.close();
     }
 }

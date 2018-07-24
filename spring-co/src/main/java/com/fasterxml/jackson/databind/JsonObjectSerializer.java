@@ -11,5 +11,7 @@ public class JsonObjectSerializer extends JsonSerializer<JsonObject> {
                           final JsonGenerator jgen,
                           final SerializerProvider provider) throws IOException {
         jgen.writeObject(value.getMap());
+        jgen.flush();
+        jgen.close();
     }
 }
