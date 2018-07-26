@@ -44,6 +44,11 @@ public class Log {
         info(logger, "[ UP ] " + message, args);
     }
 
+    public static void upt(final Logger logger,
+                           final String message, final Object... args) {
+        info(logger, "[ UP TS ] " + message, args);
+    }
+
 
     public static void updg(final Logger logger,
                             final String message, final Object... args) {
