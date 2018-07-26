@@ -76,6 +76,8 @@
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
         <query.dsl.version>4.2.1</query.dsl.version>
+        <!-- zero framework -->
+        <zero.version>0.4.8.1-SNAPSHOT</zero.version>
 
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.0.RELEASE</spring.cloud.version>
@@ -133,6 +135,11 @@
     </repositories>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cn.vertxup</groupId>
+                <artifactId>vertx-co</artifactId>
+                <version>${zero.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
             <dependency>
                 <groupId>com.hazelcast</groupId>

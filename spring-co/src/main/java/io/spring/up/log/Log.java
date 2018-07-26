@@ -1,8 +1,8 @@
 package io.spring.up.log;
 
-import io.spring.up.epic.fn.Evaluater;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.AbstractException;
+import io.zero.epic.fn.Evaluater;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 
 import java.text.MessageFormat;

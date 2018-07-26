@@ -2,8 +2,8 @@ package io.spring.up.plugin;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.spring.up.config.InfixData;
-import io.spring.up.epic.Ut;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

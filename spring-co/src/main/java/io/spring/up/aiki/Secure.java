@@ -1,10 +1,10 @@
-package io.spring.up.epic;
+package io.spring.up.aiki;
 
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.web._401SegmentAuthorityException;
 import io.spring.up.exception.web._401UnsupportedAuthorityException;
 import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -44,7 +44,7 @@ class Secure {
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authentication.getAuthorities().forEach(item -> authorities.add((GrantedAuthority) item));
         String reference = null;
-        Fn.out(1 < authorities.size(), _401UnsupportedAuthorityException.class,
+        Ux.out(1 < authorities.size(), _401UnsupportedAuthorityException.class,
                 Secure.class, Secure.getCurrentUserLogin().get(), authorities.size());
         if (0 < authorities.size()) {
             final GrantedAuthority authority = authorities.get(0);

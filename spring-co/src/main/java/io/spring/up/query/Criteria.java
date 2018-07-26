@@ -1,10 +1,10 @@
 package io.spring.up.query;
 
-import io.spring.up.epic.fn.Fn;
+import io.spring.up.aiki.Ux;
 import io.spring.up.exception.web._400QueryOpUnsupportException;
 import io.spring.up.exception.web._500QueryMetaNullException;
-import io.spring.up.model.KeyPair;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.container.KeyPair;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Criteria implements Serializable {
     }
 
     private Criteria(final JsonObject data) {
-        Fn.out(null == data,
+        Ux.out(null == data,
                 _500QueryMetaNullException.class, this.getClass());
         for (final String field : data.fieldNames()) {
             // Add
@@ -50,7 +50,7 @@ public class Criteria implements Serializable {
             filterField = field;
             op = Inquiry.Op.EQ;
         }
-        Fn.out(!Inquiry.Op.VALUES.contains(op),
+        Ux.out(!Inquiry.Op.VALUES.contains(op),
                 _400QueryOpUnsupportException.class, this.getClass(), op);
         final KeyPair<String, Object> condition = KeyPair.create(op, value);
         final KeyPair<String, KeyPair<String, Object>> item = KeyPair.create(filterField, condition);

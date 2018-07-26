@@ -1,4 +1,4 @@
-package io.spring.up.epic;
+package io.spring.up.aiki;
 
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.jpa.impl.JPAQueryFactory;

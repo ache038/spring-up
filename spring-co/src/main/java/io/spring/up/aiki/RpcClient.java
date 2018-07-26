@@ -1,4 +1,4 @@
-package io.spring.up.epic;
+package io.spring.up.aiki;
 
 import io.grpc.Channel;
 import io.reactivex.Flowable;

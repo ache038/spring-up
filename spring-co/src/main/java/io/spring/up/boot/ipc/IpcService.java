@@ -1,8 +1,8 @@
 package io.spring.up.boot.ipc;
 
 import io.grpc.stub.StreamObserver;
+import io.spring.up.aiki.Ux;
 import io.spring.up.cv.Constants;
-import io.spring.up.epic.Ut;
 import io.spring.up.exception.WebException;
 import io.spring.up.exception.web._500CodeExecuteException;
 import io.spring.up.ipc.core.IpcSelector;
@@ -23,7 +23,7 @@ public class IpcService extends UnityServiceGrpc.UnityServiceImplBase {
     @Override
     public void unityCall(final IpcRequest request,
                           final StreamObserver<IpcResponse> responseObserver) {
-        final JsonObject envelop = Ut.Rpc.json(request);
+        final JsonObject envelop = Ux.Rpc.json(request);
         final String address = envelop.getString(Constants.ADDRESS);
         final JsonObject data = envelop.getJsonObject(Constants.DATA);
         final JsonObject result = new JsonObject();
@@ -38,7 +38,7 @@ public class IpcService extends UnityServiceGrpc.UnityServiceImplBase {
             final WebException error = new _500CodeExecuteException(this.getClass(), ex);
             result.mergeIn(error.toJson(), true);
         } finally {
-            responseObserver.onNext(Ut.Rpc.response(result));
+            responseObserver.onNext(Ux.Rpc.response(result));
             responseObserver.onCompleted();
         }
     }

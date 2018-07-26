@@ -1,4 +1,4 @@
-package io.spring.up.epic;
+package io.spring.up.aiki;
 
 import io.spring.up.ipc.model.IpcEnvelop;
 import io.spring.up.ipc.model.IpcRequest;
