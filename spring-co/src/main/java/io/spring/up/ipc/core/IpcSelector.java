@@ -1,11 +1,11 @@
 package io.spring.up.ipc.core;
 
 import io.reactivex.Observable;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.web._424InvokerMissingException;
 import io.spring.up.exception.web._424IpcSelectorInitException;
 import io.spring.up.ipc.core.invoker.Invoker;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.fn.Fn;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;

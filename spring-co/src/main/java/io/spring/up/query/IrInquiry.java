@@ -1,8 +1,8 @@
 package io.spring.up.query;
 
-import io.spring.up.epic.Ut;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class IrInquiry implements Inquiry {
     IrInquiry(final JsonObject input) {
 
         this.ensure(input);
-        
+
         this.init(input);
     }
 

@@ -2,12 +2,12 @@ package io.spring.up.boot;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import io.spring.up.aiki.Ux;
 import io.spring.up.annotations.Ipc;
-import io.spring.up.epic.Ut;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.ipc.core.IpcScanner;
 import io.spring.up.ipc.core.IpcSelector;
 import io.spring.up.log.Log;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -56,7 +56,7 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
                 .map(context::getBean)
                 .filter(Objects::nonNull)
                 .filter(reference -> this.isValid(reference.getClass()))
-                .reduce(new HashSet<>(), Ut::rdcHashSet)
+                .reduce(new HashSet<>(), Ux::reduceSet)
                 .blockingGet();
         if (!objects.isEmpty()) {
             // 线程变量控制，筛选合法的方法进行扫描

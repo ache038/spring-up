@@ -1,7 +1,7 @@
 package io.spring.up.plugin.jhipster;
 
-import io.spring.up.epic.Ut;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
 import org.springframework.http.*;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;

@@ -3,9 +3,9 @@ package io.spring.up.ipc.core;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.spring.up.annotations.Ipc;
-import io.spring.up.epic.Ut;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.log.Log;
+import io.zero.epic.Ut;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class IpcScanner extends Thread {
                                 .map(item -> Ut.invoke(item, "value"))
                                 .filter(Objects::nonNull)
                                 .map(item -> (String) item)
-                                .filter(item -> !Ut.isEmpty(item))
+                                .filter(item -> !Ut.isNil(item))
                                 .map(this::put)
                                 .map(item -> this.put(item, method))
                                 .blockingGet()

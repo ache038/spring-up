@@ -1,9 +1,9 @@
 package io.spring.up.config;
 
-import io.spring.up.epic.Ut;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +37,12 @@ public class ConfigNode implements Node<JsonObject> {
     private JsonObject readInternal(final String key) {
         final String filename = "internal/application-" + key + ".yml";
         return Fn.pool(Pool.INTERNAL, filename,
-                () -> Ut.ioJYaml(filename));
+                () -> Ut.ioYaml(filename));
     }
 
     private JsonObject readDirect(final String key) {
         final String filename = "application-" + key + ".yml";
         return Fn.pool(Pool.CONFIG, filename,
-                () -> Ut.ioJYaml(filename));
+                () -> Ut.ioYaml(filename));
     }
 }

@@ -1,0 +1,133 @@
+package io.spring.up.aiki;
+
+import io.grpc.Channel;
+import io.spring.up.cv.Constants;
+import io.spring.up.ipc.model.IpcRequest;
+import io.spring.up.ipc.model.IpcResponse;
+import io.spring.up.model.Envelop;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+
+import java.nio.charset.Charset;
+import java.util.Base64;
+import java.util.HashSet;
+import java.util.Optional;
+
+public class Ux {
+
+    public static <T> HashSet<T> reduceSet(final HashSet<T> collection, final T element) {
+        return Reduce.rdcHashSet(collection, element);
+    }
+
+    // ID处理方法
+    public static JsonObject inKey(final JsonObject input) {
+        return Json.convert(input, "key", "id");
+    }
+
+    public static JsonArray inKey(final JsonArray array) {
+        return Json.convert(array, "key", "id");
+    }
+
+    public static JsonObject outKey(final JsonObject input) {
+        return Json.convert(input, "id", "key");
+    }
+
+    public static JsonArray outKey(final JsonArray array) {
+        return Json.convert(array, "id", "key");
+    }
+
+
+    // Rpc专用方法
+    public static class Rpc {
+        public static IpcRequest request(final JsonObject data) {
+            return io.spring.up.aiki.Rpc.in(data);
+        }
+
+        public static IpcRequest request(final Envelop envelop) {
+            return io.spring.up.aiki.Rpc.in(envelop);
+        }
+
+        public static IpcResponse response(final JsonObject data) {
+            return io.spring.up.aiki.Rpc.out(data);
+        }
+
+        public static IpcResponse response(final Envelop envelop) {
+            return io.spring.up.aiki.Rpc.out(envelop);
+        }
+
+        public static Envelop envelop(final IpcRequest request) {
+            return io.spring.up.aiki.Rpc.inEnvelop(request);
+        }
+
+        public static Envelop envelop(final IpcResponse response) {
+            return io.spring.up.aiki.Rpc.outEnvelop(response);
+        }
+
+        public static JsonObject json(final IpcRequest request) {
+            return io.spring.up.aiki.Rpc.inJson(request);
+        }
+
+        public static JsonObject json(final IpcResponse response) {
+            return io.spring.up.aiki.Rpc.outJson(response);
+        }
+
+        public static RpcClient getClient(final Channel channel) {
+            return RpcClient.newInstance(channel);
+        }
+    }
+
+    public static <T> Query<T> dsl(final JsonObject input) {
+        return Query.create(input);
+    }
+
+    public static Optional<String> fetchLogin() {
+        return Secure.getCurrentUserLogin();
+    }
+
+    public static String fetchUserId() {
+        return Secure.getAuthorities().getString(Constants.USER_ID);
+    }
+
+    public static String fetchRoleId() {
+        return Secure.getAuthorities().getString(Constants.ROLE_ID);
+    }
+
+    public static String fetchRoleName() {
+        return Secure.getAuthorities().getString(Constants.ROLE_NAME);
+    }
+
+    public static String fetchTenantId() {
+        return Secure.getAuthorities().getString(Constants.TENANT_ID);
+    }
+
+    public static String toJsonAuthority(final String literal) {
+        final String content = new JsonObject(literal).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
+    }
+
+    public static String toJsonAuthority(final String userId, final String tenantId, final String roleName, final String roleId) {
+        final String content = new JsonObject()
+                .put(Constants.USER_ID, userId)
+                .put(Constants.ROLE_ID, roleId)
+                .put(Constants.TENANT_ID, tenantId)
+                .put(Constants.ROLE_NAME, roleName).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
+    }
+
+    public static String toJsonAuthority(final String userId, final String roleName, final String roleId) {
+        final String content = new JsonObject()
+                .put(Constants.USER_ID, userId)
+                .put(Constants.ROLE_ID, roleId)
+                .put(Constants.ROLE_NAME, roleName).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
+    }
+
+    public static boolean inAuthoried() {
+        return Secure.isAuthenticated();
+    }
+
+    public static boolean inRole(final String authority) {
+        return Secure.isInRole(authority);
+    }
+
+}

@@ -1,11 +1,11 @@
 package io.spring.up.core.rules;
 
-import io.spring.up.epic.Ut;
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.WebException;
 import io.spring.up.log.Log;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
+import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class Ruler {
     private static JsonObject getConfig(final String path) {
         final String filename = MessageFormat.format(ROOT, path);
         // 池化处理，防止多次加载配置文件
-        return Fn.pool(Pool.RULE_MAP, filename, () -> Ut.ioJYaml(filename));
+        return Fn.pool(Pool.RULE_MAP, filename, () -> Ut.ioYaml(filename));
     }
 
     public static void verify(final String file, final JsonObject data) {
@@ -74,7 +74,7 @@ public class Ruler {
         Log.debug(LOGGER, "[ UP DG ] Rule = {0}, Data = {1}",
                 config, data);
         // 必须参数的验证
-        Fn.safeNull(() -> Ut.itJObject(config, (field, configItem) ->
+        Fn.safeNull(() -> Ut.itJObject(config, (configItem, field) ->
                 Fn.safeNull(() -> Ut.itJArray((JsonArray) configItem,
                         (itemJson, index) -> verify(field, data.getValue(field), itemJson)), configItem)
         ), config);

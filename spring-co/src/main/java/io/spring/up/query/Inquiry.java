@@ -1,8 +1,8 @@
 package io.spring.up.query;
 
-import io.spring.up.epic.fn.Fn;
 import io.spring.up.exception.web._400QueryParamTypeException;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.fn.Fn;
 
 import java.util.HashSet;
 import java.util.Set;

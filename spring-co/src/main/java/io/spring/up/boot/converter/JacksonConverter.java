@@ -14,11 +14,11 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.spring.up.epic.Ut;
 import io.spring.up.exception.web._500InternalServerException;
 import io.spring.up.exception.web._500JsonResponseException;
 import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
@@ -38,7 +38,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
     private final PrettyPrinter ssePrettyPrinter;
 
     public JacksonConverter() {
-        super(Ut.getJacksonMapper());
+        super(Ut.jacksonMapper());
         final DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
         prettyPrinter.indentObjectsWith(new DefaultIndenter("  ", "\ndata:"));
         this.ssePrettyPrinter = prettyPrinter;
