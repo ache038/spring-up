@@ -12,7 +12,9 @@ public interface Constants {
 
     String ROLE_ID = "roleId";
 
+    String TENANT_ID = "tenantId";
+
     String ROLE_NAME = "roleName";
-    
+
     String USER_ID = "userId";
 }
