@@ -1,6 +1,7 @@
 package io.spring.up.ipc.core;
 
 import io.reactivex.Observable;
+import io.spring.up.aiki.Ux;
 import io.spring.up.exception.web._424InvokerMissingException;
 import io.spring.up.exception.web._424IpcSelectorInitException;
 import io.spring.up.ipc.core.invoker.Invoker;
@@ -27,11 +28,11 @@ public class IpcSelector {
     @SuppressWarnings("unchecked")
     private IpcSelector(final String address) {
         this.reference = IpcScanner.getProxies(address);
-        Fn.out(null == this.reference, _424IpcSelectorInitException.class, this.getClass(), address);
+        Ux.out(null == this.reference, _424IpcSelectorInitException.class, this.getClass(), address);
         final Method method = IpcScanner.getScanned(address);
-        Fn.out(null == method, _424IpcSelectorInitException.class, this.getClass(), address);
+        Ux.out(null == method, _424IpcSelectorInitException.class, this.getClass(), address);
         this.invoker = this.initInvoker(method);
-        Fn.out(null == this.invoker, _424InvokerMissingException.class, this.getClass(), method);
+        Ux.out(null == this.invoker, _424InvokerMissingException.class, this.getClass(), method);
         this.method = null == this.invoker ? null : method;
     }
 

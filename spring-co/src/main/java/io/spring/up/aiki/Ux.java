@@ -2,16 +2,19 @@ package io.spring.up.aiki;
 
 import io.grpc.Channel;
 import io.spring.up.cv.Constants;
+import io.spring.up.exception.WebException;
 import io.spring.up.ipc.model.IpcRequest;
 import io.spring.up.ipc.model.IpcResponse;
 import io.spring.up.model.Envelop;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
 
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class Ux {
 
@@ -36,6 +39,18 @@ public class Ux {
         return Json.convert(array, "id", "key");
     }
 
+    public static void out(final Supplier<Boolean> condFun,
+                           final Class<?> clazz, final Object... args) {
+        final Boolean checked = condFun.get();
+        out(checked, clazz, args);
+    }
+
+    public static void out(final Boolean condFun,
+                           final Class<?> clazz, final Object... args) {
+        if (condFun) {
+            throw (WebException) Ut.instance(clazz, args);
+        }
+    }
 
     // Rpc专用方法
     public static class Rpc {

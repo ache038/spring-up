@@ -1,5 +1,6 @@
 package io.spring.up.query;
 
+import io.spring.up.aiki.Ux;
 import io.spring.up.exception.web._400QueryParamTypeException;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.fn.Fn;
@@ -30,7 +31,7 @@ public interface Inquiry {
         Fn.safeNull(() -> {
             if (checkJson.containsKey(key)) {
                 final Object check = checkJson.getValue(key);
-                Fn.out(!predicate.test(check), _400QueryParamTypeException.class, target,
+                Ux.out(!predicate.test(check), _400QueryParamTypeException.class, target,
                         key, type, check.getClass());
             }
         }, target, checkJson);

@@ -1,5 +1,6 @@
 package io.spring.up.query;
 
+import io.spring.up.aiki.Ux;
 import io.spring.up.exception.web._400QueryPagerInvalidException;
 import io.spring.up.exception.web._500QueryMetaNullException;
 import io.vertx.core.json.JsonObject;
@@ -52,12 +53,12 @@ public class Pager implements Serializable {
 
     private void ensure(final JsonObject pageJson) {
         // Pager building checking
-        Fn.out(null == pageJson,
+        Ux.out(null == pageJson,
                 _500QueryMetaNullException.class, this.getClass());
         // Required
-        Fn.out(!pageJson.containsKey(PAGE),
+        Ux.out(!pageJson.containsKey(PAGE),
                 _400QueryPagerInvalidException.class, this.getClass(), PAGE);
-        Fn.out(!pageJson.containsKey(SIZE),
+        Ux.out(!pageJson.containsKey(SIZE),
                 _400QueryPagerInvalidException.class, this.getClass(), SIZE);
         // Types
         Inquiry.ensureType(pageJson, PAGE, Integer.class,
@@ -68,7 +69,7 @@ public class Pager implements Serializable {
 
     private void init(final Integer page, final Integer size) {
         // Page/Size
-        Fn.out(1 > page,
+        Ux.out(1 > page,
                 _400QueryPagerInvalidException.class, this.getClass(), page);
         this.page = page;
         // Default Size is 10

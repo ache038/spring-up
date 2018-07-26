@@ -44,7 +44,7 @@ class Secure {
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authentication.getAuthorities().forEach(item -> authorities.add((GrantedAuthority) item));
         String reference = null;
-        Fn.out(1 < authorities.size(), _401UnsupportedAuthorityException.class,
+        Ux.out(1 < authorities.size(), _401UnsupportedAuthorityException.class,
                 Secure.class, Secure.getCurrentUserLogin().get(), authorities.size());
         if (0 < authorities.size()) {
             final GrantedAuthority authority = authorities.get(0);
