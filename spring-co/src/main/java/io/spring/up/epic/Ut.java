@@ -468,13 +468,29 @@ public class Ut {
         return Secure.getAuthorities().getString(Constants.ROLE_NAME);
     }
 
+    public static String fetchTenantId() {
+        return Secure.getAuthorities().getString(Constants.TENANT_ID);
+    }
+
     public static String toJsonAuthority(final String literal) {
         final String content = new JsonObject(literal).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
+    public static String toJsonAuthority(final String userId, final String tenantId, final String roleName, final String roleId) {
+        final String content = new JsonObject()
+                .put(Constants.USER_ID, userId)
+                .put(Constants.ROLE_ID, roleId)
+                .put(Constants.TENANT_ID, tenantId)
+                .put(Constants.ROLE_NAME, roleName).encode();
+        return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
+    }
+
     public static String toJsonAuthority(final String userId, final String roleName, final String roleId) {
-        final String content = new JsonObject().put(Constants.USER_ID, userId).put(Constants.ROLE_ID, roleId).put(Constants.ROLE_NAME, roleName).encode();
+        final String content = new JsonObject()
+                .put(Constants.USER_ID, userId)
+                .put(Constants.ROLE_ID, roleId)
+                .put(Constants.ROLE_NAME, roleName).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
