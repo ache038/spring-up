@@ -54,6 +54,7 @@ public class IpcScanner extends Thread {
     public void run() {
         Log.info(LOGGER, "[ IPC ] Ipc Scanner started: {0} for {1}", this.getName(), this.target);
         Fn.safeNull(() -> Observable.fromArray(this.target.getDeclaredMethods())
+                        .filter(item -> item.isAnnotationPresent(Ipc.class))
                         .map(method -> Single.just(method)
                                 .map(item -> item.getAnnotation(Ipc.class))
                                 .map(item -> Ut.invoke(item, "value"))
