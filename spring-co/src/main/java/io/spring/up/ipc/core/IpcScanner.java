@@ -65,7 +65,7 @@ public class IpcScanner extends Thread {
                                 .map(item -> this.put(item, method))
                                 .blockingGet()
                         )
-                        .subscribe(item -> this.counter.countDown()),
+                        .subscribe(item -> this.counter.countDown()).dispose(),
                 this.target);
     }
 
