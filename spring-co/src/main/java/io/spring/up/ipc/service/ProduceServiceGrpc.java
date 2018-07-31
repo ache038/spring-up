@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.13.2)",
+    value = "by gRPC proto compiler (version 1.14.0)",
     comments = "Source: zero.def.service.proto")
 public final class ProduceServiceGrpc {
 
@@ -30,6 +30,11 @@ public final class ProduceServiceGrpc {
   private static volatile io.grpc.MethodDescriptor<io.spring.up.ipc.model.StreamClientRequest,
       io.spring.up.ipc.model.StreamClientResponse> getInputCallMethod;
 
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "InputCall",
+      requestType = io.spring.up.ipc.model.StreamClientRequest.class,
+      responseType = io.spring.up.ipc.model.StreamClientResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
   public static io.grpc.MethodDescriptor<io.spring.up.ipc.model.StreamClientRequest,
       io.spring.up.ipc.model.StreamClientResponse> getInputCallMethod() {
     io.grpc.MethodDescriptor<io.spring.up.ipc.model.StreamClientRequest, io.spring.up.ipc.model.StreamClientResponse> getInputCallMethod;

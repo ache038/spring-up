@@ -85,11 +85,11 @@
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
         <common.jexl.version>3.1</common.jexl.version>
-        <hazelcast.version>3.10.3</hazelcast.version>
+        <hazelcast.version>3.10.4</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.0</protobuf.version>
         <opencensus.version>0.15.0</opencensus.version>
-        <grpc.version>1.13.2</grpc.version>
+        <grpc.version>1.14.0</grpc.version>
         <grpc.starter.version>1.4.1.RELEASE</grpc.starter.version>
         <!-- Plugin -->
         <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>

@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.13.2)",
+    value = "by gRPC proto compiler (version 1.14.0)",
     comments = "Source: zero.def.service.proto")
 public final class UnityServiceGrpc {
 
@@ -30,6 +30,11 @@ public final class UnityServiceGrpc {
   private static volatile io.grpc.MethodDescriptor<io.spring.up.ipc.model.IpcRequest,
       io.spring.up.ipc.model.IpcResponse> getUnityCallMethod;
 
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UnityCall",
+      requestType = io.spring.up.ipc.model.IpcRequest.class,
+      responseType = io.spring.up.ipc.model.IpcResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<io.spring.up.ipc.model.IpcRequest,
       io.spring.up.ipc.model.IpcResponse> getUnityCallMethod() {
     io.grpc.MethodDescriptor<io.spring.up.ipc.model.IpcRequest, io.spring.up.ipc.model.IpcResponse> getUnityCallMethod;

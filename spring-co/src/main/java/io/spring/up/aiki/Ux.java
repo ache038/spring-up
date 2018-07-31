@@ -91,10 +91,6 @@ public class Ux {
         }
     }
 
-    public static <T> Query<T> dsl(final JsonObject input) {
-        return Query.create(input);
-    }
-
     public static Optional<String> fetchLogin() {
         return Secure.getCurrentUserLogin();
     }
