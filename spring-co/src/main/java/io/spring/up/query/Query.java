@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.spring.up.cv.Strings;
 import io.spring.up.log.Log;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
@@ -47,6 +48,16 @@ public class Query<T> {
         return this;
     }
 
+    public JsonObject searchFull() {
+        final List<T> entities = this.searchAdvanced();
+        final Long count = this.countAvanced();
+        final JsonObject result = new JsonObject();
+        final JsonArray listData = Ut.serializeJson(entities);
+        result.put("list", listData);
+        result.put("count", count);
+        return result;
+    }
+
     public List<T> searchAdvanced() {
         final Predicate predicate = this.getPredicate();
         JPAQuery<T> query = this.factory.selectFrom(this.entity);
@@ -60,6 +71,15 @@ public class Query<T> {
         // 分页处理
         query = this.getPager(query);
         return query.fetch();
+    }
+
+    public Long countAvanced() {
+        final Predicate predicate = this.getPredicate();
+        JPAQuery<T> query = this.factory.selectFrom(this.entity);
+        if (null != predicate) {
+            query = query.where(predicate);
+        }
+        return query.fetchCount();
     }
 
     public Query<T> debug() {
