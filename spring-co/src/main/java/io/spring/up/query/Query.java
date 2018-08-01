@@ -61,7 +61,7 @@ public class Query<T> {
     public List<T> searchAdvanced() {
         final Predicate predicate = this.getPredicate();
         JPAQuery<T> query = this.factory.selectFrom(this.entity);
-        Log.warn(LOGGER, "[ UP ] [QE] Criteria = {0}", null == predicate ? null : predicate.toString());
+        Log.info(LOGGER, "[ UP ] [QE] Criteria = {0}", null == predicate ? null : predicate.toString());
         // 条件处理
         if (null != predicate) {
             query = query.where(predicate);
@@ -100,7 +100,7 @@ public class Query<T> {
         JPAQuery<T> result = query;
         if (null != this.inquiry.getPager()) {
             final Pager pager = this.inquiry.getPager();
-            Log.debug(LOGGER, "[ UP ] [QE] Pagination: start = {0}, size = {1}", pager.getStart(), pager.getSize());
+            Log.info(LOGGER, "[ UP ] [QE] Pagination: start = {0}, size = {1}", pager.getStart(), pager.getSize());
             result = result.limit(pager.getSize()).offset(pager.getStart());
         }
         return result;
@@ -123,7 +123,7 @@ public class Query<T> {
                 final OrderSpecifier<?> specifier = this.getOrderSpecifier(path, isAsc);
                 if (null != specifier) {
                     specifiers.add(specifier);
-                    Log.debug(LOGGER, "[ UP ] [QE] Order By: field = {0}, asc = {1}", field, isAsc);
+                    Log.info(LOGGER, "[ UP ] [QE] Order By: field = {0}, asc = {1}", field, isAsc);
                 }
             }
             result = result.orderBy(specifiers.toArray(new OrderSpecifier[]{}));
@@ -187,7 +187,7 @@ public class Query<T> {
         BooleanExpression resultPredicate = null;
         // 连接符运算
         final Inquiry.Connector connector = this.getConnector(criteria);
-        Log.debug(LOGGER, "[ UP ] [QE] Connector = {0}", connector);
+        Log.info(LOGGER, "[ UP ] [QE] Connector = {0}", connector);
         for (final String field : criteria.fieldNames()) {
             final String op = this.getKey(field);
             final String targetField = field.split(",")[0];
@@ -207,7 +207,7 @@ public class Query<T> {
             }
             // 等于null则略过
             if (null == path) {
-                Log.debug(LOGGER, "[ UP ] [QE] Field = {0} does not exist in entity = {1}", targetField, this.entity);
+                Log.info(LOGGER, "[ UP ] [QE] Field = {0} does not exist in entity = {1}", targetField, this.entity);
             } else {
                 pre = this.getPredicate(path, op).apply(value);
                 // 递归组合查询条件
