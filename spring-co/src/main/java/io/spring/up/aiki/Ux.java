@@ -6,6 +6,7 @@ import io.spring.up.exception.WebException;
 import io.spring.up.ipc.model.IpcRequest;
 import io.spring.up.ipc.model.IpcResponse;
 import io.spring.up.model.Envelop;
+import io.spring.up.query.Query;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.Ut;
@@ -141,4 +142,7 @@ public class Ux {
         return Secure.isInRole(authority);
     }
 
+    public static <T> Query<T> dsl(final JsonObject params) {
+        return Query.<T>create(params);
+    }
 }
