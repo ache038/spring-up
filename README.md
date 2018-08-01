@@ -2,6 +2,12 @@
 
 该脚手架为vertx-zero的衍生脚手架，主要用于简化spring-cloud的开发用，关于该脚手架的目的参考：[0.初赦 - 序章](/0chu-she-xu-zhang.md)
 
+辅助工具相关参考：
+
+前端：http://www.vertxui.cn
+
+工具：http://www.vertxai.cn
+
 ## 1.开始
 
 引入该脚手架的步骤很简单，直接修改两处即可：
@@ -42,8 +48,4 @@ public class MbOrgApp {
 ## 2.文档
 
 该脚手架的使用文档参考如下：
-
-
-
-
 
