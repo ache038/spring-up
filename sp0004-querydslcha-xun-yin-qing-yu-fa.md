@@ -178,7 +178,7 @@ import javax.persistence.EntityManager;
 
 ## 4. 最终响应
 
-最终响应格式如：
+最终响应格式如，`list`为当前页记录数，`count`为当前查询条件下的总的记录数：
 
 ```json
 {
