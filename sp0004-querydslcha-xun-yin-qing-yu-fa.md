@@ -96,5 +96,17 @@ criteria的格式支持线性条件和树两种结构，并且使用了特殊语
 name = 'Lang' OR code = 'Test'
 ```
 
+查询的语句会在DEBUG日志中打印：
+
+```shell
+[ UP ] [QE] Criteria = department.code = Test || department.name = Lang
+```
+
+而2.1中的条件将生成：
+
+```sql
+enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR code = 'lang')
+```
+
 
 
