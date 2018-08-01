@@ -31,9 +31,23 @@
 
 criteria参数的查询条件为`key = value`中的格式，其中`key`中包含了基本操作符，字段名和操作符之间使用逗号分开，如果不写则视为`=`操作符，如果一个字段包含多个操作符则直接可写成`field,<`和`field,>`这种格式，作为Json的键值也不会有冲突。所有的操作符如下：
 
-|  |  |
-| :--- | :--- |
-|  |  |
+| 操作符 | 写法 | 含义 |
+| :--- | :--- | :--- |
+| &lt; | field,&lt; | 该字段小于某个值 |
+| &lt;= | field,&lt;= | 该字段小于等于某个值 |
+| &gt; | field,&gt; | 该字段大于某个值 |
+| &gt;= | field,&gt;= | 该字段大于等于某个值 |
+| = | field,= 或直接写field | 该字段等于某个值 |
+| &lt;&gt; | field,&lt;&gt; | 该字段不等于某个值 |
+| !n | field,!n | 该字段不为NULL |
+| n | field,n | 该字段为NULL |
+| t | field,t | 该字段为TRUE |
+| f | field,f | 该字段为FALSE |
+| i | field,i | 使用IN操作符，此时的右值必须是一个JsonArray的类型 |
+| !i | field,!i | 使用NOT IN操作符，此时的右值必须是一个JsonArray的类型 |
+| s | field,s | Start With 以某个值开始，等价：field%的LIKE |
+| e | field,e | End With 以某个值结束，等价：%field的LIKE |
+| c | field,c | Contains 包含某个值，模糊匹配：等价：%field%的LIKE |
 
 
 
