@@ -64,7 +64,7 @@
         <!-- epic -->
         <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.1.17</rxjava2.version>
+        <rxjava2.version>2.2.0</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
         <vertx.version>3.5.3</vertx.version>
         <jackson.version>2.9.6</jackson.version>
@@ -85,12 +85,12 @@
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
         <common.jexl.version>3.1</common.jexl.version>
-        <hazelcast.version>3.10.3</hazelcast.version>
+        <hazelcast.version>3.10.4</hazelcast.version>
         <!-- Rpc -->
-        <protobuf.version>3.6.0</protobuf.version>
+        <protobuf.version>3.6.1</protobuf.version>
         <opencensus.version>0.15.0</opencensus.version>
-        <grpc.version>1.13.2</grpc.version>
-        <grpc.starter.version>1.4.1.RELEASE</grpc.starter.version>
+        <grpc.version>1.14.0</grpc.version>
+        <grpc.starter.version>2.0.0.RELEASE</grpc.starter.version>
         <!-- Plugin -->
         <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>
         <maven.plugin.os>1.5.0.Final</maven.plugin.os>
