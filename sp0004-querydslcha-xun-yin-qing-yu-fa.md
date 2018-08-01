@@ -151,7 +151,50 @@ enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR cod
 
 ### 3.4.代码应用
 
+一旦生成好Query的实体后，代码部分可写成：
 
+```java
+// import部分
+import com.mbcloud.platform.domain.Department;
+import com.mbcloud.platform.domain.QDepartment;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.spring.up.aiki.Ux;
+import io.vertx.core.json.JsonObject;
+import javax.persistence.EntityManager;
+
+// 依赖注入
+    private final EntityManager manager;
+
+// 书写部分
+    @Override
+    @Async
+    public Future<JsonObject> search(final JsonObject params) {
+        return AsyncResult.forValue(Ux.<Department>dsl(params)
+            .on(new JPAQueryFactory(this.manager))
+            .on(QDepartment.department)
+            .searchFull());
+    }
+```
+
+## 4. 最终响应
+
+最终响应格式如：
+
+```json
+{
+    "list":[
+        {
+            "id" : "824c2c86-5a45-47a0-96e6-0986a5e1adc3",
+            "code" : "XQQYXI",
+            "name" : "边正争部",
+            "manager" : "梁超",
+            "active" : false
+        }
+        ...
+    ],
+    "count":33
+}
+```
 
 
 
