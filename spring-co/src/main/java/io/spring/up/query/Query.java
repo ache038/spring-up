@@ -121,8 +121,10 @@ public class Query<T> {
                 final Boolean isAsc = sorter.getBoolean(field);
                 final Object path = Ut.field(this.entity, field);
                 final OrderSpecifier<?> specifier = this.getOrderSpecifier(path, isAsc);
-                specifiers.add(specifier);
-                Log.debug(LOGGER, "[ UP ] [QE] Order By: field = {0}, asc = {1}", field, isAsc);
+                if (null != specifier) {
+                    specifiers.add(specifier);
+                    Log.debug(LOGGER, "[ UP ] [QE] Order By: field = {0}, asc = {1}", field, isAsc);
+                }
             }
             result = result.orderBy(specifiers.toArray(new OrderSpecifier[]{}));
         }
@@ -303,6 +305,10 @@ public class Query<T> {
         // StringPath类型的排序
         if (StringPath.class == clazz) {
             return asc ? (OrderSpecifier<I>) ((StringPath) path).asc() : (OrderSpecifier<I>) ((StringPath) path).desc();
+        } else if (DateTimePath.class == clazz) {
+            return asc ? (OrderSpecifier<I>) ((DateTimePath) path).asc() : (OrderSpecifier<I>) ((DateTimePath) path).desc();
+        } else if (BooleanPath.class == clazz) {
+            return asc ? (OrderSpecifier<I>) ((BooleanPath) path).asc() : (OrderSpecifier<I>) ((BooleanPath) path).desc();
         }
         return null;
     }
