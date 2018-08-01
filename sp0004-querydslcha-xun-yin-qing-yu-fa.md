@@ -135,5 +135,23 @@ enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR cod
     private String id;
 ```
 
+### 3.2.字段支持二级
+
+从上边的第二个表示式可以看到，条件语句为：
+
+```json
+"enterprise.id,=": "49640202-f767-4e46-b892-34b511d9f50f"
+```
+
+> 实际上上边的查询在查询Department的部门实体的信息，Department通过JPA关联到Enterprise，拥有enterprise的字段，而enterprise中的主键名为id，这种情况可直接将字段写成：`enterprise.id`的格式作为字段名，并且考虑大多数情况仅支持二级，如果涉及到三级以上的，您可以考虑下您的实际需求和设计了，一切以简化为主。
+
+### 3.3.关于QueryDSL
+
+关于query dsl的文档在这里就不重复了，主要是保证您的Maven插件已经生成了对应的实体，一般是`Q<Name>`的实体名称。
+
+### 3.4.代码应用
+
+
+
 
 
