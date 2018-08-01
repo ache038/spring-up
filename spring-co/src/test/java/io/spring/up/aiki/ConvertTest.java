@@ -12,4 +12,11 @@ public class ConvertTest {
         final JsonObject converted = Ux.outKey(data);
         System.out.println(converted.encodePrettily());
     }
+
+    @Test
+    public void testConvert1() {
+        final JsonObject data = Ut.ioJObject("test/in.json");
+        final JsonObject converted = Ux.inKey(data);
+        System.out.println(converted.encodePrettily());
+    }
 }

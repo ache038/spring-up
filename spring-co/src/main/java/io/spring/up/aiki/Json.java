@@ -30,8 +30,14 @@ class Json {
     static JsonArray convert(final JsonArray input, final String from, final String to) {
         return Fn.getJvm(new JsonArray(), () -> {
             final JsonArray converted = new JsonArray();
-            Ut.itJArray(input, JsonObject.class, (item, index) -> {
-                converted.add(convert(item, from, to));
+            input.stream().forEach(item -> {
+                if (null != item) {
+                    if (Ut.isJObject(item)) {
+                        converted.add(convert((JsonObject) item, from, to));
+                    } else {
+                        converted.add(item);
+                    }
+                }
             });
             return converted;
         }, input, from, to);
