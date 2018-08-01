@@ -16,7 +16,7 @@
     </dependency>
 ```
 
-> 如果需要借用vertx-zero中的Utility X工具包中的内容，可直接多引入一份
+> 如果需要借用vertx-zero中的Utility X工具包中的内容，可直接多引入一份（不用引入up的引擎包）
 
 ```xml
     <dependency>
