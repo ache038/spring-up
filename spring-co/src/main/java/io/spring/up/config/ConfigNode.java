@@ -1,10 +1,15 @@
 package io.spring.up.config;
 
-import io.spring.up.core.data.JsonObject;
-import io.spring.up.tool.Ut;
-import io.spring.up.tool.fn.Fn;
+import io.spring.up.log.Log;
+import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
+import io.zero.epic.fn.Fn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigNode implements Node<JsonObject> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigNode.class);
 
     private transient final String key;
 
@@ -25,18 +30,19 @@ public class ConfigNode implements Node<JsonObject> {
         if (null != original && !original.isEmpty()) {
             merged.mergeIn(original, true);
         }
+        Log.debug(LOGGER, "[ UP DG ] Config loading: {0} = {1}", this.key, merged);
         return merged;
     }
 
     private JsonObject readInternal(final String key) {
         final String filename = "internal/application-" + key + ".yml";
         return Fn.pool(Pool.INTERNAL, filename,
-                () -> Ut.ioJYaml(filename));
+                () -> Ut.ioYaml(filename));
     }
 
     private JsonObject readDirect(final String key) {
         final String filename = "application-" + key + ".yml";
         return Fn.pool(Pool.CONFIG, filename,
-                () -> Ut.ioJYaml(filename));
+                () -> Ut.ioYaml(filename));
     }
 }

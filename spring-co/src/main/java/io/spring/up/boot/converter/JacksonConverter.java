@@ -11,9 +11,16 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
-import io.spring.up.core.data.JsonObject;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.spring.up.exception.web._500InternalServerException;
 import io.spring.up.exception.web._500JsonResponseException;
-import io.spring.up.tool.Ut;
+import io.spring.up.log.Log;
+import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -26,11 +33,12 @@ import java.lang.reflect.Type;
 
 public class JacksonConverter extends MappingJackson2HttpMessageConverter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JacksonConverter.class);
     private static final MediaType TEXT_EVENT_STREAM = new MediaType("text", "event-stream");
     private final PrettyPrinter ssePrettyPrinter;
 
     public JacksonConverter() {
-        super(Ut.getJacksonMapper());
+        super(Ut.jacksonMapper());
         final DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
         prettyPrinter.indentObjectsWith(new DefaultIndenter("  ", "\ndata:"));
         this.ssePrettyPrinter = prettyPrinter;
@@ -56,9 +64,11 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 serializationView = container.getSerializationView();
                 filters = container.getFilters();
             }
-            if (type != null && value != null && TypeUtils.isAssignable(type, value.getClass())) {
-                javaType = this.getJavaType(type, null);
+            final Object dataValue = this.syncData(value);
+            if (type != null && dataValue != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
+                javaType = this.getJavaType(JsonObject.class, null);
             }
+
             ObjectWriter objectWriter;
             if (serializationView != null) {
                 objectWriter = this.objectMapper.writerWithView(serializationView);
@@ -76,13 +86,39 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 objectWriter = objectWriter.with(this.ssePrettyPrinter);
             }
             // 转换成Json data节点
-            objectWriter.writeValue(generator, this.extractData(value));
+            objectWriter.writeValue(generator, this.extractData(dataValue));
             this.writeSuffix(generator, object);
             generator.flush();
-
         } catch (final JsonProcessingException ex) {
+            // TODO: Debug调试用
+            ex.printStackTrace();
             throw new _500JsonResponseException(this.getClass(), ex);
+        } catch (final Throwable ex) {
+            // TODO: Debug调试用
+            ex.printStackTrace();
+            throw new _500InternalServerException(this.getClass(), ex.getMessage());
         }
+    }
+
+    private Object syncData(final Object value) {
+        Object dataValue = null;
+        if (value != null) {
+            final Class<?> dataClass = value.getClass();
+            Log.up(LOGGER, "Detected async flow class = {0}!", dataClass);
+            if (Single.class == dataClass) {
+                Log.up(LOGGER, "Single = {0}!", value);
+                dataValue = ((Single<?>) value).blockingGet();
+            } else if (Observable.class == dataClass) {
+                Log.up(LOGGER, "Observable = {0}!", value);
+                dataValue = ((Observable<?>) value).blockingSingle();
+            } else if (Flowable.class == dataClass) {
+                Log.up(LOGGER, "Flowable = {0}!", value);
+                dataValue = ((Flowable<?>) value).blockingSingle();
+            } else {
+                dataValue = value;
+            }
+        }
+        return dataValue;
     }
 
     private JsonObject extractData(final Object value) {
@@ -92,6 +128,8 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             final Responser responser = Ut.singleton(DataResponser.class);
             data = responser.process(data, value);
         }
+        Log.up(LOGGER, "Response Data: {0}", data.encode());
+        // 解决Spring中的兼容性问题
         return data;
     }
 }

@@ -1,6 +1,6 @@
 package io.spring.up.core.rules;
 
-import io.spring.up.core.data.JsonObject;
+import io.vertx.core.json.JsonObject;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -14,6 +14,8 @@ interface Pool {
         {
             this.put("required", new RequiredRule());
             this.put("length", new LengthRule());
+            this.put("forbidden", new ForbiddenRule());
+            this.put("array", new ArrayRule());
         }
     };
 }

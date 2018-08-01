@@ -1,10 +1,13 @@
 package io.spring.up.core.rules;
 
-import io.spring.up.core.data.JsonArray;
-import io.spring.up.core.data.JsonObject;
 import io.spring.up.exception.WebException;
-import io.spring.up.tool.Ut;
-import io.spring.up.tool.fn.Fn;
+import io.spring.up.log.Log;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.zero.epic.Ut;
+import io.zero.epic.fn.Fn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 
@@ -12,6 +15,8 @@ import java.text.MessageFormat;
  * 验证规则专用引擎，用于验证Api接口相关数据信息
  */
 public class Ruler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Ruler.class);
     /**
      * 专用于根路径查找
      */
@@ -26,7 +31,7 @@ public class Ruler {
     private static JsonObject getConfig(final String path) {
         final String filename = MessageFormat.format(ROOT, path);
         // 池化处理，防止多次加载配置文件
-        return Fn.pool(Pool.RULE_MAP, filename, () -> Ut.ioJYaml(filename));
+        return Fn.pool(Pool.RULE_MAP, filename, () -> Ut.ioYaml(filename));
     }
 
     public static void verify(final String file, final JsonObject data) {
@@ -45,10 +50,12 @@ public class Ruler {
 
     private static void verify(final String name, final Object value, final JsonObject rule) {
         final String type = Fn.getNull(() -> rule.getString("type"), rule);
-        final JsonObject config = Fn.getNull(() -> rule.getJsonObject("config"), rule);
+        final JsonObject config = Fn.getNull(new JsonObject(), () -> rule.getJsonObject("config"), rule);
         Fn.safeNull(() -> {
             final Rule ruler = Rule.get(type);
             Fn.safeNull(() -> {
+                Log.debug(LOGGER, "[ UP DG ] Field = {0}, Value = {1}, Config = {2}, Ruler = {3}",
+                        name, value, config, ruler.getClass().getName());
                 final WebException error = ruler.verify(name, value, config);
                 Fn.safeNull(() -> {
                     final String message = Fn.getNull(() -> rule.getString("message"), rule);
@@ -58,19 +65,18 @@ public class Ruler {
                     }
                 }, error);
             }, ruler);
-        }, type, config);
+        }, type);
     }
 
     private static void verify(
             final JsonObject config,
             final JsonObject data) {
-        Fn.safeNull(() -> Ut.itJObject(data, (field, value) -> {
-            // field配置和value的实际验证值
-            final Object ruleConfig = config.getValue(field);
-            if (null != ruleConfig && Ut.isJArray(ruleConfig)) {
-                // 验证当前字段
-                verify(field, value, (JsonArray) ruleConfig);
-            }
-        }), config);
+        Log.debug(LOGGER, "[ UP DG ] Rule = {0}, Data = {1}",
+                config, data);
+        // 必须参数的验证
+        Fn.safeNull(() -> Ut.itJObject(config, (configItem, field) ->
+                Fn.safeNull(() -> Ut.itJArray((JsonArray) configItem,
+                        (itemJson, index) -> verify(field, data.getValue(field), itemJson)), configItem)
+        ), config);
     }
 }
