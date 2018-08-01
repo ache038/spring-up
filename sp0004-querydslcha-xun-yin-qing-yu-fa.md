@@ -122,9 +122,17 @@ enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR cod
 该查询引擎依赖于JPA的基本操作，所以日志中打印的语法为JPA中的专用语法，上边的例子为什么是`enterprise_id`，由于在项目中有两个对象：`Department`和`Enterprise`，而它的JPA定义如下：
 
 ```java
+// Department.java
     @ManyToOne
     @JsonIgnoreProperties("departments")
     private Enterprise enterprise;
+
+// Enterprise.java
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @JsonProperty(value = "key")
+    private String id;
 ```
 
 
