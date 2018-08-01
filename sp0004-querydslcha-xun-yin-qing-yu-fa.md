@@ -108,5 +108,24 @@ name = 'Lang' OR code = 'Test'
 enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR code = 'lang')
 ```
 
+查询的日志如：
+
+```shell
+[ UP ] [QE] Criteria = (department.code = lang || department.name = Lang) \
+    && department.enterprise.id = 49640202-f767-4e46-b892-34b511d9f50f
+```
+
+## 3. 使用说明
+
+### 3.1.JPA依赖
+
+该查询引擎依赖于JPA的基本操作，所以日志中打印的语法为JPA中的专用语法，上边的例子为什么是`enterprise_id`，由于在项目中有两个对象：`Department`和`Enterprise`，而它的JPA定义如下：
+
+```java
+    @ManyToOne
+    @JsonIgnoreProperties("departments")
+    private Enterprise enterprise;
+```
+
 
 
