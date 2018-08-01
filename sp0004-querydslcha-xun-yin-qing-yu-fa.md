@@ -196,5 +196,7 @@ import javax.persistence.EntityManager;
 }
 ```
 
+* 这里调用的是`searchFull()`的API，也可以只调用`searchAdvanced()`或`countAdvanced()`单独读取`List<T>`或记录数。
+
 
 
