@@ -9,18 +9,21 @@ class Json {
 
     static JsonObject convert(final JsonObject input, final String from, final String to) {
         return Fn.getJvm(new JsonObject(), () -> {
-            if (input.containsKey(from)) {
-                final Object value = input.getValue(from);
+            final JsonObject processed = input.copy();
+            for (final String field : input.fieldNames()) {
+                final Object value = input.getValue(field);
                 if (Ut.isJObject(value)) {
-                    input.put(to, convert((JsonObject) value, from, to));
+                    processed.put(field, convert((JsonObject) value, from, to));
                 } else if (Ut.isJArray(value)) {
-                    input.put(to, convert((JsonArray) value, from, to));
+                    processed.put(field, convert((JsonArray) value, from, to));
                 } else {
-                    input.put(to, input.getValue(from));
+                    if (field.equals(from)) {
+                        processed.put(to, processed.getValue(from));
+                    }
                 }
-                input.remove(from);
+                processed.remove(from);
             }
-            return input;
+            return processed;
         }, input, from, to);
     }
 
