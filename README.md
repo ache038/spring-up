@@ -26,5 +26,24 @@
     </dependency>
 ```
 
+在spring-boot的启动脚本中加入
+
+```java
+@ComponentScan({"io.spring.up.boot"})
+public class MbOrgApp {
+    public static void main(final String args[]){
+        // ......
+    }
+}
+```
+
+> 本次发布的办法以JHipster为主，由于公司项目原因，所有测试在JHipster的微服务环境中。
+
+## 2.文档
+
+该脚手架的使用文档参考如下：
+
+
+
 
 
