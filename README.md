@@ -1,6 +1,30 @@
 # Spring Up Scaffold
 
-该脚手架为vertx-zero的衍生脚手架，主要用于简化spring-cloud的开发用。
+该脚手架为vertx-zero的衍生脚手架，主要用于简化spring-cloud的开发用，关于该脚手架的目的参考：[0.初赦 - 序章](/0chu-she-xu-zhang.md)
+
+## 1.开始
+
+引入该脚手架的步骤很简单，直接修改两处即可：
+
+在`pom.xml`中引入`spring-up`的工具包
+
+```xml
+    <dependency>
+        <groupId>cn.spring-up</groupId>
+        <artifactId>spring-co</artifactId>
+        <version>0.2</version>
+    </dependency>
+```
+
+> 如果需要借用vertx-zero中的Utility X工具包中的内容，可直接多引入一份
+
+```xml
+    <dependency>
+        <groupId>cn.vertxup</groupId>
+        <artifactId>vertx-co</artifactId>
+        <version>0.4.8</version>
+    </dependency>
+```
 
 
 
