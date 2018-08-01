@@ -4,9 +4,9 @@
 
 辅助工具相关参考：
 
-前端：http://www.vertxui.cn
+前端：[http://www.vertxui.cn](http://www.vertxui.cn)
 
-工具：http://www.vertxai.cn
+工具：[http://www.vertxai.cn](http://www.vertxai.cn)
 
 ## 1.开始
 
@@ -48,4 +48,12 @@ public class MbOrgApp {
 ## 2.文档
 
 该脚手架的使用文档参考如下：
+
+* [SP0001 - @JsonBody注解](/sp0001-jsonbodyzhu-jie.md)
+* [SP0002 - @JsonEntity注解](/sp0002-jsonentityzhu-jie.md)
+* [SP0003 - 服务通信之Rpc](/sp0003-fu-wu-tong-xin-zhi-rpc.md)
+* [SP0004 - QueryDSL查询引擎语法](/sp0004-querydslcha-xun-yin-qing-yu-fa.md)
+* [SP0005 - 基于Spring Security的身份信息读取](/sp0005-ji-yu-spring-security-de-shen-fen-xin-xi-du-qu.md)
+
+
 
