@@ -6,9 +6,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.zero.eon.Values;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 public class UpFlowableResponser implements Responser {
 
     public static Class<?> FLOWABLE_CLS = ReactiveTypeHandler.CollectedValuesList.class;
@@ -16,10 +13,8 @@ public class UpFlowableResponser implements Responser {
     @Override
     public JsonObject process(final Object pagination) {
         // 过滤null元素
-        ReactiveTypeHandler.CollectedValuesList valuesList =
+        final ReactiveTypeHandler.CollectedValuesList valuesList =
                 (ReactiveTypeHandler.CollectedValuesList) pagination;
-        valuesList = (ReactiveTypeHandler.CollectedValuesList)
-                valuesList.stream().filter(Objects::nonNull).collect(Collectors.toList());
         // 查看该集合的相关信息
         if (0 == valuesList.size()) {
             // 没有任何元素
