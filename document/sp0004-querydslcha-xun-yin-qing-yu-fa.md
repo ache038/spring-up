@@ -151,7 +151,7 @@ enterprise_id = '49640202-f767-4e46-b892-34b511d9f50f' AND (name = 'Lang' OR cod
 
 ### 3.4.代码应用
 
-一旦生成好Query的实体后，代码部分可写成：
+一旦生成好Query的实体后（这里Department对应生成的Q实体为：QDepartment），代码部分可写成：
 
 ```java
 // import部分
