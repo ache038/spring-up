@@ -2,6 +2,7 @@ package io.spring.up.aiki;
 
 import io.grpc.Channel;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.spring.up.cv.Constants;
@@ -118,6 +119,22 @@ public class RpcClient {
         final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
         return Single.fromFuture(response)
                 .map(Rpc::outEnvelop);
+    }
+
+    public Maybe<Envelop> rxMaybe(final String address, final Envelop data) {
+        final JsonObject result = this.wrapperData(address, data.json());
+        final IpcRequest request = Rpc.in(Envelop.success(result));
+        final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
+        return Maybe.fromFuture(response)
+                .map(Rpc::outEnvelop);
+    }
+
+
+    public Maybe<JsonObject> rxMaybe(final String address, final JsonObject data) {
+        final IpcRequest request = Rpc.in(this.wrapperData(address, data));
+        final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
+        return Maybe.fromFuture(response)
+                .map(Rpc::outJson);
     }
 
     public Flowable<JsonObject> rxFlow(final String address, final JsonObject data) {
