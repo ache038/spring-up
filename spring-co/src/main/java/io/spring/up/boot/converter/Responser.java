@@ -6,7 +6,6 @@ import io.spring.up.model.Pagination;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.Ut;
-import org.springframework.web.servlet.mvc.method.annotation.UpFlowableResponser;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -36,7 +35,7 @@ public interface Responser {
                     this.put(StringBuilder.class, Ut.singleton(StringResponser.class));
                     this.put(Pagination.class, Ut.singleton(PaginationResponser.class));
                     // Hooker
-                    this.put(UpFlowableResponser.FLOWABLE_CLS, Ut.singleton(UpFlowableResponser.class));
+                    // this.put(UpFlowableResponser.FLOWABLE_CLS, Ut.singleton(UpFlowableResponser.class));
                 }
             };
 
