@@ -2,14 +2,25 @@ package io.spring.up.model;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 
 public class Pagination implements Serializable {
 
+    @JsonProperty("count")
     private final Integer count;
 
+    @JsonProperty("list")
     private final JsonArray list;
+
+    public Integer getCount() {
+        return this.count;
+    }
+
+    public JsonArray getList() {
+        return this.list;
+    }
 
     private Pagination(final JsonObject data) {
         this.list = null == data.getValue("list") ? new JsonArray() : data.getJsonArray("list");

@@ -154,4 +154,14 @@ public class DataSerializerTc {
         Assert.assertEquals(expected, result);
         LOGGER.info("[ UP ] Successfully for Pagination class.");
     }
+
+    @Test
+    public void serializeJson() {
+        final Pagination pagination = Pagination.create(1, new JsonArray().add(
+                new JsonObject().put("id", "id-uuid")
+                        .put("name", "Lang")
+        ));
+        final JsonObject object = Ut.serializeJson(pagination);
+        LOGGER.info("[ UP ] Successfully for Pagination object with jackson directly");
+    }
 }

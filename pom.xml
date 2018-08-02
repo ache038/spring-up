@@ -80,8 +80,8 @@
         <zero.version>0.4.8.1-SNAPSHOT</zero.version>
 
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
-        <spring.cloud.version>2.0.0.RELEASE</spring.cloud.version>
-        <spring.cloud.eureka.version>2.0.0.M2</spring.cloud.eureka.version>
+        <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
+        <spring.cloud.eureka.version>2.0.1.RELEASE</spring.cloud.eureka.version>
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
         <common.jexl.version>3.1</common.jexl.version>
