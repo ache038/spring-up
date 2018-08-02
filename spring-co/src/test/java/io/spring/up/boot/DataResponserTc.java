@@ -15,7 +15,7 @@ public class DataResponserTc {
 
     private void execute(final Object value) {
         final JsonObject data = new JsonObject();
-        final JsonObject result = this.responser.process(data, value);
+        final JsonObject result = this.responser.process(value);
         System.out.println(result.encodePrettily());
     }
 
@@ -49,10 +49,19 @@ public class DataResponserTc {
 class User {
     private String name;
     private String email;
+    private String id;
 
     public User(final String name, final String email) {
         this.email = email;
         this.name = name;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getName() {

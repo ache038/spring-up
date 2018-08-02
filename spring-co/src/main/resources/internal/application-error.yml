@@ -17,6 +17,7 @@ error:
   E20016: "(424) Remote method on address {0} could not be found"
   E20017: "(424) The invoker for method \"{0}\" could not be found"
   E20018: "(500) Your code execute met error: {0}"
+  E20019: "(400) Could not get responser for type : {0}"
   # Query
   E60022: "(400) [QE] You''ll try to parse Ir key = \"{0}\", the expected type is {1} but now it''s {2}"
   E60023: "(400) [QE] You''ll try to build \"pager\", the key \"{0}\" of pager missing."

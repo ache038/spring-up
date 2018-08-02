@@ -18,10 +18,10 @@ class Json {
                     processed.put(field, convert((JsonArray) value, from, to));
                 } else {
                     if (field.equals(from)) {
-                        processed.put(to, processed.getValue(from));
+                        processed.put(to, processed.getValue(field));
+                        processed.remove(from);
                     }
                 }
-                processed.remove(from);
             }
             return processed;
         }, input, from, to);

@@ -11,9 +11,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.spring.up.exception.web._500InternalServerException;
 import io.spring.up.exception.web._500JsonResponseException;
 import io.spring.up.log.Log;
@@ -64,7 +61,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 serializationView = container.getSerializationView();
                 filters = container.getFilters();
             }
-            final Object dataValue = this.syncData(value);
+            final Object dataValue = value;
             if (type != null && dataValue != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
                 javaType = this.getJavaType(JsonObject.class, null);
             }
@@ -100,33 +97,12 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
         }
     }
 
-    private Object syncData(final Object value) {
-        Object dataValue = null;
-        if (value != null) {
-            final Class<?> dataClass = value.getClass();
-            Log.up(LOGGER, "Detected async flow class = {0}!", dataClass);
-            if (Single.class == dataClass) {
-                Log.up(LOGGER, "Single = {0}!", value);
-                dataValue = ((Single<?>) value).blockingGet();
-            } else if (Observable.class == dataClass) {
-                Log.up(LOGGER, "Observable = {0}!", value);
-                dataValue = ((Observable<?>) value).blockingSingle();
-            } else if (Flowable.class == dataClass) {
-                Log.up(LOGGER, "Flowable = {0}!", value);
-                dataValue = ((Flowable<?>) value).blockingSingle();
-            } else {
-                dataValue = value;
-            }
-        }
-        return dataValue;
-    }
-
     private JsonObject extractData(final Object value) {
         JsonObject data = new JsonObject();
         if (null != value) {
             // data节点
-            final Responser responser = Ut.singleton(DataResponser.class);
-            data = responser.process(data, value);
+            final Responser responser = Responser.get(value.getClass());
+            data = responser.process(value);
         }
         Log.up(LOGGER, "Response Data: {0}", data.encode());
         // 解决Spring中的兼容性问题
