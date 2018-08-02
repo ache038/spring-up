@@ -3,7 +3,9 @@ package io.spring.up.model;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-public class Pagination {
+import java.io.Serializable;
+
+public class Pagination implements Serializable {
 
     private final Integer count;
 

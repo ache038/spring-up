@@ -11,6 +11,7 @@ import io.spring.up.ipc.service.UnityServiceGrpc;
 import io.spring.up.model.Envelop;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.fn.Fn;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -94,6 +95,20 @@ public class RpcClient {
         final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
         return Single.fromFuture(response)
                 .map(Rpc::outJson);
+    }
+
+    public Future<JsonObject> asyncJson(final String address, final JsonObject data) {
+        final IpcRequest request = Rpc.in(this.wrapperData(address, data));
+        final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
+        final JsonObject result = Fn.getJvm(() -> Rpc.outJson(response.get()));
+        return AsyncResult.forValue(result);
+    }
+
+    public Future<JsonObject> asyncEnvelop(final String address, final Envelop data) {
+        final IpcRequest request = Rpc.in(this.wrapperData(address, data.json()));
+        final Future<IpcResponse> response = this.getFutureStub().unityCall(request);
+        final JsonObject result = Fn.getJvm(() -> Rpc.outJson(response.get()));
+        return AsyncResult.forValue(result);
     }
 
 
