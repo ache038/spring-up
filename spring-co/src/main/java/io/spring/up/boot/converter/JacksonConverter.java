@@ -88,15 +88,18 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
             // 日志监控
             final Boolean isClosed = generator.isClosed();
             if (isClosed) {
-                Log.warn(LOGGER, "Stream closed: {0}, Object: {1} Type: {2} Message: {3}.",
-                        isClosed, object.hashCode(), null != type ? type.hashCode() : null, outputMessage.hashCode());
+                Log.warn(LOGGER, "Message: {3}, isClosed: {0}, Object: {1} Type: {2}.",
+                        isClosed, String.valueOf(object.hashCode()),
+                        null != type ? String.valueOf(type.hashCode()) : null,
+                        String.valueOf(outputMessage.hashCode()));
             } else {
-                Log.updg(LOGGER, "Stream successfully: {0}, Object: {1} Type: {2} Message: {3}.",
-                        isClosed, object.hashCode(), null != type ? type.hashCode() : null, outputMessage.hashCode());
+                Log.updg(LOGGER, "Message: {3}, isClosed: {0}, Object: {1} Type: {2}.",
+                        isClosed, String.valueOf(object.hashCode()),
+                        null != type ? String.valueOf(type.hashCode()) : null,
+                        String.valueOf(outputMessage.hashCode()));
             }
             objectWriter.writeValue(generator, data);
             super.writeSuffix(generator, data);
-            generator.flush();
         } catch (final JsonProcessingException ex) {
             // TODO: Debug调试用
             ex.printStackTrace();
