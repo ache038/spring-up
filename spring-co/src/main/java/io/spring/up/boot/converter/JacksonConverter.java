@@ -50,7 +50,6 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
         final JsonEncoding encoding = this.getJsonEncoding(contentType);
         final JsonGenerator generator = this.objectMapper.getFactory().createGenerator(outputMessage.getBody(), encoding);
         try {
-            this.writePrefix(generator, object);
 
             Class<?> serializationView = null;
             FilterProvider filters = null;
@@ -98,6 +97,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                         null != type ? String.valueOf(type.hashCode()) : null,
                         String.valueOf(outputMessage.hashCode()));
             }
+            this.writePrefix(generator, data);
             objectWriter.writeValue(generator, data);
             super.writeSuffix(generator, data);
         } catch (final JsonProcessingException ex) {
