@@ -4,7 +4,6 @@ import io.grpc.stub.StreamObserver;
 import io.spring.up.aiki.Ux;
 import io.spring.up.cv.Constants;
 import io.spring.up.exception.WebException;
-import io.spring.up.exception.web._500CodeExecuteException;
 import io.spring.up.ipc.core.IpcSelector;
 import io.spring.up.ipc.model.IpcRequest;
 import io.spring.up.ipc.model.IpcResponse;
@@ -30,15 +29,15 @@ public class IpcService extends UnityServiceGrpc.UnityServiceImplBase {
         try {
             final JsonObject invoked = IpcSelector.init(address).invoke(data);
             result.mergeIn(invoked, true);
+            responseObserver.onNext(Ux.Rpc.response(result));
         } catch (final WebException ex) {
             Log.error(LOGGER, ex);
             result.mergeIn(ex.toJson(), true);
+            responseObserver.onNext(Ux.Rpc.response(result));
         } catch (final Throwable ex) {
             Log.jvm(LOGGER, ex);
-            final WebException error = new _500CodeExecuteException(this.getClass(), ex);
-            result.mergeIn(error.toJson(), true);
+            responseObserver.onError(ex);
         } finally {
-            responseObserver.onNext(Ux.Rpc.response(result));
             responseObserver.onCompleted();
         }
     }

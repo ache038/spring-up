@@ -42,6 +42,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
     }
 
     @Override
+
     public void writeInternal(final Object object, final Type type, final HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
 
@@ -83,8 +84,18 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 objectWriter = objectWriter.with(this.ssePrettyPrinter);
             }
             // 转换成Json data节点
-            objectWriter.writeValue(generator, this.extractData(dataValue));
-            this.writeSuffix(generator, object);
+            final JsonObject data = this.extractData(dataValue);
+            // 日志监控
+            final Boolean isClosed = generator.isClosed();
+            if (isClosed) {
+                Log.warn(LOGGER, "Stream closed: {0}, Object: {1} Type: {2} Message: {3}.",
+                        isClosed, object.hashCode(), null != type ? type.hashCode() : null, outputMessage.hashCode());
+            } else {
+                Log.updg(LOGGER, "Stream successfully: {0}, Object: {1} Type: {2} Message: {3}.",
+                        isClosed, object.hashCode(), null != type ? type.hashCode() : null, outputMessage.hashCode());
+            }
+            objectWriter.writeValue(generator, data);
+            super.writeSuffix(generator, data);
             generator.flush();
         } catch (final JsonProcessingException ex) {
             // TODO: Debug调试用
