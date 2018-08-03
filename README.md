@@ -4,9 +4,8 @@
 
 辅助工具相关参考：
 
-前端：[http://www.vertxui.cn](http://www.vertxui.cn)
-
-工具：[http://www.vertxai.cn](http://www.vertxai.cn)
+* 前端：[http://www.vertxui.cn](http://www.vertxui.cn)
+* 工具：[http://www.vertxai.cn](http://www.vertxai.cn)
 
 ## 1.开始
 
@@ -45,7 +44,7 @@ public class MbOrgApp {
 
 > 本次发布的办法以JHipster为主，由于公司项目原因，所有测试在JHipster的微服务环境中。
 
-## 2.文档
+## 2.开发文档
 
 该脚手架的使用文档参考如下：
 
@@ -57,6 +56,15 @@ public class MbOrgApp {
 * [SP0006 - 开发自定义异常](/document/sp0006-kai-fa-zi-ding-yi-yi-chang.md)
 * [SP0007 - 数据接口规范（同Zero）](/document/sp0007-shu-ju-jiekou-gui-fan-ff08-tong-zero.md)
 * [SP0008 - 基于JHipster的UAA的修正](/document/sp0008-ji-yu-jhipster-de-uaa-de-xiu-zheng.md)
+
+## 3.Spring Cloud笔记
+
+* [SC0001 - Netflix笔记：服务发现Eureka Client](/sc0001-netflixbi-ji.md)
+
+## 4.异常表
+
+* [E00001 - Unable to start ServletWebServerApplicationContext due to missing ServletWebServerFactory bean.](/3yi-chang-biao/e0001-unable-to-start-servletwebserverapplicationcontext-due-to-missing-servletwebserverfactory-bean.md)
+* [E00002 - Cannot execute request on any known server](/3yi-chang-biao/e00002-cannot-execute-request-on-any-known-server.md)
 
 
 
