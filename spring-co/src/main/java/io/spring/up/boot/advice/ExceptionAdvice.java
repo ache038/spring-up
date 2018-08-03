@@ -33,6 +33,8 @@ public class ExceptionAdvice implements ProblemHandling {
                              final HttpServletResponse response) {
         response.setStatus(ex.getStatus().value());
         Log.uperr(LOGGER, "Error occurs: {0}", ex.getMessage());
+        // TODO: DEBUG专用
+        ex.printStackTrace();
         return ex.toJson();
     }
 
@@ -43,6 +45,8 @@ public class ExceptionAdvice implements ProblemHandling {
     ) {
         final WebException error = new _404NoElementException(this.getClass(),
                 ex);
+        // TODO: DEBUG专用
+        ex.printStackTrace();
         final Problem problem = this.buildProblem(error);
         return this.create(error, problem, request);
     }
@@ -54,6 +58,8 @@ public class ExceptionAdvice implements ProblemHandling {
     ) {
         final WebException error = new _409ConcurrencyException(this.getClass(),
                 ex);
+        // TODO: DEBUG专用
+        ex.printStackTrace();
         final Problem problem = this.buildProblem(error);
         return this.create(error, problem, request);
     }
