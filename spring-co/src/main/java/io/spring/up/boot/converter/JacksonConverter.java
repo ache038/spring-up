@@ -49,6 +49,8 @@ public class JacksonConverter extends AbstractJackson2HttpMessageConverter {
         final MediaType contentType = outputMessage.getHeaders().getContentType();
         final JsonEncoding encoding = this.getJsonEncoding(contentType);
         final JsonGenerator generator = this.objectMapper.getFactory().createGenerator(outputMessage.getBody(), encoding);
+        // 要写异常，放到内部
+        ObjectWriter objectWriter;
         try {
 
             Class<?> serializationView = null;
@@ -66,7 +68,6 @@ public class JacksonConverter extends AbstractJackson2HttpMessageConverter {
                 javaType = this.getJavaType(JsonObject.class, null);
             }
 
-            ObjectWriter objectWriter;
             if (serializationView != null) {
                 objectWriter = this.objectMapper.writerWithView(serializationView);
             } else if (filters != null) {
@@ -100,9 +101,9 @@ public class JacksonConverter extends AbstractJackson2HttpMessageConverter {
 
             super.writeInternal(data, outputMessage);
 
-            this.writePrefix(generator, data);
-            objectWriter.writeValue(generator, data);
-            super.writeSuffix(generator, data);
+            // this.writePrefix(generator, data);
+            // objectWriter.writeValue(generator, data);
+            // super.writeSuffix(generator, data);
         } catch (final JsonProcessingException ex) {
             // TODO: Debug调试用
             ex.printStackTrace();
