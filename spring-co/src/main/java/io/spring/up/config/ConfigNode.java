@@ -30,7 +30,7 @@ public class ConfigNode implements Node<JsonObject> {
         if (null != original && !original.isEmpty()) {
             merged.mergeIn(original, true);
         }
-        Log.debug(LOGGER, "[ UP DG ] Config loading: {0} = {1}", this.key, merged);
+        Log.debug(LOGGER, "[ UP DG ] Config Loaded Successfully: {0} = {1}", this.key, merged.fieldNames());
         return merged;
     }
 
