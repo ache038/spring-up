@@ -21,14 +21,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.util.TypeUtils;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-public class JacksonConverter extends MappingJackson2HttpMessageConverter {
+public class JacksonConverter extends AbstractJackson2HttpMessageConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonConverter.class);
     private static final MediaType TEXT_EVENT_STREAM = new MediaType("text", "event-stream");
@@ -42,8 +43,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
     }
 
     @Override
-
-    public void writeInternal(final Object object, final Type type, final HttpOutputMessage outputMessage)
+    public void writeInternal(@NotNull final Object object, final Type type, final HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
 
         final MediaType contentType = outputMessage.getHeaders().getContentType();
@@ -62,7 +62,7 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                 filters = container.getFilters();
             }
             final Object dataValue = value;
-            if (type != null && dataValue != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
+            if (type != null && TypeUtils.isAssignable(type, dataValue.getClass())) {
                 javaType = this.getJavaType(JsonObject.class, null);
             }
 
@@ -97,6 +97,9 @@ public class JacksonConverter extends MappingJackson2HttpMessageConverter {
                         null != type ? String.valueOf(type.hashCode()) : null,
                         String.valueOf(outputMessage.hashCode()));
             }
+
+            super.writeInternal(data, outputMessage);
+
             this.writePrefix(generator, data);
             objectWriter.writeValue(generator, data);
             super.writeSuffix(generator, data);
