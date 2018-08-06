@@ -1,7 +1,12 @@
 package io.spring.up.plugin.jhipster;
 
+import io.spring.up.exception.web._401TokenInvalidException;
+import io.spring.up.exception.web._401VerifierWrongException;
+import io.spring.up.log.Log;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.Ut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
@@ -17,29 +22,42 @@ import java.util.Map;
  */
 public class AuthConnector {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthConnector.class);
+
     public static SignatureVerifier getVerifier(final RestTemplate client,
                                                 final String keyEndPoint)
             throws IllegalStateException {
         // 由于修改了UAA的数据接口规范，这里在认证时需要变更，从原始的value改变路径为：data -> value
         final HttpEntity<Void> request = new HttpEntity<Void>(new HttpHeaders());
-        final Object body = client
-                .exchange(keyEndPoint, HttpMethod.GET, request, Map.class).getBody().get("data");
-        final JsonObject data = Ut.serializeJson(body);
-        return new RsaVerifier(data.getString("value"));
+        try {
+            final Object body = client.exchange(keyEndPoint, HttpMethod.GET, request, Map.class).getBody().get("data");
+
+            final JsonObject data = Ut.serializeJson(body);
+            return new RsaVerifier(data.getString("value"));
+        } catch (final Throwable ex) {
+            Log.jvm(LOGGER, ex);
+            // 直接抛出自定义异常，用于处理无法拿到UAA的情况
+            throw new _401VerifierWrongException(AuthConnector.class, keyEndPoint, ex);
+        }
     }
 
     public static ResponseEntity<OAuth2AccessToken> getToken(final RestTemplate client,
                                                              final String tokenUri,
                                                              final HttpEntity<MultiValueMap<String, String>> entity) {
-        final ResponseEntity<String> responseContent = client.postForEntity(tokenUri, entity,
-                String.class);
-        if (responseContent.getStatusCode() == HttpStatus.OK) {
+        try {
+            final ResponseEntity<String> responseContent = client.postForEntity(tokenUri, entity,
+                    String.class);
+            if (responseContent.getStatusCode() == HttpStatus.OK) {
 
-            final JsonObject tokenContent = new JsonObject(responseContent.getBody());
-            final OAuth2AccessToken token = Ut.deserialize(tokenContent.getJsonObject("data"), OAuth2AccessToken.class);
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.badRequest().build();
+                final JsonObject tokenContent = new JsonObject(responseContent.getBody());
+                final OAuth2AccessToken token = Ut.deserialize(tokenContent.getJsonObject("data"), OAuth2AccessToken.class);
+                return ResponseEntity.ok(token);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (final Throwable ex) {
+            Log.jvm(LOGGER, ex);
+            throw new _401TokenInvalidException(AuthConnector.class, tokenUri, ex);
         }
     }
 }
