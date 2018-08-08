@@ -1,16 +1,11 @@
 package io.spring.up.query;
 
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.spring.up.cv.Strings;
 import io.spring.up.log.Log;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
-import io.vertx.up.atom.query.Pager;
 import io.vertx.zero.eon.Values;
 import io.zero.epic.Ut;
 import org.slf4j.Logger;
@@ -28,7 +23,7 @@ public class Query<T> {
 
     private final transient Inquiry inquiry;
     private transient EntityPathBase<T> entity;
-    private transient JPAQueryFactory factory;
+    private transient Fetcher<T> fetcher;
 
     private Query(final JsonObject input) {
         this.inquiry = Inquiry.create(input);
@@ -40,46 +35,26 @@ public class Query<T> {
 
     public Query<T> on(final EntityPathBase<T> entity) {
         this.entity = entity;
+        if (null != this.fetcher) {
+            this.fetcher.bind(entity);
+        }
         return this;
     }
 
-    public Query<T> on(final JPAQueryFactory factory) {
-        this.factory = factory;
+    public Query<T> on(final Fetcher<T> fetcher) {
+        this.fetcher = fetcher;
+        if (null != this.entity) {
+            this.fetcher.bind(this.entity);
+        }
+        if (null != this.inquiry) {
+            this.fetcher.bind(this.inquiry);
+        }
         return this;
     }
 
     public JsonObject searchFull() {
-        final List<T> entities = this.searchAdvanced();
-        final Long count = this.countAvanced();
-        final JsonObject result = new JsonObject();
-        final JsonArray listData = Ut.serializeJson(entities);
-        result.put("list", listData);
-        result.put("count", count);
-        return result;
-    }
-
-    public List<T> searchAdvanced() {
         final Predicate predicate = this.getPredicate();
-        JPAQuery<T> query = this.factory.selectFrom(this.entity);
-        Log.info(LOGGER, "[ UP ] [QE] Criteria = {0}", null == predicate ? null : predicate.toString());
-        // 条件处理
-        if (null != predicate) {
-            query = query.where(predicate);
-        }
-        // 排序处理
-        query = this.getOrderBy(query);
-        // 分页处理
-        query = this.getPager(query);
-        return query.fetch();
-    }
-
-    public Long countAvanced() {
-        final Predicate predicate = this.getPredicate();
-        JPAQuery<T> query = this.factory.selectFrom(this.entity);
-        if (null != predicate) {
-            query = query.where(predicate);
-        }
-        return query.fetchCount();
+        return this.fetcher.search(predicate);
     }
 
     public Query<T> debug() {
@@ -88,47 +63,6 @@ public class Query<T> {
         System.out.println(this.inquiry.getSorter());
         System.out.println(this.inquiry.getProjection());
         return this;
-    }
-
-    /**
-     * 分页
-     *
-     * @param query
-     * @return
-     */
-    private JPAQuery<T> getPager(final JPAQuery<T> query) {
-        JPAQuery<T> result = query;
-        if (null != this.inquiry.getPager()) {
-            final Pager pager = this.inquiry.getPager();
-            Log.info(LOGGER, "[ UP ] [QE] Pagination: start = {0}, size = {1}", pager.getStart(), pager.getSize());
-            result = result.limit(pager.getSize()).offset(pager.getStart());
-        }
-        return result;
-    }
-
-    /**
-     * 排序
-     *
-     * @param query
-     * @return
-     */
-    private JPAQuery<T> getOrderBy(final JPAQuery<T> query) {
-        JPAQuery<T> result = query;
-        if (null != this.inquiry.getSorter()) {
-            final JsonObject sorter = this.inquiry.getSorter().toJson();
-            final List<OrderSpecifier<?>> specifiers = new ArrayList<>();
-            for (final String field : sorter.fieldNames()) {
-                final Boolean isAsc = sorter.getBoolean(field);
-                final Object path = Ut.field(this.entity, field);
-                final OrderSpecifier<?> specifier = this.getOrderSpecifier(path, isAsc);
-                if (null != specifier) {
-                    specifiers.add(specifier);
-                    Log.info(LOGGER, "[ UP ] [QE] Order By: field = {0}, asc = {1}", field, isAsc);
-                }
-            }
-            result = result.orderBy(specifiers.toArray(new OrderSpecifier[]{}));
-        }
-        return result;
     }
 
     /**
@@ -297,20 +231,6 @@ public class Query<T> {
             }
             return predicate;
         };
-    }
-
-    @SuppressWarnings("unchecked")
-    private <I extends Comparable> OrderSpecifier<I> getOrderSpecifier(final Object path, final boolean asc) {
-        final Class<?> clazz = path.getClass();
-        // StringPath类型的排序
-        if (StringPath.class == clazz) {
-            return asc ? (OrderSpecifier<I>) ((StringPath) path).asc() : (OrderSpecifier<I>) ((StringPath) path).desc();
-        } else if (DateTimePath.class == clazz) {
-            return asc ? (OrderSpecifier<I>) ((DateTimePath) path).asc() : (OrderSpecifier<I>) ((DateTimePath) path).desc();
-        } else if (BooleanPath.class == clazz) {
-            return asc ? (OrderSpecifier<I>) ((BooleanPath) path).asc() : (OrderSpecifier<I>) ((BooleanPath) path).desc();
-        }
-        return null;
     }
 
     private BooleanExpression dispatchByOp(final StringPath path, final String op, final Object value) {

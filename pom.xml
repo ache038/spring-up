@@ -217,6 +217,13 @@
                 <artifactId>querydsl-jpa</artifactId>
                 <version>${query.dsl.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-mongodb -->
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-mongodb</artifactId>
+                <version>${query.dsl.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java-util</artifactId>
