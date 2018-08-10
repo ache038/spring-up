@@ -26,6 +26,7 @@ public abstract class WebException extends AbstractException {
     public WebException(final Class<?> clazz, final Object... args) {
         super(Strings.EMPTY);
         this.message = Errors.formatWeb(clazz, this.getCode(), args);
+        this.info = Errors.formatReadible(clazz, this.getCode());
         this.status = HttpStatus.BAD_REQUEST;
     }
 

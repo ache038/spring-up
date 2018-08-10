@@ -32,7 +32,7 @@ public class ExceptionAdvice implements ProblemHandling {
     public JsonObject handle(final WebException ex,
                              final HttpServletResponse response) {
         response.setStatus(ex.getStatus().value());
-        Log.uperr(LOGGER, "Error occurs: {0}", ex.getMessage());
+        Log.uperr(LOGGER, "自定义Web异常: {0}", ex.getMessage());
         // TODO: DEBUG专用
         ex.printStackTrace();
         return ex.toJson();
@@ -47,6 +47,7 @@ public class ExceptionAdvice implements ProblemHandling {
                 ex);
         // TODO: DEBUG专用
         ex.printStackTrace();
+        Log.uperr(LOGGER, "Not Found的404异常: {0}", ex.getMessage());
         final Problem problem = this.buildProblem(error);
         return this.create(error, problem, request);
     }
@@ -60,6 +61,7 @@ public class ExceptionAdvice implements ProblemHandling {
                 ex);
         // TODO: DEBUG专用
         ex.printStackTrace();
+        Log.uperr(LOGGER, "409冲突异常处理: {0}", ex.getMessage());
         final Problem problem = this.buildProblem(error);
         return this.create(error, problem, request);
     }
