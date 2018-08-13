@@ -36,7 +36,7 @@ public class Ruler {
      * @return
      */
     private static JsonObject getConfig(final String path) {
-        final String filename = MessageFormat.format(ROOT, path);
+        final String filename = MessageFormat.format(ROOT, path).replaceAll("/+", "/");
         // 池化处理，防止多次加载配置文件
         return Fn.pool(Pool.RULE_MAP, filename, () -> Fn.getJvm(() -> {
             Log.debug(LOGGER, "[ UP ] (IO) filename = {0}, path = {1}", filename, path);

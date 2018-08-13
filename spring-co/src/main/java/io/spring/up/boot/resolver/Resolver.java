@@ -46,7 +46,7 @@ class Resolver {
 
     static String resolvePath(final String folder, final String value) {
         final String path = folder + Strings.SLASH + value;
-        return path.replaceAll("//", "/");
+        return path.replaceAll("/+", "/");
     }
 
     static Object resolveJson(final Class<?> clazz, final String body) {
