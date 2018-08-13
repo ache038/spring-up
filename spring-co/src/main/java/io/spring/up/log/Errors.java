@@ -1,14 +1,18 @@
 package io.spring.up.log;
 
 import io.spring.up.config.Node;
+import io.spring.up.cv.Strings;
 import io.spring.up.exception.internal.ErrorMissingException;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.Ut;
-import io.zero.epic.fn.Fn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 
 public class Errors {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Errors.class);
 
     public static String formatUp(final Class<?> clazz,
                                   final int code,
@@ -39,7 +43,8 @@ public class Errors {
                                     final String nodeKey,
                                     final String tpl,
                                     final Object... args) {
-        return Fn.getJvm(() -> {
+        String message = Strings.EMPTY;
+        try {
             final String key = ("E" + Math.abs(code)).intern();
             // 这里会影响到文件名
             JsonObject errors = Node.infix("error");
@@ -51,10 +56,14 @@ public class Errors {
             if (errors.containsKey(key)) {
                 final String pattern = errors.getString(key);
                 final String error = MessageFormat.format(pattern, args);
-                return Ut.isNil(tpl) ? error : MessageFormat.format(tpl, String.valueOf(code), error);
+                message = Ut.isNil(tpl) ? error : MessageFormat.format(tpl, String.valueOf(code), error);
             } else {
                 throw new ErrorMissingException(code);
             }
-        }, clazz);
+        } catch (final Exception ex) {
+            Log.jvm(LOGGER, ex);
+            // 不打印堆栈
+        }
+        return message;
     }
 }
