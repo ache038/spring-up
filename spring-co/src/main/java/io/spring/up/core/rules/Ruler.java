@@ -1,5 +1,8 @@
 package io.spring.up.core.rules;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.spring.up.exception.WebException;
 import io.spring.up.log.Log;
 import io.vertx.core.json.JsonArray;
@@ -8,7 +11,9 @@ import io.zero.epic.Ut;
 import io.zero.epic.fn.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.InputStream;
 import java.text.MessageFormat;
 
 /**
@@ -22,6 +27,8 @@ public class Ruler {
      */
     private static final String ROOT = "rules/{0}.yml";
 
+    private static final ObjectMapper YAML = new YAMLMapper();
+
     /**
      * 生成最终访问的yml文件
      *
@@ -31,7 +38,13 @@ public class Ruler {
     private static JsonObject getConfig(final String path) {
         final String filename = MessageFormat.format(ROOT, path);
         // 池化处理，防止多次加载配置文件
-        return Fn.pool(Pool.RULE_MAP, filename, () -> Ut.ioYaml(filename));
+        return Fn.pool(Pool.RULE_MAP, filename, () -> Fn.getJvm(() -> {
+            // 从Spring的环境中读取配置，和zero不造成冲突
+            final ClassPathResource resource = new ClassPathResource(filename);
+            final InputStream in = resource.getInputStream();
+            final JsonNode json = YAML.readTree(in);
+            return new JsonObject(json.toString());
+        }));
     }
 
     public static void verify(final String file, final JsonObject data) {
