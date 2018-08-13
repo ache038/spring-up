@@ -36,8 +36,6 @@ class Resolver {
         if (jsonBody == null) {
             try {
                 jsonBody = IOUtils.toString(servletRequest.getInputStream(), Encodings.CHARSET);
-                final JsonObject input = new JsonObject(jsonBody);
-
                 servletRequest.setAttribute(JSON_REQUEST_BODY, jsonBody);
             } catch (final IOException e) {
                 throw new _500WebRequestIoException(methodParameter.getMethod().getDeclaringClass(), e);
