@@ -25,7 +25,7 @@ public class Ruler {
     /**
      * 专用于根路径查找
      */
-    private static final String ROOT = "rules{0}.yml";
+    private static final String ROOT = "rules/{0}.yml";
 
     private static final ObjectMapper YAML = new YAMLMapper();
 
@@ -39,7 +39,7 @@ public class Ruler {
         final String filename = MessageFormat.format(ROOT, path);
         // 池化处理，防止多次加载配置文件
         return Fn.pool(Pool.RULE_MAP, filename, () -> Fn.getJvm(() -> {
-            // 从Spring的环境中读取配置，和zero不造成冲突
+            Log.debug(LOGGER, "[ UP ] (IO) filename = {0}, path = {1}", filename, path);
             final ClassPathResource resource = new ClassPathResource(filename);
             final InputStream in = resource.getInputStream();
             final JsonNode json = YAML.readTree(in);
