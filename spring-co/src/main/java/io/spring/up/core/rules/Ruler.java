@@ -25,7 +25,7 @@ public class Ruler {
     /**
      * 专用于根路径查找
      */
-    private static final String ROOT = "rules/{0}.yml";
+    private static final String ROOT = "rules{0}.yml";
 
     private static final ObjectMapper YAML = new YAMLMapper();
 
