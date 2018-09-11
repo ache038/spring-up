@@ -43,7 +43,7 @@ public class Ruler {
             final ClassPathResource resource = new ClassPathResource(filename);
             final InputStream in = resource.getInputStream();
             final JsonNode json = YAML.readTree(in);
-            return new JsonObject(json.toString());
+            return null == json ? new JsonObject() : new JsonObject(json.toString());
         }));
     }
 
