@@ -58,10 +58,11 @@ public class Query<T> {
     }
 
     public Query<T> debug() {
-        System.out.println(this.inquiry.getCriteria());
-        System.out.println(this.inquiry.getPager());
-        System.out.println(this.inquiry.getSorter());
+        System.out.println(this.inquiry.getCriteria().toJson());
+        System.out.println(this.inquiry.getPager().toJson());
+        System.out.println(this.inquiry.getSorter().toJson());
         System.out.println(this.inquiry.getProjection());
+        System.out.println(this.getPredicate());
         return this;
     }
 
@@ -218,6 +219,7 @@ public class Query<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Function<Object, BooleanExpression> getPredicate(final Object path, final String op) {
         return value -> {
             BooleanExpression predicate = null;
@@ -228,6 +230,12 @@ public class Query<T> {
             } else if (BooleanPath.class == clazz) {
                 // BooleanPath类型
                 predicate = ((BooleanPath) path).eq(Boolean.valueOf(value.toString()));
+            } else if (NumberPath.class == clazz) {
+                // NumberPath类型
+                predicate = ((NumberPath) path).eq(Integer.parseInt(value.toString()));
+            } else if (EnumPath.class == clazz) {
+                // EnumPath类型
+                predicate = ((EnumPath) path).eq(value);
             }
             return predicate;
         };

@@ -36,7 +36,7 @@ public class MongoFetcher<T> implements Fetcher<T> {
     }
 
     private List<T> searchAdvanced(final Predicate predicate) {
-        MorphiaQuery<T> query = new MorphiaQuery<T>(this.morphia, this.datastore, this.entity);
+        MorphiaQuery<T> query = new MorphiaQuery<>(this.morphia, this.datastore, this.entity);
         Log.info(LOGGER, "[ UP ] [QE] Criteria = {0}", null == predicate ? null : predicate.toString());
         // 条件处理
         if (null != predicate) {
