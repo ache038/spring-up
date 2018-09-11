@@ -10,6 +10,10 @@ import io.spring.up.query.Query;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.zero.epic.Ut;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.converters.Converters;
+import org.mongodb.morphia.converters.JsonArrayConverter;
+import org.mongodb.morphia.converters.JsonObjectConverter;
 
 import java.nio.charset.Charset;
 import java.util.Base64;
@@ -144,5 +148,15 @@ public class Ux {
 
     public static <T> Query<T> dsl(final JsonObject params) {
         return Query.<T>create(params);
+    }
+
+    public static Morphia morphia() {
+        final Morphia morphia = new Morphia();
+        final Converters converters = morphia.getMapper().getConverters();
+        if (null != converters) {
+            converters.addConverter(new JsonObjectConverter());
+            converters.addConverter(new JsonArrayConverter());
+        }
+        return morphia;
     }
 }
