@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.core.types.dsl.StringPath;
 import io.spring.up.log.Log;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 import io.zero.epic.Ut;
@@ -14,9 +15,21 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FetcherUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FetcherUtil.class);
+
+    public static <T> JsonObject searchData(final Supplier<List<T>> queryFun,
+                                            final Supplier<Long> countFun) {
+        final List<T> entities = queryFun.get();
+        final Long count = countFun.get();
+        final JsonObject result = new JsonObject();
+        final JsonArray listData = Ut.serializeJson(entities);
+        result.put("list", listData);
+        result.put("count", count);
+        return result;
+    }
 
     public static <T> OrderSpecifier[] getOrderSpecifier(final Inquiry inquiry, final EntityPathBase<T> entity) {
         OrderSpecifier[] orderSpecifiers = new OrderSpecifier[0];

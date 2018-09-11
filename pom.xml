@@ -64,7 +64,7 @@
         <!-- epic -->
         <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.2.0</rxjava2.version>
+        <rxjava2.version>2.2.2</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
         <vertx.version>3.5.3</vertx.version>
         <jackson.version>2.9.6</jackson.version>
@@ -76,6 +76,7 @@
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
         <query.dsl.version>4.2.1</query.dsl.version>
+        <mongodb.morphia.version>1.3.2</mongodb.morphia.version>
         <!-- zero framework -->
         <zero.version>0.4.8.1-SNAPSHOT</zero.version>
 
@@ -88,8 +89,8 @@
         <hazelcast.version>3.10.4</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.1</protobuf.version>
-        <opencensus.version>0.15.0</opencensus.version>
-        <grpc.version>1.14.0</grpc.version>
+        <opencensus.version>0.15.1</opencensus.version>
+        <grpc.version>1.15.0</grpc.version>
         <grpc.starter.version>2.0.1.RELEASE</grpc.starter.version>
         <!-- Plugin -->
         <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>
@@ -160,6 +161,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>${spring.boot.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mongodb.morphia/morphia -->
+            <dependency>
+                <groupId>org.mongodb.morphia</groupId>
+                <artifactId>morphia</artifactId>
+                <version>${mongodb.morphia.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
             <dependency>

@@ -7,11 +7,9 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.spring.up.log.Log;
 import io.spring.up.query.Fetcher;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.up.atom.query.Pager;
-import io.zero.epic.Ut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,13 +28,9 @@ public class JpaFetcher<T> implements Fetcher<T> {
 
     @Override
     public JsonObject search(final Predicate predicate) {
-        final List<T> entities = this.searchAdvanced(predicate);
-        final Long count = this.countAvanced(predicate);
-        final JsonObject result = new JsonObject();
-        final JsonArray listData = Ut.serializeJson(entities);
-        result.put("list", listData);
-        result.put("count", count);
-        return result;
+        return FetcherUtil.searchData(
+                () -> this.searchAdvanced(predicate),
+                () -> this.countAvanced(predicate));
     }
 
     @Override
