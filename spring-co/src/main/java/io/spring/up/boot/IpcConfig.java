@@ -63,7 +63,7 @@ public class IpcConfig implements ApplicationListener<ContextRefreshedEvent> {
             Log.info(LOGGER, "[ IPC ] Selected around {0} classes that will be scanned.", String.valueOf(objects.size()));
             final CountDownLatch counter = new CountDownLatch(objects.size());
             Observable.fromIterable(objects)
-                    .map(reference -> Schedulers.newThread().scheduleDirect(new IpcScanner(reference, counter)))
+                    .map(reference -> Schedulers.computation().scheduleDirect(new IpcScanner(reference, counter)))
                     .subscribe();
             Fn.safeJvm(() -> {
                 counter.await();
