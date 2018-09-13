@@ -24,6 +24,7 @@ error:
   E60022: "(400) [QE] You''ll try to parse Ir key = \"{0}\", the expected type is {1} but now it''s {2}"
   E60023: "(400) [QE] You''ll try to build \"pager\", the key \"{0}\" of pager missing."
   E60024: "(500) [QE] Query metadata must not be null"
+  E60025: "(500) [IPC] Your method signature is invalid, is support `JsonObject m(JsonObject)` & `Envelop m(Envelop)`. method = {0}, clazz = {1}"
   E60026: "(400) - (Ir) The op is not supported, please provide valid op of \"<, >, <=, >=, =, <>, !n, n, t, f, i, !i, s, e, c\", current is {0}"
   # Plugin
   E30001: "(500) ( Sms ) Plugin key \"{0}\" is missing, it''s required."

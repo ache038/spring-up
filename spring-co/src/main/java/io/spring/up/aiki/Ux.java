@@ -159,4 +159,8 @@ public class Ux {
         }
         return morphia;
     }
+
+    public static boolean isScanned(final Class<?> clazz) {
+        return Scanner.isValid(clazz);
+    }
 }
