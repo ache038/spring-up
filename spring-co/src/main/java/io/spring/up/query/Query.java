@@ -4,6 +4,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.*;
 import io.spring.up.cv.Strings;
 import io.spring.up.log.Log;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.zero.eon.Values;
@@ -241,6 +242,7 @@ public class Query<T> {
         };
     }
 
+    @SuppressWarnings("unchecked")
     private BooleanExpression dispatchByOp(final StringPath path, final String op, final Object value) {
         BooleanExpression predicate = null;
         switch (op) {
@@ -256,6 +258,17 @@ public class Query<T> {
             case Inquiry.Op.CONTAIN:
                 predicate = path.like("%" + value.toString() + "%");
                 break;
+            case Inquiry.Op.IN: {
+                if (null != value) {
+                    List<String> arrays = new ArrayList<>();
+                    if (value instanceof JsonArray) {
+                        arrays = ((JsonArray) value).getList();
+                    }
+                    predicate = path.in(arrays);
+                }
+
+            }
+            break;
         }
         return predicate;
     }
