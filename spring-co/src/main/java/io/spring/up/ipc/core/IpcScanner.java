@@ -24,7 +24,7 @@ public class IpcScanner extends Thread {
             = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Object> PROXIES
             = new ConcurrentHashMap<>();
-    private static final HashSet<String> ITEM_SET
+    private transient final HashSet<String> scannedSet
             = new HashSet<>();
 
     private transient final Class<?> target;
@@ -80,13 +80,14 @@ public class IpcScanner extends Thread {
 
     private String put(final String item, final Method method) {
         SCANNED.put(item, method);
+        this.scannedSet.add(item);
         return item;
     }
 
     private void countDown(final String item) {
         final long size = Arrays.stream(this.target.getDeclaredMethods())
                 .filter(method -> method.isAnnotationPresent(Ipc.class)).count();
-        if (SCANNED.containsKey(item) && size == SCANNED.size()) {
+        if (SCANNED.containsKey(item) && size == this.scannedSet.size()) {
             // 满足条件
             // 1.已经将item添加到SCANNED中了
             // 2.SCANNED扫描出来的值和当前期望值一致
