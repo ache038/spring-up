@@ -268,7 +268,15 @@ public class Query<T> {
                     }
                     predicate = path.in(arrays);
                 }
-
+            }
+            case Inquiry.Op.NOT_IN: {
+                if (null != value) {
+                    List<String> arrays = new ArrayList<>();
+                    if (value instanceof JsonArray) {
+                        arrays = ((JsonArray) value).getList();
+                    }
+                    predicate = path.notIn(arrays);
+                }
             }
             break;
         }
