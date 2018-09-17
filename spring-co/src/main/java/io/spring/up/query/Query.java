@@ -269,6 +269,7 @@ public class Query<T> {
                     predicate = path.in(arrays);
                 }
             }
+            break;
             case Inquiry.Op.NOT_IN: {
                 if (null != value) {
                     List<String> arrays = new ArrayList<>();
