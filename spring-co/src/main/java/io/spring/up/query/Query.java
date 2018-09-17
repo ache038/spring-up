@@ -58,6 +58,16 @@ public class Query<T> {
         return this.fetcher.search(predicate);
     }
 
+    public List<T> searchList() {
+        final Predicate predicate = this.getPredicate();
+        return this.fetcher.searchList(predicate);
+    }
+
+    public Long count() {
+        final Predicate predicate = this.getPredicate();
+        return this.fetcher.count(predicate);
+    }
+
     public Query<T> debug() {
         System.out.println(this.inquiry.getCriteria().toJson());
         System.out.println(this.inquiry.getPager().toJson());

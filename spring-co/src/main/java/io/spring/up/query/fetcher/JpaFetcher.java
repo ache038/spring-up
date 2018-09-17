@@ -34,6 +34,16 @@ public class JpaFetcher<T> implements Fetcher<T> {
     }
 
     @Override
+    public List<T> searchList(final Predicate predicate) {
+        return this.searchAdvanced(predicate);
+    }
+
+    @Override
+    public Long count(final Predicate predicate) {
+        return this.countAvanced(predicate);
+    }
+
+    @Override
     public Fetcher bind(final EntityPathBase<T> entity) {
         this.entity = entity;
         return this;

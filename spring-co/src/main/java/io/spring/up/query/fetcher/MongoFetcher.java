@@ -35,6 +35,16 @@ public class MongoFetcher<T> implements Fetcher<T> {
                 () -> this.countAvanced(predicate));
     }
 
+    @Override
+    public List<T> searchList(final Predicate predicate) {
+        return this.searchAdvanced(predicate);
+    }
+
+    @Override
+    public Long count(final Predicate predicate) {
+        return this.countAvanced(predicate);
+    }
+
     private List<T> searchAdvanced(final Predicate predicate) {
         MorphiaQuery<T> query = new MorphiaQuery<>(this.morphia, this.datastore, this.entity);
         Log.info(LOGGER, "[ UP ] [QE] Criteria = {0}", null == predicate ? null : predicate.toString());
