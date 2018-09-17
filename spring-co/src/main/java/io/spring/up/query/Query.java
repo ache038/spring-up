@@ -125,29 +125,31 @@ public class Query<T> {
         final Inquiry.Connector connector = this.getConnector(criteria);
         Log.info(LOGGER, "[ UP ] [QE] Connector = {0}", connector);
         for (final String field : criteria.fieldNames()) {
-            final String op = this.getKey(field);
-            final String targetField = field.split(",")[0];
-            // 包含子查询
-            final BooleanExpression pre;
-            final Object value = criteria.getValue(field);
-            // 计算路径：只支持二级
-            final Object path;
-            if (targetField.contains(".")) {
-                // 嵌套属性路径计算
-                final String entity = targetField.substring(0, targetField.indexOf('.'));
-                final String entityField = targetField.substring(targetField.indexOf('.') + 1);
-                path = this.calcPath(this.entity, entity, entityField);
-            } else {
-                // 直接属性路径计算
-                path = Ut.field(this.entity, targetField);
-            }
-            // 等于null则略过
-            if (null == path) {
-                Log.info(LOGGER, "[ UP ] [QE] Field = {0} does not exist in entity = {1}", targetField, this.entity);
-            } else {
-                pre = this.getPredicate(path, op).apply(value);
-                // 递归组合查询条件
-                resultPredicate = this.mergePredicate(connector, resultPredicate, pre);
+            if (!Ut.isNil(field)) {
+                final String op = this.getKey(field);
+                final String targetField = field.split(",")[0];
+                // 包含子查询
+                final BooleanExpression pre;
+                final Object value = criteria.getValue(field);
+                // 计算路径：只支持二级
+                final Object path;
+                if (targetField.contains(".")) {
+                    // 嵌套属性路径计算
+                    final String entity = targetField.substring(0, targetField.indexOf('.'));
+                    final String entityField = targetField.substring(targetField.indexOf('.') + 1);
+                    path = this.calcPath(this.entity, entity, entityField);
+                } else {
+                    // 直接属性路径计算
+                    path = Ut.field(this.entity, targetField);
+                }
+                // 等于null则略过
+                if (null == path) {
+                    Log.info(LOGGER, "[ UP ] [QE] Field = {0} does not exist in entity = {1}", targetField, this.entity);
+                } else {
+                    pre = this.getPredicate(path, op).apply(value);
+                    // 递归组合查询条件
+                    resultPredicate = this.mergePredicate(connector, resultPredicate, pre);
+                }
             }
         }
         return resultPredicate;
