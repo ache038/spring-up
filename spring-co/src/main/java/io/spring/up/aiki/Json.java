@@ -19,7 +19,8 @@ class Json {
                 } else {
                     if (field.equals(from)) {
                         processed.put(to, processed.getValue(field));
-                        processed.remove(from);
+                        // modified by Hongwe: Deserialize not working for @JsonProperty
+                        // processed.remove(from);
                     }
                 }
             }
