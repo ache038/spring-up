@@ -32,6 +32,10 @@ public class Pagination implements Serializable {
         this.count = null == count ? 0 : count;
     }
 
+    public static Pagination create() {
+        return create(new JsonObject());
+    }
+
     public static Pagination create(final JsonObject data) {
         return new Pagination(data);
     }
