@@ -67,7 +67,7 @@
         <rxjava2.version>2.2.2</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
         <vertx.version>3.5.3</vertx.version>
-        <jackson.version>2.9.6</jackson.version>
+        <jackson.version>2.9.7</jackson.version>
         <jooq.version>3.10.6</jooq.version>
         <jetbrains.version>16.0.2</jetbrains.version>
         <!-- spring -->
@@ -89,7 +89,7 @@
         <hazelcast.version>3.10.4</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.1</protobuf.version>
-        <opencensus.version>0.16.0</opencensus.version>
+        <opencensus.version>0.16.1</opencensus.version>
         <grpc.version>1.15.0</grpc.version>
         <grpc.starter.version>2.0.1.RELEASE</grpc.starter.version>
         <!-- Plugin -->

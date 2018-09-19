@@ -290,6 +290,14 @@ public class Query<T> {
                 }
             }
             break;
+            case Inquiry.Op.NULL: {
+                predicate = path.isNull();
+            }
+            break;
+            case Inquiry.Op.NOT_NULL: {
+                predicate = path.isNotNull();
+            }
+            break;
         }
         return predicate;
     }
