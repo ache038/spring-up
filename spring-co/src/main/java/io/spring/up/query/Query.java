@@ -1,20 +1,24 @@
 package io.spring.up.query;
 
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.Expressions;
 import io.spring.up.cv.Strings;
 import io.spring.up.log.Log;
-import io.vertx.core.json.JsonArray;
+import io.spring.up.query.cond.Consider;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Inquiry;
 import io.vertx.zero.eon.Values;
 import io.zero.epic.Ut;
+import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -74,6 +78,17 @@ public class Query<T> {
         System.out.println(this.inquiry.getSorter().toJson());
         System.out.println(this.inquiry.getProjection());
         System.out.println(this.getPredicate());
+        return this;
+    }
+
+    public Query<T> junit(final Consumer<Predicate> consumer) {
+        final Predicate predicate = this.getPredicate();
+        if (null == predicate) {
+            Assert.fail();
+        } else {
+            LOGGER.debug("[ UP ] [QE] Condition = {}", predicate.toString());
+            consumer.accept(predicate);
+        }
         return this;
     }
 
@@ -237,68 +252,13 @@ public class Query<T> {
         return value -> {
             BooleanExpression predicate = null;
             final Class<?> clazz = path.getClass();
-            if (StringPath.class == clazz) {
-                // StringPath类型
-                predicate = this.dispatchByOp((StringPath) path, op, value);
-            } else if (BooleanPath.class == clazz) {
-                // BooleanPath类型
-                predicate = ((BooleanPath) path).eq(Boolean.valueOf(value.toString()));
-            } else if (NumberPath.class == clazz) {
-                // NumberPath类型
-                predicate = ((NumberPath) path).eq(Integer.parseInt(value.toString()));
-            } else if (EnumPath.class == clazz) {
-                // EnumPath类型
-                predicate = ((EnumPath) path).eq(value);
+            // 读取Consider
+            final Consider consider = Consider.create(clazz, path);
+            // 直接读取操作符号
+            if (null != consider) {
+                predicate = consider.operator(op, value);
             }
             return predicate;
         };
-    }
-
-    @SuppressWarnings("unchecked")
-    private BooleanExpression dispatchByOp(final StringPath path, final String op, final Object value) {
-        BooleanExpression predicate = null;
-        switch (op) {
-            case Inquiry.Op.EQ:
-                predicate = path.eq(value.toString());
-                break;
-            case Inquiry.Op.START:
-                predicate = path.like(value.toString() + "%");
-                break;
-            case Inquiry.Op.END:
-                predicate = path.like("%" + value.toString());
-                break;
-            case Inquiry.Op.CONTAIN:
-                predicate = path.like("%" + value.toString() + "%");
-                break;
-            case Inquiry.Op.IN: {
-                if (null != value) {
-                    List<String> arrays = new ArrayList<>();
-                    if (value instanceof JsonArray) {
-                        arrays = ((JsonArray) value).getList();
-                    }
-                    predicate = path.in(arrays);
-                }
-            }
-            break;
-            case Inquiry.Op.NOT_IN: {
-                if (null != value) {
-                    List<String> arrays = new ArrayList<>();
-                    if (value instanceof JsonArray) {
-                        arrays = ((JsonArray) value).getList();
-                    }
-                    predicate = path.notIn(arrays);
-                }
-            }
-            break;
-            case Inquiry.Op.NULL: {
-                predicate = path.isNull();
-            }
-            break;
-            case Inquiry.Op.NOT_NULL: {
-                predicate = path.isNotNull();
-            }
-            break;
-        }
-        return predicate;
     }
 }
