@@ -71,7 +71,7 @@
         <jooq.version>3.10.6</jooq.version>
         <jetbrains.version>16.0.3</jetbrains.version>
         <!-- spring -->
-        <spring.version>5.0.9.RELEASE</spring.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
         <spring.security.oauth>2.3.3.RELEASE</spring.security.oauth>
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
@@ -80,7 +80,7 @@
         <!-- zero framework -->
         <zero.version>0.4.8.1-SNAPSHOT</zero.version>
 
-        <spring.boot.version>2.0.5.RELEASE</spring.boot.version>
+        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
         <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
         <spring.cloud.eureka.version>2.0.1.RELEASE</spring.cloud.eureka.version>
         <!-- Dependency -->
