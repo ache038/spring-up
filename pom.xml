@@ -71,8 +71,8 @@
         <jooq.version>3.10.6</jooq.version>
         <jetbrains.version>16.0.3</jetbrains.version>
         <!-- spring -->
-        <spring.version>5.0.9.RELEASE</spring.version>
-        <spring.security.oauth>2.3.3.RELEASE</spring.security.oauth>
+        <spring.version>5.1.1.RELEASE</spring.version>
+        <spring.security.oauth>2.3.4.RELEASE</spring.security.oauth>
         <spring.security.jwt>1.0.9.RELEASE</spring.security.jwt>
         <spring.zalando>0.23.0</spring.zalando>
         <query.dsl.version>4.2.1</query.dsl.version>
@@ -80,9 +80,9 @@
         <!-- zero framework -->
         <zero.version>0.4.8.1-SNAPSHOT</zero.version>
 
-        <spring.boot.version>2.0.5.RELEASE</spring.boot.version>
-        <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
-        <spring.cloud.eureka.version>2.0.1.RELEASE</spring.cloud.eureka.version>
+        <spring.boot.version>2.0.6.RELEASE</spring.boot.version>
+        <spring.cloud.version>2.0.2.RELEASE</spring.cloud.version>
+        <spring.cloud.eureka.version>2.0.2.RELEASE</spring.cloud.eureka.version>
         <!-- Dependency -->
         <common.io.version>2.6</common.io.version>
         <common.jexl.version>3.1</common.jexl.version>
@@ -108,7 +108,7 @@
         <maven.plugin.resource>3.0.2</maven.plugin.resource>
         <maven.plugin.site>3.7</maven.plugin.site>
         <maven.plugin.enforcer>3.0.0-M1</maven.plugin.enforcer>
-        <maven.plugin.lombok>1.18.0.0</maven.plugin.lombok>
+        <maven.plugin.lombok>1.18.2.0</maven.plugin.lombok>
         <maven.plugin.processor>3.3.3</maven.plugin.processor>
         <maven.plugin.source>3.0.1</maven.plugin.source>
         <maven.plugin.javadoc>2.10.4</maven.plugin.javadoc>
