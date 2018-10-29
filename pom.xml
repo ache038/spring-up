@@ -90,7 +90,7 @@
         <!-- Rpc -->
         <protobuf.version>3.6.1</protobuf.version>
         <opencensus.version>0.16.1</opencensus.version>
-        <grpc.version>1.16.0</grpc.version>
+        <grpc.version>1.16.1</grpc.version>
         <grpc.starter.version>2.0.1.RELEASE</grpc.starter.version>
         <!-- Plugin -->
         <maven.plugin.protobuf>0.5.1</maven.plugin.protobuf>
