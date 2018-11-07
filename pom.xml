@@ -89,7 +89,7 @@
         <hazelcast.version>3.11</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.1</protobuf.version>
-        <opencensus.version>0.16.1</opencensus.version>
+        <opencensus.version>0.17.0</opencensus.version>
         <grpc.version>1.16.1</grpc.version>
         <grpc.starter.version>2.1.0.RELEASE</grpc.starter.version>
         <!-- Plugin -->

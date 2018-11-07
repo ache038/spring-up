@@ -21,7 +21,7 @@ public class EnumConsider implements Consider {
         BooleanExpression predicate = null;
         switch (op) {
             case Inquiry.Op.EQ:
-                predicate = path.eq(value);
+                predicate = path.eq(value.toString());
                 break;
             case Inquiry.Op.IN: {
                 if (null != value) {
@@ -52,7 +52,7 @@ public class EnumConsider implements Consider {
             }
             break;
             default:
-                predicate = path.eq(value);
+                predicate = path.eq(value.toString());
                 break;
         }
         return predicate;
