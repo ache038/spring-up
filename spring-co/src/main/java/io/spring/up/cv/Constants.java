@@ -17,4 +17,6 @@ public interface Constants {
     String ROLE_NAME = "roleName";
 
     String USER_ID = "userId";
+
+    String EMAIL = "email";
 }

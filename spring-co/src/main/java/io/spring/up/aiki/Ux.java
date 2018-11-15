@@ -116,17 +116,22 @@ public class Ux {
         return Secure.getAuthorities().getString(Constants.TENANT_ID);
     }
 
+    public static String fetchEmail() {
+        return Secure.getAuthorities().getString(Constants.EMAIL);
+    }
+
     public static String toJsonAuthority(final String literal) {
         final String content = new JsonObject(literal).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
-    public static String toJsonAuthority(final String userId, final String tenantId, final String roleName, final String roleId) {
+    public static String toJsonAuthority(final String userId, final String tenantId, final String roleName, final String roleId, final String email) {
         final String content = new JsonObject()
                 .put(Constants.USER_ID, userId)
                 .put(Constants.ROLE_ID, roleId)
                 .put(Constants.TENANT_ID, tenantId)
-                .put(Constants.ROLE_NAME, roleName).encode();
+                .put(Constants.ROLE_NAME, roleName)
+                .put(Constants.EMAIL, email).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
