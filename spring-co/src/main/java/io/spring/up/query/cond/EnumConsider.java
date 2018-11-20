@@ -55,14 +55,14 @@ public class EnumConsider implements Consider {
                 path.eq(fromString(value.toString()));
     }
 
-    private List<Enum> fromList(final Object value) {
+    private List<String> fromList(final Object value) {
         List<String> arrays = new ArrayList<>();
         if (value instanceof JsonArray) {
             arrays = ((JsonArray) value).getList();
         }
-        final List<Enum> enums = new ArrayList<>();
-        arrays.forEach(item -> enums.add(fromString(item)));
-        return enums;
+//        final List<Enum> enums = new ArrayList<>();
+//        arrays.forEach(item -> enums.add(fromString(item)));
+        return arrays;
     }
 
     private Enum fromString(final String value) {
