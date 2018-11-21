@@ -19,4 +19,8 @@ public interface Constants {
     String USER_ID = "userId";
 
     String EMAIL = "email";
+
+    String LOGIN_NAME = "loginName";
+
+    String REAL_NAME = "realName";
 }

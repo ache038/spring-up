@@ -14,6 +14,7 @@ import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.converters.Converters;
 import org.mongodb.morphia.converters.JsonArrayConverter;
 import org.mongodb.morphia.converters.JsonObjectConverter;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.Charset;
 import java.util.Base64;
@@ -97,7 +98,11 @@ public class Ux {
     }
 
     public static Optional<String> fetchLogin() {
-        return Secure.getCurrentUserLogin();
+        return Optional.of(Secure.getAuthorities().getString(Constants.LOGIN_NAME));
+    }
+
+    public static String fetchRealName() {
+        return Secure.getAuthorities().getString(Constants.REAL_NAME);
     }
 
     public static String fetchUserId() {
@@ -125,13 +130,21 @@ public class Ux {
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
-    public static String toJsonAuthority(final String userId, final String tenantId, final String roleName, final String roleId, final String email) {
+    public static String toJsonAuthority(final String userId,
+                                         final String tenantId,
+                                         final String roleName,
+                                         final String roleId,
+                                         final String email,
+                                         final String loginName,
+                                         final String realName) {
         final String content = new JsonObject()
                 .put(Constants.USER_ID, userId)
                 .put(Constants.ROLE_ID, roleId)
                 .put(Constants.TENANT_ID, tenantId)
                 .put(Constants.ROLE_NAME, roleName)
-                .put(Constants.EMAIL, email).encode();
+                .put(Constants.EMAIL, email)
+                .put(Constants.LOGIN_NAME, loginName)
+                .put(Constants.REAL_NAME, realName).encode();
         return Base64.getEncoder().encodeToString(content.getBytes(Charset.forName("UTF-8")));
     }
 
