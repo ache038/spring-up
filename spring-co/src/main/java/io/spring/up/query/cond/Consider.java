@@ -25,6 +25,9 @@ public interface Consider {
         } else if (SimplePath.class == clazz) {
             logger.debug("[ UP ] Selected: " + clazz);
             return new SimpleConsider(path);
+        } else if (ListPath.class == clazz) {
+            logger.debug("[ UP ] Selected: " + clazz);
+            return new ListConsider(path);
         } else {
             logger.debug("[ UP ] Unmatch: " + clazz);
         }
