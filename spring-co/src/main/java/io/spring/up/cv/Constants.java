@@ -20,7 +20,5 @@ public interface Constants {
 
     String EMAIL = "email";
 
-    String LOGIN_NAME = "loginName";
-
     String REAL_NAME = "realName";
 }
