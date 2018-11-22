@@ -66,7 +66,7 @@
         <asm.version>6.0</asm.version>
         <rxjava2.version>2.2.3</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
-        <vertx.version>3.5.4</vertx.version>
+        <vertx.version>3.6.0.CR2</vertx.version>
         <jackson.version>2.9.7</jackson.version>
         <jooq.version>3.10.6</jooq.version>
         <jetbrains.version>16.0.3</jetbrains.version>
