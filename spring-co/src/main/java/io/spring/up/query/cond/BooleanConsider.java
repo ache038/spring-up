@@ -19,6 +19,12 @@ public class BooleanConsider implements Consider {
             case Inquiry.Op.EQ:
                 predicate = path.eq(Boolean.valueOf(value.toString()));
                 break;
+            case Inquiry.Op.FALSE:
+                predicate = path.isFalse();
+                break;
+            case Inquiry.Op.TRUE:
+                predicate = path.isTrue();
+                break;
         }
         return predicate;
     }
