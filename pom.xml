@@ -64,9 +64,9 @@
         <!-- epic -->
         <reflect.asm.version>1.11.7</reflect.asm.version>
         <asm.version>6.0</asm.version>
-        <rxjava2.version>2.2.3</rxjava2.version>
+        <rxjava2.version>2.2.4</rxjava2.version>
         <servlet.version>4.0.1</servlet.version>
-        <vertx.version>3.6.0.CR2</vertx.version>
+        <vertx.version>3.6.0</vertx.version>
         <jackson.version>2.9.7</jackson.version>
         <jooq.version>3.10.6</jooq.version>
         <jetbrains.version>16.0.3</jetbrains.version>
@@ -89,7 +89,7 @@
         <hazelcast.version>3.11</hazelcast.version>
         <!-- Rpc -->
         <protobuf.version>3.6.1</protobuf.version>
-        <opencensus.version>0.17.0</opencensus.version>
+        <opencensus.version>0.18.0</opencensus.version>
         <grpc.version>1.16.1</grpc.version>
         <grpc.starter.version>2.1.0.RELEASE</grpc.starter.version>
         <!-- Plugin -->
@@ -108,7 +108,7 @@
         <maven.plugin.resource>3.0.2</maven.plugin.resource>
         <maven.plugin.site>3.7</maven.plugin.site>
         <maven.plugin.enforcer>3.0.0-M1</maven.plugin.enforcer>
-        <maven.plugin.lombok>1.18.2.0</maven.plugin.lombok>
+        <maven.plugin.lombok>1.18.4.0</maven.plugin.lombok>
         <maven.plugin.processor>3.3.3</maven.plugin.processor>
         <maven.plugin.source>3.0.1</maven.plugin.source>
         <maven.plugin.javadoc>2.10.4</maven.plugin.javadoc>
