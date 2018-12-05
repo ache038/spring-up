@@ -21,6 +21,9 @@ public class ListConsider implements Consider {
     public BooleanExpression operator(final String op, final Object value) {
         BooleanExpression predicate = null;
         switch (op) {
+            case Inquiry.Op.EQ:
+                predicate = path.contains(value);
+                break;
             case Inquiry.Op.IN: {
                 if (null != value) {
                     List<String> arrays = new ArrayList<>();
@@ -31,16 +34,6 @@ public class ListConsider implements Consider {
                 }
             }
             break;
-//            case Inquiry.Op.NOT_IN: {
-//                if (null != value) {
-//                    List<String> arrays = new ArrayList<>();
-//                    if (value instanceof JsonArray) {
-//                        arrays = ((JsonArray) value).getList();
-//                    }
-//                    predicate = path.(arrays);
-//                }
-//            }
-//            break;
             case Inquiry.Op.NULL: {
                 predicate = path.isEmpty();
             }
@@ -49,9 +42,6 @@ public class ListConsider implements Consider {
                 predicate = path.isNotEmpty();
             }
             break;
-//            default:
-//                predicate = path.(value.toString());
-//                break;
         }
         return predicate;
     }

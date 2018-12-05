@@ -118,7 +118,7 @@ public class Query<T> {
         final Inquiry.Connector connector = this.getConnector(criteria);
         // 抽取当前路径中的线性条件
         final JsonObject linear = new JsonObject();
-        criteria.remove(Strings.EMPTY);
+        //criteria.remove(Strings.EMPTY);
         // 设置其他子树条件
         List<BooleanExpression> treeExpr = new ArrayList<>();
         for (final String field : criteria.fieldNames()) {
