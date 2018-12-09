@@ -2,6 +2,7 @@ package io.spring.up.query.cond;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.StringPath;
+import io.spring.up.cv.Strings;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.query.Inquiry;
 
@@ -18,20 +19,21 @@ public class StringConsider implements Consider {
 
     @Override
     @SuppressWarnings("all")
-    public BooleanExpression operator(final String op, final Object value) {
+    public BooleanExpression operator(final String op, Object value) {
         BooleanExpression predicate = null;
+        final String hitValue = null == value ? Strings.EMPTY : value.toString();
         switch (op) {
             case Inquiry.Op.EQ:
-                predicate = path.eq(value.toString());
+                predicate = path.eq(hitValue.toString());
                 break;
             case Inquiry.Op.START:
-                predicate = path.like(value.toString() + "%");
+                predicate = path.like(hitValue.toString() + "%");
                 break;
             case Inquiry.Op.END:
-                predicate = path.like("%" + value.toString());
+                predicate = path.like("%" + hitValue.toString());
                 break;
             case Inquiry.Op.CONTAIN:
-                predicate = path.like("%" + value.toString() + "%");
+                predicate = path.like("%" + hitValue.toString() + "%");
                 break;
             case Inquiry.Op.IN: {
                 if (null != value) {
@@ -62,7 +64,7 @@ public class StringConsider implements Consider {
             }
             break;
             default:
-                predicate = path.eq(value.toString());
+                predicate = path.eq(hitValue.toString());
                 break;
         }
         return predicate;
