@@ -17,6 +17,9 @@ public class NumberConsider implements Consider {
         BooleanExpression predicate = null;
         final Integer integer = Integer.parseInt(value.toString());
         switch (op) {
+            case Inquiry.Op.NEQ:
+                predicate = path.ne(integer);
+                break;
             case Inquiry.Op.EQ:
                 predicate = path.eq(integer);
                 break;

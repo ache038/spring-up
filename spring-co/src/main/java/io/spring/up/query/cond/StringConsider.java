@@ -23,6 +23,9 @@ public class StringConsider implements Consider {
         BooleanExpression predicate = null;
         final String hitValue = null == value ? Strings.EMPTY : value.toString();
         switch (op) {
+            case Inquiry.Op.NEQ:
+                predicate = path.ne(hitValue.toString());
+                break;
             case Inquiry.Op.EQ:
                 predicate = path.eq(hitValue.toString());
                 break;

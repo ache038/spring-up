@@ -16,6 +16,9 @@ public class BooleanConsider implements Consider {
     public BooleanExpression operator(final String op, final Object value) {
         BooleanExpression predicate = null;
         switch (op) {
+            case Inquiry.Op.NEQ:
+                predicate = path.ne(Boolean.valueOf(value.toString()));
+                break;
             case Inquiry.Op.EQ:
                 predicate = path.eq(Boolean.valueOf(value.toString()));
                 break;
